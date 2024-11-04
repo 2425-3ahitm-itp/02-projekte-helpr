@@ -71,7 +71,9 @@ In Absprache mit der Lehrperson.
 
 == Projektressourcen
 
-- Hauptsächlich Zeit
+- Zeit
+- Wissen
+- möglicherweise Hilfe der Lehrpersonen
 
 == Projektrisiken
 
