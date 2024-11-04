@@ -12,8 +12,10 @@ HTBLA Leonding im Zuge des ITP Unterrichts
 
 == Projekthintergrund
 
-Um Hilfe für hilfsbedürftige und beeinträchtigte Menschen zu bieten.
-// dahinter steh ich nicht
+Das Ziel ist Unterstützung für hilfsbedürftige und beeinträchtigte Menschen zu bieten.
+Menschen die bei Aufgaben Hilfe brauchen, sollen vereinfacht jemanden
+finden können der ihnen diese Arbeiten erledigt.
+// dahinter stehe ich nicht
 //   - Jakob Huemer-Fistelberger
 
 == Projektendergebnis
@@ -69,6 +71,8 @@ In Absprache mit der Lehrperson.
 
 == Projektressourcen
 
+- Hauptsächlich Zeit
+
 == Projektrisiken
 
 - Keine Nutzer
@@ -105,78 +109,43 @@ Simone Sperrer
 == Stakeholder Analyse
 
 
-// [cols="1,1,1,1,1,1", options="header"]
-// |===
-// |Maßnahmen, strategische Vorkehrungen
-// |Regelmäßige Updates und Verbesserungen der Plattform
-// |Implementierung eines robusten Streitschlichtungssystems
-// |Entwicklung von Marketing- und Awareness-Kampagnen
-// |Aufbau eines effektiven Support-Systems
-// |Etablierung von Qualitätssicherungsmaßnahmen
-//
-// |Sympathie, Erwartungen
-// |Einfache Aufgabenvermittlung
-// |Zusätzliche Einnahmequellen
-// |Transparente Abwicklung
-// |Sichere Zahlungsabwicklung
-// |Flexible Arbeitszeiten
-//
-// |Antipathie, Befürchtungen
-// |Unzuverlässige Dienstleister
-// |Nicht-Bezahlung der Leistungen
-// |Qualitätsmängel
-// |Rechtliche Unsicherheiten
-// |Unfaire Bewertungen
-//
-// |Einfluss auf das Projekt, Macht
-// |Nutzer als Auftraggeber (hoch)
-// |Dienstleister (hoch)
-// |Regulierungsbehörden (mittel)
-// |Investoren (hoch)
-// |Konkurrenzplattformen (mittel)
-//
-// |Umfeldgruppe
-// |Private Auftraggeber
-// |Freiberufliche Dienstleister
-// |Behörden und Ämter
-// |Versicherungen
-// |Marketing- und PR-Partner
-//
-// |===
-
-
 [cols="1,1,1,1,1"]
 |===
 
-h|*Maßnahmen, strategische Vorkehrungen*
-|Regelmäßige Updates und Verbesserungen der Plattform
-|Effektives Support-System
-|Qualitätssicherung der Platform
-|
+h|*Umfeldgruppe*
+|Lehrperson
+|Private Auftraggeber
+|Freiberufliche Dienstleister
+|Versicherung
 
-h|*Sympathie, Erwartungen*
-|Einfache Aufgabenvermittlung
-|Zusätzliche Einnahmequellen
-|Sicherer Zahlungsvorgang
-|Flexible Arbeitszeiten
+
+h|*Einfluss auf das Projekt, Macht*
+|Aufsichtsperson des Projektes (hoch)
+|Nutzer als Auftraggeber (hoch)
+|Dienstleister (hoch)
+|Investoren (hoch)
+
 
 h|*Antipathie, Befürchtungen*
+|zu wenig Zeit für uns als einzelne Gruppe
 |Unzuverlässige Dienstleister
 |Nicht-Bezahlung der Leistungen
 |Qualitätsmängel
-|Unfaire Bewertungen
 
-h|*Einfluss auf das Projekt, Macht*
-|Nutzer als Auftraggeber (hoch)
-|Dienstleister (hoch)
-|
-|
 
-h|*Umfeldgruppe*
-|Private Auftraggeber
-|Freiberufliche Dienstleister
-|
-|
+h|*Sympathie, Erwartungen*
+|Unterstützung bei neuer Technologien
+|Einfache Aufgabenvermittlung
+|Zusätzliche Einnahmequellen
+|Sicherer Zahlungsvorgang
+
+
+h|*Maßnahmen, strategische Vorkehrungen*
+| Regelmäßige Updates und Verbesserungen der Plattform
+|Regelmäßige Updates und Verbesserungen der Plattform
+|Effektives Support-System
+|Qualitätssicherung der Platform
+
 |===
 
 
