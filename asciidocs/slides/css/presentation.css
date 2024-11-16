@@ -11,3 +11,22 @@
 }
 
 .reveal .lightbg { background: #fff8f1d0; }
+
+.bold {
+    font-weight: bold;
+}
+
+.capitalize {
+    text-transform: capitalize;
+}
+
+.underline {
+    text-decoration: underline;
+}
+
+.he2 {
+    color: var(--r-heading-color);
+    font-size: var(--r-heading3-size);
+    font-family: var(--r-heading-font), sans-serif;
+    line-height: 1.1;
+}
