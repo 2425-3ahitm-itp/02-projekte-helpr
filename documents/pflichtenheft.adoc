@@ -1,0 +1,57 @@
+= My Project
+firstname lastname
+1.0.0, {docdate}: Some notes
+ifndef::imagesdir[:imagesdir: images]
+//:toc-placement!:  // prevents the generation of the doc at this position, so it can be printed afterwards
+:sourcedir: ../src/main/java
+:icons: font
+:sectnums:    // Nummerierung der Überschriften / section numbering
+:toc: left
+
+//Need this blank line after ifdef, don't know why...
+ifdef::backend-html5[]
+
+// https://fontawesome.com/v4.7.0/icons/
+icon:file-text-o[link=https://raw.githubusercontent.com/htl-leonding-college/asciidoctor-docker-template/master/asciidocs/{docname}.adoc] ‏ ‏ ‎
+icon:github-square[link=https://github.com/htl-leonding-college/asciidoctor-docker-template] ‏ ‏ ‎
+icon:home[link=https://htl-leonding.github.io/]
+endif::backend-html5[]
+
+// print the toc here (not at the default position)
+//toc::[]
+
+== Pflichtenheft "Was mache ich"
+
+
+=== Ausgangssituation
+
+Die HTL Leonding ist eine HTL im oö. Zentralraum mit ca. 1000 Schülern und den Fachabteilungen Medientechnik, Informatik, ....
+
+=== Istzustand
+----
+Bei vielen Menschen fallen immer wieder verschiedenste Arbeiten wie z.B Rasenmähen, Einkaufen gehen, Schneeschaufeln an.
+Diese können sie nicht selbst erledigen aus entweder gesundheitlichen oder zeitlichen Gründen.
+----
+=== Problemstellung
+----
+Würden sie für jede Dienstarbeit eine Firma engagieren wäre das zu teuer und außerdem zu aufwendig. Für viele Menschen ist es auch zu schwierig dies auszumachen.
+----
+=== Aufgabenstellung
+==== Funktionale Anforderungen
+
+[plantuml,wireframe,png]
+----
+@startsalt
+{
+Name         | "                 "
+Modifiers:   | { (X) public | () default | () private | () protected
+	            [] abstract | [] final   | [] static }
+Superclass:  | { "java.lang.Object " | [Browse...] }
+}
+@endsalt
+----
+==== Nichtfunktionale Anforderungen (NFA)
+=== Ziele
+=== Mengengerüst
+=== Rahmenbedingungen
+zB Vorgaben vom Auftraggeber
