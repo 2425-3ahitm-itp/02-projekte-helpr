@@ -22,23 +22,33 @@ endif::backend-html5[]
 
 == Pflichtenheft "Was mache ich"
 
-
 === Ausgangssituation
 
-Die HTL Leonding ist eine HTL im oö. Zentralraum mit ca. 1000 Schülern und den Fachabteilungen Medientechnik, Informatik, ....
+----
+Die Wirtschaft und die Gesellschaft geht immer mehr in die Richtung Dinge auszutauschen oder auf Plattformen seine eigenen Dinge zu verkaufen wie z.B Willhaben, Vinted,...
+----
 
 === Istzustand
+
 ----
 Bei vielen Menschen fallen immer wieder verschiedenste Arbeiten wie z.B Rasenmähen, Einkaufen gehen, Schneeschaufeln an.
 Diese können sie nicht selbst erledigen aus entweder gesundheitlichen oder zeitlichen Gründen.
 ----
-=== Problemstellung
-----
-Würden sie für jede Dienstarbeit eine Firma engagieren wäre das zu teuer und außerdem zu aufwendig. Für viele Menschen ist es auch zu schwierig dies auszumachen.
-----
-=== Aufgabenstellung
-==== Funktionale Anforderungen
 
+=== Problemstellung
+
+----
+Würden sie für jede Dienstarbeit eine Firma engagieren wäre das zu teuer und außerdem zu aufwendig.
+Für viele Menschen ist es auch zu kompliziert diese Aufträge mit der Firma auszumachen.
+
+----
+
+=== Aufgabenstellung
+
+==== Funktionale Anforderungen
+----
+
+----
 [plantuml,wireframe,png]
 ----
 @startsalt
@@ -50,8 +60,29 @@ Superclass:  | { "java.lang.Object " | [Browse...] }
 }
 @endsalt
 ----
+
 ==== Nichtfunktionale Anforderungen (NFA)
+----
+schönes logisches Styling
+
+----
+
 === Ziele
+
+----
+Menschen sollen schnelle Hilfe bekommen und es soll die lokale Zusammenarbeit gefördert werden.
+Außerdem kann sich eine Gemeinschaft bilden.
+----
+
 === Mengengerüst
+----
+
+----
 === Rahmenbedingungen
+
+----
+JavaFX
+komplett Client seitige Programmierung - kein Server
+----
+
 zB Vorgaben vom Auftraggeber
