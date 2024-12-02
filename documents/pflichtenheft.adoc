@@ -24,65 +24,52 @@ endif::backend-html5[]
 
 === Ausgangssituation
 
-----
-Die Wirtschaft und die Gesellschaft geht immer mehr in die Richtung Dinge auszutauschen oder auf Plattformen seine eigenen Dinge zu verkaufen wie z.B Willhaben, Vinted,...
-----
+In der heutigen Gesellschaft werden Plattformen für den Austausch und Verkauf von Dienstleistungen und Produkten immer häufiger genutzt, wie z. B. Willhaben oder Vinted.
 
 === Istzustand
 
-----
-Bei vielen Menschen fallen immer wieder verschiedenste Arbeiten wie z.B Rasenmähen, Einkaufen gehen, Schneeschaufeln an.
-Diese können sie nicht selbst erledigen aus entweder gesundheitlichen oder zeitlichen Gründen.
-----
+Viele Menschen stehen regelmäßig vor den Herausforderungen, wie z. B. Rasenmähen, Einkaufen oder Schneeschaufeln.
+Sie können diese Aufgaben nicht mehr verrichten aufgrund gesundheitlicher Einschränkungen, Zeitmangel oder der fehlenden Unterstützung im sozialen Umfeld.
 
 === Problemstellung
 
-----
-Würden sie für jede Dienstarbeit eine Firma engagieren wäre das zu teuer und außerdem zu aufwendig.
-Für viele Menschen ist es auch zu kompliziert diese Aufträge mit der Firma auszumachen.
-
-----
+Die Beauftragung von professionellen Dienstleistern für kleine Alltagsaufgaben ist oft viel zu teuer oder mit großem organisatorischem Aufwand verbunden.
+Zudem ist es vielen Menschen nicht möglich mit möglichen Helfern in Kontakt zu treten.
 
 === Aufgabenstellung
 
 ==== Funktionale Anforderungen
-----
 
-----
-[plantuml,wireframe,png]
-----
-@startsalt
-{
-Name         | "                 "
-Modifiers:   | { (X) public | () default | () private | () protected
-	            [] abstract | [] final   | [] static }
-Superclass:  | { "java.lang.Object " | [Browse...] }
-}
-@endsalt
-----
+* Registrierung und Login
+* Erstellung von Aufgaben
+* Chat-Funktion zwischen hilfesuchendem Nutzer und helfendem Nutzer
+* Aufträge annehmen und ablehnen
+* Bewertungen an hilfesuchendem Nutzer und helfendem Nutzer
 
 ==== Nichtfunktionale Anforderungen (NFA)
-----
-schönes logisches Styling
 
-----
+* Schönes logisches Styling - benutzerfreundliches Design
+* Verschlüsselung sensibler Daten wie Passwörter und den Zahlungsinformationen
+* Die Plattform muss auch bei vielen Nutzern einwandfrei laufen
+
+
 
 === Ziele
 
-----
-Menschen sollen schnelle Hilfe bekommen und es soll die lokale Zusammenarbeit gefördert werden.
-Außerdem kann sich eine Gemeinschaft bilden.
-----
+
+* Menschen sollen einfache, schnelle Hilfe bekommen.
+* Es soll die lokale Zusammenarbeit und die Gemeinschaft gefördert werden.
+* Helfende Nutzer verdienen ein zusätzliches Einkommen.
+
 
 === Mengengerüst
 ----
-
+?
 ----
 === Rahmenbedingungen
 
-----
-JavaFX
-komplett Client seitige Programmierung - kein Server
-----
+* Java und JavaFX
+* komplett Client seitige Programmierung - kein Server
+* IDE: IntelliJ IDEA
 
-zB Vorgaben vom Auftraggeber
+
