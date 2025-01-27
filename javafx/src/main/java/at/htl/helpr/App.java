@@ -1,4 +1,4 @@
-package at.htl.javafx;
+package at.htl.helpr;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
