@@ -1,0 +1,9 @@
+#DataSourceSettings#
+#LocalDataSource: helpr@localhost
+#BEGIN#
+<data-source source="LOCAL" name="helpr@localhost">
+<driver-ref>postgresql</driver-ref>
+<jdbc-url>jdbc:postgresql://localhost:5432/helpr</jdbc-url>
+<user-name>app</user-name>
+</data-source>
+#END#
