@@ -1,0 +1,38 @@
+services:
+  postgres:
+    image: postgres:17.2
+    container_name: postgres_helpr
+    environment:
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: app
+      POSTGRES_DB: helpr
+    volumes:
+      - postgres_helpr_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - postgres
+    restart: unless-stopped
+
+
+  pgadmin:
+    image: dpage/pgadmin4:8.14
+    container_name: postgres_helpr_pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    ports:
+      - "8090:80"
+    networks:
+      - postgres
+    depends_on:
+      - postgres
+    restart: unless-stopped
+
+volumes:
+  postgres_helpr_data:
+
+networks:
+  postgres:
+    driver: bridge
