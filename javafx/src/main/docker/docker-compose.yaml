@@ -29,9 +29,12 @@ services:
     depends_on:
       - postgres
     restart: unless-stopped
+    volumes
+      - pgadmin_helpr_data:/var/lib/pgadmin
 
 volumes:
   postgres_helpr_data:
+  pgadmin_helpr_data:
 
 networks:
   postgres:
