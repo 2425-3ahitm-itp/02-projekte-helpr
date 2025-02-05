@@ -1,0 +1,14 @@
+@startuml
+
+entity "task" as task {
+  # id : bigint <<PK>> <<generated>>
+  * title : varchar(100)
+  * description : varchar(3000)
+  * status : int
+  * location : point
+  * estimated_effort : int
+  * created_at : timestamp <<default: now()>>
+}
+
+@enduml
+
