@@ -29,19 +29,8 @@ public class FormView extends VBox {
     public FormView() {
 
         estimatedEffortSpinner.setValueFactory(
-                new IntegerSpinnerValueFactory(1, 1, 10, 1)
+                new IntegerSpinnerValueFactory(1, 10, 1, 1)
         );
-
-        var intProp = new SimpleIntegerProperty(2);
-
-        estimatedEffortSpinner.getValueFactory().valueProperty()
-                .bindBidirectional(intProp.asObject());
-
-        // testing // TODO: REMOVE
-
-        setDescriptionErrorMessage("This is error for desc");
-        setTitleErrorMessage("This some error for title...");
-        // end testing
 
         this.setupLayout();
     }
@@ -84,10 +73,18 @@ public class FormView extends VBox {
     }
 
     public void setTitleErrorMessage(String message) {
+        if (message.isEmpty()) {
+            titleErrorLabel.textProperty().set("");
+            return;
+        }
         titleErrorLabel.textProperty().set(String.format("%s %s", ERROR_PREFIX, message));
     }
 
     public void setDescriptionErrorMessage(String message) {
+        if (message.isEmpty()) {
+            descriptionErrorLabel.textProperty().set("");
+            return;
+        }
         descriptionErrorLabel.textProperty().set(String.format("%s %s", ERROR_PREFIX, message));
     }
 
