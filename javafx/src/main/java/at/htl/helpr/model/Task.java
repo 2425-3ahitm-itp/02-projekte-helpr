@@ -7,7 +7,6 @@ import java.time.Instant;
 import java.time.LocalTime;
 
 public class Task {
-
     private final LongProperty id = new SimpleLongProperty();
     private final IntegerProperty status = new SimpleIntegerProperty();
     private final StringProperty location = new SimpleStringProperty();
