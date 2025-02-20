@@ -15,21 +15,21 @@ import static org.assertj.core.api.Assertions.assertThat;
 class DatasourceProviderTest {
 
     @Inject
-    DataSource dataSource;
+    DatasourceProvider datasourceProvider;
 
     @BeforeEach
     void setup() {
-        assertThat(dataSource).isNotNull();
+        assertThat(datasourceProvider).isNotNull();
     }
 
     @Test
     void testDataSourceIsNotNull() {
-        assertThat(dataSource).isNotNull();
+        assertThat(datasourceProvider).isNotNull();
     }
 
     @Test
     void testDataSourceIsValid() throws SQLException {
-        try (Connection connection = dataSource.getConnection()) {
+        try (Connection connection = datasourceProvider.getDataSource().getConnection()) {
             assertThat(connection).isNotNull();
             assertThat(connection.isValid(2)).isTrue();
         }
@@ -37,7 +37,7 @@ class DatasourceProviderTest {
 
     @Test
     void testDataSourceCanExecuteQuery() throws SQLException {
-        try (Connection connection = dataSource.getConnection();
+        try (Connection connection = datasourceProvider.getDataSource().getConnection();
              var stmt = connection.createStatement();
              var rs = stmt.executeQuery("SELECT 1")) {
 
