@@ -17,10 +17,29 @@ public class Task {
     private final StringProperty description = new SimpleStringProperty();
     private final ObjectProperty<Timestamp> created_at = new SimpleObjectProperty<>();
 
+    //Constructor
     public Task() {
         this.created_at.set(Timestamp.from(Instant.now()));
     }
 
+    public Task(Long id, int status, String location, int estimated_effort, String titel,
+            String description) {
+        this(status, location, estimated_effort, titel, description);
+        this.id.set(id);
+    }
+
+    public Task(int status, String location, int estimated_effort, String titel,
+            String description) {
+        this();
+        this.status.set(status);
+        this.location.set(location);
+        this.estimated_effort.set(estimated_effort);
+        this.title.set(titel);
+        this.description.set(description);
+    }
+
+
+    //Copy-Constructor
     public Task(Task toCopy) {
         this.id.set(toCopy.getId());
         this.status.set(toCopy.getStatus());
@@ -31,6 +50,7 @@ public class Task {
         this.created_at.set(toCopy.getCreated_at());
     }
 
+    //Getter
     public long getId() {
         return id.get();
     }
@@ -85,5 +105,12 @@ public class Task {
 
     public ObjectProperty<Timestamp> created_atProperty() {
         return created_at;
+    }
+
+    //to-String
+
+    @Override
+    public String toString() {
+        return getId() + " | " + getTitle() + "; " + getStatus() + "; " + getEstimated_effort();
     }
 }
