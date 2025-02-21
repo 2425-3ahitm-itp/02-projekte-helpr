@@ -143,7 +143,7 @@ public class TaskRepository implements Repository<Task> {
 
     @Override
     public Task findById(long id) {
-        String sql = "SELECT * FROM c_contact WHERE co_id=?";
+        String sql = "SELECT * FROM task WHERE id=?";
 
         try (Connection conn = dataSource.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql)
