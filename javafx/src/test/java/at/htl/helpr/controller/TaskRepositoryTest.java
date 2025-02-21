@@ -1,5 +1,6 @@
 package at.htl.helpr.controller;
 
+import at.htl.helpr.model.TaskStatus;
 import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
@@ -51,7 +52,7 @@ class TaskRepositoryTest {
         Task task = new Task();
         task.setTitle( "Test Task" );
         task.setDescription( "This is a test task" );
-        task.setStatus( 1 );
+        task.setStatus( TaskStatus.ACTIVE );
         task.setLocation( new PGpoint( 0.343, 4.234 ) );
         task.setEstimatedEffort( 5 );
 
@@ -74,7 +75,7 @@ class TaskRepositoryTest {
         Task task = new Task();
         task.setTitle( "Initial Task" );
         task.setDescription( "This is the initial task" );
-        task.setStatus( 1 );
+        task.setStatus( TaskStatus.ACTIVE );
         task.setLocation( new PGpoint( 43.76, 4.543 ) );
         task.setEstimatedEffort( 5 );
 
@@ -82,7 +83,7 @@ class TaskRepositoryTest {
 
         task.setTitle( "Updated Task" );
         task.setDescription( "This is the updated task" );
-        task.setStatus( 2 );
+        task.setStatus( TaskStatus.COMPLETED);
         task.setEstimatedEffort( 10 );
 
         repository.update( task );
@@ -101,7 +102,7 @@ class TaskRepositoryTest {
         Task task = new Task();
         task.setTitle( "Task to be deleted" );
         task.setDescription( "This task will be deleted" );
-        task.setStatus( 1 );
+        task.setStatus( TaskStatus.CANCELLED );
         task.setLocation( new PGpoint( 1.234, 5.678 ) );
         task.setEstimatedEffort( 3 );
 
@@ -122,7 +123,7 @@ class TaskRepositoryTest {
         Task task1 = new Task();
         task1.setTitle( "Task 1" );
         task1.setDescription( "Description 1" );
-        task1.setStatus( 1 );
+        task1.setStatus( TaskStatus.OPEN );
         task1.setLocation( new PGpoint( 1.0, 1.0 ) );
         task1.setEstimatedEffort( 3 );
         repository.create( task1 );
@@ -130,7 +131,7 @@ class TaskRepositoryTest {
         Task task2 = new Task();
         task2.setTitle( "Task 2" );
         task2.setDescription( "Description 2" );
-        task2.setStatus( 2 );
+        task2.setStatus( TaskStatus.OPEN );
         task2.setLocation( new PGpoint( 2.0, 2.0 ) );
         task2.setEstimatedEffort( 5 );
         repository.create( task2 );
@@ -149,7 +150,7 @@ class TaskRepositoryTest {
         Task task1 = new Task();
         task1.setTitle("Task 1");
         task1.setDescription("Description 1");
-        task1.setStatus(1);
+        task1.setStatus(TaskStatus.OPEN);
         task1.setLocation(new PGpoint(1.0, 1.0));
         task1.setEstimatedEffort(3);
         repository.create(task1);
@@ -157,7 +158,7 @@ class TaskRepositoryTest {
         Task task2 = new Task();
         task2.setTitle("Task 2");
         task2.setDescription("Description 2");
-        task2.setStatus(2);
+        task2.setStatus(TaskStatus.ACTIVE);
         task2.setLocation(new PGpoint(2.0, 2.0));
         task2.setEstimatedEffort(5);
         repository.create(task2);
@@ -182,7 +183,7 @@ class TaskRepositoryTest {
         Task task = new Task();
         task.setTitle( "Find Task" );
         task.setDescription( "This task will be found by ID" );
-        task.setStatus( 1 );
+        task.setStatus( TaskStatus.OPEN );
         task.setLocation( new PGpoint( 3.456, 7.890 ) );
         task.setEstimatedEffort( 4 );
 

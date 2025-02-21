@@ -1,6 +1,7 @@
 package at.htl.helpr.controller;
 
 import at.htl.helpr.model.Task;
+import at.htl.helpr.model.TaskStatus;
 import org.postgresql.geometric.PGpoint;
 import java.sql.*;
 import java.util.LinkedList;
@@ -28,7 +29,7 @@ public class TaskRepository implements Repository<Task> {
 
             statement.setString(1, task.getTitle());
             statement.setString(2, task.getDescription());
-            statement.setInt(3, task.getStatus());
+            statement.setInt(3, task.getStatus().ordinal());
             statement.setObject(4, task.getLocation());
             statement.setInt(5, task.getEstimatedEffort());
 
@@ -69,7 +70,7 @@ public class TaskRepository implements Repository<Task> {
         ) {
             statement.setString(1, task.getTitle());
             statement.setString(2, task.getDescription());
-            statement.setInt(3, task.getStatus());
+            statement.setInt(3, task.getStatus().ordinal());
             statement.setInt(4, task.getEstimatedEffort());
             statement.setLong(5, task.getId());
 
@@ -126,7 +127,7 @@ public class TaskRepository implements Repository<Task> {
                 var point = rs.getObject("location", PGpoint.class);
                 Task contact = new Task(
                         rs.getLong("id"),
-                        rs.getInt("status"),
+                        TaskStatus.fromInt(rs.getInt("status")),
                         rs.getObject("location", PGpoint.class),
                         rs.getInt("estimated_effort"),
                         rs.getString("title"),
@@ -156,7 +157,7 @@ public class TaskRepository implements Repository<Task> {
                     var point = result.getObject("location", PGpoint.class);
                     return new Task(
                             result.getLong("id"),
-                            result.getInt("status"),
+                            TaskStatus.fromInt(result.getInt("status")),
                             result.getObject("location", PGpoint.class),
                             result.getInt("estimated_effort"),
                             result.getString("title"),

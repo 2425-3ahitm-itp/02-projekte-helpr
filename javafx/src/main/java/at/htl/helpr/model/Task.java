@@ -9,7 +9,7 @@ import java.time.Instant;
 
 public class Task {
     private final LongProperty id = new SimpleLongProperty();
-    private final IntegerProperty status = new SimpleIntegerProperty();
+    private final ObjectProperty<TaskStatus> status = new SimpleObjectProperty<>();
     private final ObjectProperty<PGpoint> location = new SimpleObjectProperty<>();
     private final IntegerProperty estimatedEffort = new SimpleIntegerProperty();
     private final StringProperty title = new SimpleStringProperty();
@@ -21,13 +21,13 @@ public class Task {
         this.createdAt.set( Timestamp.from( Instant.now() ) );
     }
 
-    public Task( Long id, int status, PGpoint location, int estimated_effort, String titel,
+    public Task( Long id, TaskStatus status, PGpoint location, int estimated_effort, String titel,
                  String description ) {
         this( status, location, estimated_effort, titel, description );
         this.id.set( id );
     }
 
-    public Task( int status, PGpoint location, int estimated_effort, String titel,
+    public Task( TaskStatus status, PGpoint location, int estimated_effort, String titel,
                  String description ) {
         this();
         this.status.set( status );
@@ -58,11 +58,11 @@ public class Task {
         return id;
     }
 
-    public int getStatus() {
+    public TaskStatus getStatus() {
         return status.get();
     }
 
-    public IntegerProperty statusProperty() {
+    public ObjectProperty<TaskStatus> statusProperty() {
         return status;
     }
 
@@ -110,7 +110,7 @@ public class Task {
         this.id.set( id );
     }
 
-    public void setStatus( int status ) {
+    public void setStatus( TaskStatus status ) {
         this.status.set( status );
     }
 
