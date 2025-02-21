@@ -10,8 +10,7 @@ import java.util.List;
 
 public class TaskRepository implements Repository<Task> {
 
-    private static final DatasourceProvider dataSourceProvider = new DatasourceProvider();
-    private static final DataSource dataSource = dataSourceProvider.getDataSource();
+    private static final DataSource dataSource = new DatasourceProvider().getDataSource();
 
 
     @Override
@@ -63,7 +62,7 @@ public class TaskRepository implements Repository<Task> {
         String sql = """
                 UPDATE task  SET title=?,description=?,status=?  
                              WHERE co_id=?  
-                """ + task.getId();
+                """;
 
         try (Connection conn = dataSource.getConnection();
                 PreparedStatement statement = conn.prepareStatement(sql);
