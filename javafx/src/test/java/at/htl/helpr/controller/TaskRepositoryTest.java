@@ -1,7 +1,6 @@
 package at.htl.helpr.controller;
 
 import io.quarkus.test.junit.QuarkusTest;
-import jakarta.inject.Inject;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 
@@ -10,7 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import at.htl.helpr.model.Task;
-import javax.sql.DataSource;
+import org.postgresql.geometric.PGpoint;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -35,13 +34,13 @@ class TaskRepositoryTest {
                 """;
 
         try ( Connection conn = Database.getConnection();
-              PreparedStatement statement = conn.prepareStatement(sql)
+              PreparedStatement statement = conn.prepareStatement( sql )
         ) {
 
             statement.execute();
 
-        } catch (SQLException e) {
-            throw new RuntimeException("Error while updating task: " + e.getMessage(), e);
+        } catch ( SQLException e ) {
+            throw new RuntimeException( "Error while updating task: " + e.getMessage(), e );
         }
     }
 
@@ -49,26 +48,59 @@ class TaskRepositoryTest {
     void create() {
         TaskRepository repository = new TaskRepository();
         Task task = new Task();
-        task.setTitle("Test Task");
-        task.setDescription("This is a test task");
-        task.setStatus(1);
-        task.setLocation("POINT(1 1)");
-        task.setEstimated_effort(5);
+        task.setTitle( "Test Task" );
+        task.setDescription( "This is a test task" );
+        task.setStatus( 1 );
+        task.setLocation( new PGpoint( 0.343, 4.234 ) );
+        task.setEstimatedEffort( 5 );
 
-        repository.create(task);
+        try {
+            repository.create( task );
+        } catch ( SQLException e ) {
+            throw new RuntimeException( e );
+        }
 
-//        Task retrievedTask = repository.findById(task.getId());
-//        assertThat(retrievedTask).isNotNull();
-//        assertThat(retrievedTask.getTitle()).isEqualTo(task.getTitle());
-//        assertThat(retrievedTask.getDescription()).isEqualTo(task.getDescription());
-//        assertThat(retrievedTask.getStatus()).isEqualTo(task.getStatus());
-//        assertThat(retrievedTask.getLocation()).isEqualTo(task.getLocation());
-//        assertThat(retrievedTask.getEstimated_effort()).isEqualTo(task.getEstimated_effort());
+        System.out.println( task.getId() );
+
+        Task retrievedTask = repository.findById( task.getId() );
+        assertThat( retrievedTask ).isNotNull();
+        assertThat( retrievedTask.getTitle() ).isEqualTo( task.getTitle() );
+        assertThat( retrievedTask.getDescription() ).isEqualTo( task.getDescription() );
+        assertThat( retrievedTask.getStatus() ).isEqualTo( task.getStatus() );
+        assertThat( retrievedTask.getLocation() ).isEqualTo( task.getLocation() );
+        assertThat( retrievedTask.getEstimatedEffort() ).isEqualTo( task.getEstimatedEffort() );
     }
 
-//    @Test
-//    void update() {
-//    }
+    @Test
+    void update() {
+        TaskRepository repository = new TaskRepository();
+        Task task = new Task();
+        task.setTitle( "Initial Task" );
+        task.setDescription( "This is the initial task" );
+        task.setStatus( 1 );
+        task.setLocation( new PGpoint( 43.76, 4.543 ) );
+        task.setEstimatedEffort( 5 );
+
+        try {
+            repository.create( task );
+        } catch ( SQLException e ) {
+            throw new RuntimeException( e );
+        }
+
+        task.setTitle( "Updated Task" );
+        task.setDescription( "This is the updated task" );
+        task.setStatus( 2 );
+        task.setEstimatedEffort( 10 );
+
+        repository.update( task );
+
+        Task updatedTask = repository.findById( task.getId() );
+        assertThat( updatedTask ).isNotNull();
+        assertThat( updatedTask.getTitle() ).isEqualTo( task.getTitle() );
+        assertThat( updatedTask.getDescription() ).isEqualTo( task.getDescription() );
+        assertThat( updatedTask.getStatus() ).isEqualTo( task.getStatus() );
+        assertThat( updatedTask.getEstimatedEffort() ).isEqualTo( task.getEstimatedEffort() );
+    }
 //
 //    @Test
 //    void delete() {
