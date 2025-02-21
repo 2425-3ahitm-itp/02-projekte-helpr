@@ -1,16 +1,16 @@
 package at.htl.helpr.controller;
 
 import at.htl.helpr.model.Task;
+import jakarta.inject.Inject;
 
 import javax.sql.DataSource;
+import javax.xml.crypto.Data;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 
 public class TaskRepository implements Repository<Task> {
-
-    private static final DataSource dataSource = new DatasourceProvider().getDataSource();
 
 
     @Override
@@ -21,12 +21,11 @@ public class TaskRepository implements Repository<Task> {
                     description,
                     status,
                     location,
-                    estimated_effort,
-                    created_at
-                ) VALUES (?, ?, ?, ?, ?, ?)
+                    estimated_effort
+                ) VALUES (?, ?, ?, ?, ?)
                 """;
 
-        try (Connection conn = dataSource.getConnection();
+        try (Connection conn = Database.getConnection();
                 PreparedStatement statement = conn.prepareStatement(sql,
                         Statement.RETURN_GENERATED_KEYS)) {
 
@@ -35,10 +34,13 @@ public class TaskRepository implements Repository<Task> {
             statement.setInt(3, task.getStatus());
             statement.setString(4, task.getLocation());
             statement.setInt(5, task.getEstimated_effort());
-            LocalDateTime createdAt =
-                    (task.getCreated_at() != null) ? task.getCreated_at().toLocalDateTime()
-                            : LocalDateTime.now();
-            statement.setTimestamp(6, Timestamp.valueOf(createdAt));
+
+            // log statement
+            System.out.println(statement.getMetaData());
+
+            if (statement.executeUpdate() == 0) {
+                throw new SQLException("No task created");
+            }
 
             try (ResultSet keys = statement.getGeneratedKeys()) {
                 if (keys.next()) {
@@ -51,7 +53,7 @@ public class TaskRepository implements Repository<Task> {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException("Error while inserting task" + e.getMessage(), e);
+            e.printStackTrace();
         }
     }
 
@@ -61,10 +63,10 @@ public class TaskRepository implements Repository<Task> {
 
         String sql = """
                 UPDATE task  SET title=?,description=?,status=?
-                             WHERE co_id=?
+                             WHERE id=?
                 """;
 
-        try (Connection conn = dataSource.getConnection();
+        try (Connection conn = Database.getConnection();
                 PreparedStatement statement = conn.prepareStatement(sql);
         ) {
             statement.setString(1, task.getTitle());
@@ -91,7 +93,7 @@ public class TaskRepository implements Repository<Task> {
                                WHERE id=?
                 """;
 
-        try (Connection connection = dataSource.getConnection();
+        try (Connection connection = Database.getConnection();
                 PreparedStatement statement = connection.prepareStatement(sql);
         ) {
             statement.setLong(1, id);
@@ -116,7 +118,7 @@ public class TaskRepository implements Repository<Task> {
                 SELECT * FROM task
                 """;
 
-        try (Connection connection = dataSource.getConnection();
+        try (Connection connection = Database.getConnection();
                 PreparedStatement stmt = connection.prepareStatement(sql);
                 ResultSet rs = stmt.executeQuery()
         ) {
@@ -145,7 +147,7 @@ public class TaskRepository implements Repository<Task> {
     public Task findById(long id) {
         String sql = "SELECT * FROM task WHERE id=?";
 
-        try (Connection conn = dataSource.getConnection();
+        try (Connection conn = Database.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql)
         ) {
             stmt.setLong(1, id);

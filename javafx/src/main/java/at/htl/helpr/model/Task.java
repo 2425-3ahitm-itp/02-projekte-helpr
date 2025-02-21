@@ -11,7 +11,6 @@ public class Task {
     private final IntegerProperty status = new SimpleIntegerProperty();
     private final StringProperty location = new SimpleStringProperty();
     private final IntegerProperty estimated_effort = new SimpleIntegerProperty();
-
     private final StringProperty title = new SimpleStringProperty();
     private final StringProperty description = new SimpleStringProperty();
     private final ObjectProperty<Timestamp> created_at = new SimpleObjectProperty<>();
@@ -104,6 +103,34 @@ public class Task {
 
     public ObjectProperty<Timestamp> created_atProperty() {
         return created_at;
+    }
+
+    public void setId(long id) {
+        this.id.set(id);
+    }
+
+    public void setStatus(int status) {
+        this.status.set(status);
+    }
+
+    public void setLocation(String location) {
+        this.location.set(location);
+    }
+
+    public void setEstimated_effort(int estimated_effort) {
+        this.estimated_effort.set(estimated_effort);
+    }
+
+    public void setTitle(String title) {
+        this.title.set(title);
+    }
+
+    public void setDescription(String description) {
+        this.description.set(description);
+    }
+
+    public void setCreated_at(Timestamp created_at) {
+        this.created_at.set(created_at);
     }
 
     //to-String
