@@ -126,7 +126,7 @@ public class TaskRepository implements Repository<Task> {
                 var point = rs.getObject("location", PGpoint.class);
                 Task contact = new Task(
                         rs.getLong("id"),
-                        rs.getInt("statzs"),
+                        rs.getInt("status"),
                         rs.getObject("location", PGpoint.class),
                         rs.getInt("estimated_effort"),
                         rs.getString("title"),
