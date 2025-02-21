@@ -17,11 +17,11 @@ public class TaskRepository implements Repository<Task> {
     public void create(Task task) {
         String sql = """
                 INSERT INTO task (
-                    title, 
-                    description, 
-                    status, 
-                    location, 
-                    estimated_effort, 
+                    title,
+                    description,
+                    status,
+                    location,
+                    estimated_effort,
                     created_at
                 ) VALUES (?, ?, ?, ?, ?, ?)
                 """;
@@ -60,8 +60,8 @@ public class TaskRepository implements Repository<Task> {
     public void update(Task task) {
 
         String sql = """
-                UPDATE task  SET title=?,description=?,status=?  
-                             WHERE co_id=?  
+                UPDATE task  SET title=?,description=?,status=?
+                             WHERE co_id=?
                 """;
 
         try (Connection conn = dataSource.getConnection();
@@ -87,7 +87,7 @@ public class TaskRepository implements Repository<Task> {
     public void delete(long id) {
 
         String sql = """    
-                DELETE FROM task 
+                DELETE FROM task
                                WHERE id=?
                 """;
 
