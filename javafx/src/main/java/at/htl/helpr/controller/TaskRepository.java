@@ -70,6 +70,7 @@ public class TaskRepository implements Repository<Task> {
             statement.setString(1, task.getTitle());
             statement.setString(2, task.getDescription());
             statement.setInt(3, task.getStatus());
+            statement.setLong(4, task.getId());
 
             if (statement.executeUpdate() == 0) {
                 throw new SQLException(String.format("Update of TASK %s failed, no rows affected",
