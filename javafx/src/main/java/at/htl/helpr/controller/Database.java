@@ -30,7 +30,7 @@ public class Database {
      *
      * @return DataSource object
      */
-    public static Connection getConnection() throws SQLException {
+    public static Connection getConnection() {
         Properties dbProperties = new Properties();
 
         try (FileInputStream in = new FileInputStream(appConfigPath)) {
@@ -43,7 +43,7 @@ public class Database {
         } catch (IOException e) {
             throw new RuntimeException("Mhm");
         } catch (SQLException e) {
-            throw e;
+            throw new RuntimeException("Mhm2");
         }
 
     }
