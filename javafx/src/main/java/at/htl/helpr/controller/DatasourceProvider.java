@@ -1,4 +1,4 @@
-package controller;
+package at.htl.helpr.controller;
 
 import io.agroal.api.AgroalDataSource;
 import jakarta.enterprise.context.ApplicationScoped;
