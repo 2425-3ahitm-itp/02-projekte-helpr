@@ -1,51 +1,52 @@
 package at.htl.helpr.model;
 
 import javafx.beans.property.*;
-import java.sql.Time;
+import org.postgresql.geometric.PGpoint;
+
 import java.sql.Timestamp;
 import java.time.Instant;
-import java.time.LocalTime;
+
 
 public class Task {
     private final LongProperty id = new SimpleLongProperty();
     private final IntegerProperty status = new SimpleIntegerProperty();
-    private final StringProperty location = new SimpleStringProperty();
-    private final IntegerProperty estimated_effort = new SimpleIntegerProperty();
+    private final ObjectProperty<PGpoint> location = new SimpleObjectProperty<>();
+    private final IntegerProperty estimatedEffort = new SimpleIntegerProperty();
     private final StringProperty title = new SimpleStringProperty();
     private final StringProperty description = new SimpleStringProperty();
-    private final ObjectProperty<Timestamp> created_at = new SimpleObjectProperty<>();
+    private final ObjectProperty<Timestamp> createdAt = new SimpleObjectProperty<>();
 
     //Constructor
     public Task() {
-        this.created_at.set(Timestamp.from(Instant.now()));
+        this.createdAt.set( Timestamp.from( Instant.now() ) );
     }
 
-    public Task(Long id, int status, String location, int estimated_effort, String titel,
-            String description) {
-        this(status, location, estimated_effort, titel, description);
-        this.id.set(id);
+    public Task( Long id, int status, PGpoint location, int estimated_effort, String titel,
+                 String description ) {
+        this( status, location, estimated_effort, titel, description );
+        this.id.set( id );
     }
 
-    public Task(int status, String location, int estimated_effort, String titel,
-            String description) {
+    public Task( int status, PGpoint location, int estimated_effort, String titel,
+                 String description ) {
         this();
-        this.status.set(status);
-        this.location.set(location);
-        this.estimated_effort.set(estimated_effort);
-        this.title.set(titel);
-        this.description.set(description);
+        this.status.set( status );
+        this.location.set( location );
+        this.estimatedEffort.set( estimated_effort );
+        this.title.set( titel );
+        this.description.set( description );
     }
 
 
     //Copy-Constructor
-    public Task(Task toCopy) {
-        this.id.set(toCopy.getId());
-        this.status.set(toCopy.getStatus());
-        this.location.set(toCopy.getLocation());
-        this.estimated_effort.set(toCopy.getEstimated_effort());
-        this.title.set(toCopy.getTitle());
-        this.description.set(toCopy.getDescription());
-        this.created_at.set(toCopy.getCreated_at());
+    public Task( Task toCopy ) {
+        this.id.set( toCopy.getId() );
+        this.status.set( toCopy.getStatus() );
+        this.location.set( toCopy.getLocation() );
+        this.estimatedEffort.set( toCopy.getEstimatedEffort() );
+        this.title.set( toCopy.getTitle() );
+        this.description.set( toCopy.getDescription() );
+        this.createdAt.set( toCopy.getCreatedAt() );
     }
 
     //Getter
@@ -65,20 +66,20 @@ public class Task {
         return status;
     }
 
-    public String getLocation() {
+    public PGpoint getLocation() {
         return location.get();
     }
 
-    public StringProperty locationProperty() {
+    public ObjectProperty<PGpoint> locationProperty() {
         return location;
     }
 
-    public int getEstimated_effort() {
-        return estimated_effort.get();
+    public int getEstimatedEffort() {
+        return estimatedEffort.get();
     }
 
-    public IntegerProperty estimated_effortProperty() {
-        return estimated_effort;
+    public IntegerProperty estimatedEffortProperty() {
+        return estimatedEffort;
     }
 
     public String getTitle() {
@@ -97,46 +98,46 @@ public class Task {
         return description;
     }
 
-    public Timestamp getCreated_at() {
-        return created_at.get();
+    public Timestamp getCreatedAt() {
+        return createdAt.get();
     }
 
-    public ObjectProperty<Timestamp> created_atProperty() {
-        return created_at;
+    public ObjectProperty<Timestamp> createdAtProperty() {
+        return createdAt;
     }
 
-    public void setId(long id) {
-        this.id.set(id);
+    public void setId( long id ) {
+        this.id.set( id );
     }
 
-    public void setStatus(int status) {
-        this.status.set(status);
+    public void setStatus( int status ) {
+        this.status.set( status );
     }
 
-    public void setLocation(String location) {
-        this.location.set(location);
+    public void setLocation( PGpoint location ) {
+        this.location.set( location );
     }
 
-    public void setEstimated_effort(int estimated_effort) {
-        this.estimated_effort.set(estimated_effort);
+    public void setEstimatedEffort( int estimatedEffort) {
+        this.estimatedEffort.set(estimatedEffort);
     }
 
-    public void setTitle(String title) {
-        this.title.set(title);
+    public void setTitle( String title ) {
+        this.title.set( title );
     }
 
-    public void setDescription(String description) {
-        this.description.set(description);
+    public void setDescription( String description ) {
+        this.description.set( description );
     }
 
-    public void setCreated_at(Timestamp created_at) {
-        this.created_at.set(created_at);
+    public void setCreatedAt( Timestamp createdAt) {
+        this.createdAt.set(createdAt);
     }
 
     //to-String
 
     @Override
     public String toString() {
-        return getId() + " | " + getTitle() + "; " + getStatus() + "; " + getEstimated_effort();
+        return getId() + " | " + getTitle() + "; " + getStatus() + "; " + getEstimatedEffort();
     }
 }

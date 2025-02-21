@@ -1,12 +1,8 @@
 package at.htl.helpr.controller;
 
 import at.htl.helpr.model.Task;
-import jakarta.inject.Inject;
-
-import javax.sql.DataSource;
-import javax.xml.crypto.Data;
+import org.postgresql.geometric.PGpoint;
 import java.sql.*;
-import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -25,15 +21,16 @@ public class TaskRepository implements Repository<Task> {
                 ) VALUES (?, ?, ?, ?, ?)
                 """;
 
-        try (Connection conn = Database.getConnection();
+        try (
+                Connection conn = Database.getConnection();
                 PreparedStatement statement = conn.prepareStatement(sql,
-                        Statement.RETURN_GENERATED_KEYS)) {
+                        Statement.RETURN_GENERATED_KEYS);) {
 
             statement.setString(1, task.getTitle());
             statement.setString(2, task.getDescription());
             statement.setInt(3, task.getStatus());
-            statement.setString(4, task.getLocation());
-            statement.setInt(5, task.getEstimated_effort());
+            statement.setObject(4, task.getLocation());
+            statement.setInt(5, task.getEstimatedEffort());
 
             // log statement
             System.out.println(statement.getMetaData());
@@ -53,8 +50,9 @@ public class TaskRepository implements Repository<Task> {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Error while creating task: " + e.getMessage(), e);
         }
+
     }
 
 
@@ -62,8 +60,8 @@ public class TaskRepository implements Repository<Task> {
     public void update(Task task) {
 
         String sql = """
-                UPDATE task  SET title=?,description=?,status=?
-                             WHERE id=?
+                UPDATE task SET title=?,description=?,status=?,estimated_effort=?
+                    WHERE id=?
                 """;
 
         try (Connection conn = Database.getConnection();
@@ -72,7 +70,8 @@ public class TaskRepository implements Repository<Task> {
             statement.setString(1, task.getTitle());
             statement.setString(2, task.getDescription());
             statement.setInt(3, task.getStatus());
-            statement.setLong(4, task.getId());
+            statement.setInt(4, task.getEstimatedEffort());
+            statement.setLong(5, task.getId());
 
             if (statement.executeUpdate() == 0) {
                 throw new SQLException(String.format("Update of TASK %s failed, no rows affected",
@@ -90,7 +89,7 @@ public class TaskRepository implements Repository<Task> {
 
         String sql = """    
                 DELETE FROM task
-                               WHERE id=?
+                    WHERE id=?
                 """;
 
         try (Connection connection = Database.getConnection();
@@ -124,10 +123,11 @@ public class TaskRepository implements Repository<Task> {
         ) {
 
             while (rs.next()) {
+                var point = rs.getObject("location", PGpoint.class);
                 Task contact = new Task(
                         rs.getLong("id"),
                         rs.getInt("statzs"),
-                        rs.getString("location"),
+                        rs.getObject("location", PGpoint.class),
                         rs.getInt("estimated_effort"),
                         rs.getString("title"),
                         rs.getString("description")
@@ -153,10 +153,11 @@ public class TaskRepository implements Repository<Task> {
             stmt.setLong(1, id);
             try (ResultSet result = stmt.executeQuery()) {
                 if (result.next()) {
+                    var point = result.getObject("location", PGpoint.class);
                     return new Task(
                             result.getLong("id"),
-                            result.getInt("statzs"),
-                            result.getString("location"),
+                            result.getInt("status"),
+                            result.getObject("location", PGpoint.class),
                             result.getInt("estimated_effort"),
                             result.getString("title"),
                             result.getString("description")
