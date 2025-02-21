@@ -54,11 +54,7 @@ class TaskRepositoryTest {
         task.setLocation( new PGpoint( 0.343, 4.234 ) );
         task.setEstimatedEffort( 5 );
 
-        try {
-            repository.create( task );
-        } catch ( SQLException e ) {
-            throw new RuntimeException( e );
-        }
+        repository.create( task );
 
         System.out.println( task.getId() );
 
@@ -81,11 +77,7 @@ class TaskRepositoryTest {
         task.setLocation( new PGpoint( 43.76, 4.543 ) );
         task.setEstimatedEffort( 5 );
 
-        try {
-            repository.create( task );
-        } catch ( SQLException e ) {
-            throw new RuntimeException( e );
-        }
+        repository.create( task );
 
         task.setTitle( "Updated Task" );
         task.setDescription( "This is the updated task" );
