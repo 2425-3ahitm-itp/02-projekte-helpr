@@ -19,6 +19,7 @@ public class Task {
 
     //Constructor
     public Task() {
+        this.setEstimatedEffort(1);
         this.setLocation(new PGpoint(0, 0));
         this.setStatus(TaskStatus.OPEN);
         this.createdAt.set(Timestamp.from(Instant.now()));
