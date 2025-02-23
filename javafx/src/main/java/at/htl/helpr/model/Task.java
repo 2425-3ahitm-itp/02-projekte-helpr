@@ -8,6 +8,7 @@ import java.time.Instant;
 
 
 public class Task {
+
     private final LongProperty id = new SimpleLongProperty();
     private final ObjectProperty<TaskStatus> status = new SimpleObjectProperty<>();
     private final ObjectProperty<PGpoint> location = new SimpleObjectProperty<>();
@@ -18,35 +19,37 @@ public class Task {
 
     //Constructor
     public Task() {
-        this.createdAt.set( Timestamp.from( Instant.now() ) );
+        this.setLocation(new PGpoint(0, 0));
+        this.setStatus(TaskStatus.OPEN);
+        this.createdAt.set(Timestamp.from(Instant.now()));
     }
 
-    public Task( Long id, TaskStatus status, PGpoint location, int estimated_effort, String titel,
-                 String description ) {
-        this( status, location, estimated_effort, titel, description );
-        this.id.set( id );
+    public Task(Long id, TaskStatus status, PGpoint location, int estimated_effort, String titel,
+            String description) {
+        this(status, location, estimated_effort, titel, description);
+        this.id.set(id);
     }
 
-    public Task( TaskStatus status, PGpoint location, int estimated_effort, String titel,
-                 String description ) {
+    public Task(TaskStatus status, PGpoint location, int estimated_effort, String titel,
+            String description) {
         this();
-        this.status.set( status );
-        this.location.set( location );
-        this.estimatedEffort.set( estimated_effort );
-        this.title.set( titel );
-        this.description.set( description );
+        this.status.set(status);
+        this.location.set(location);
+        this.estimatedEffort.set(estimated_effort);
+        this.title.set(titel);
+        this.description.set(description);
     }
 
 
     //Copy-Constructor
-    public Task( Task toCopy ) {
-        this.id.set( toCopy.getId() );
-        this.status.set( toCopy.getStatus() );
-        this.location.set( toCopy.getLocation() );
-        this.estimatedEffort.set( toCopy.getEstimatedEffort() );
-        this.title.set( toCopy.getTitle() );
-        this.description.set( toCopy.getDescription() );
-        this.createdAt.set( toCopy.getCreatedAt() );
+    public Task(Task toCopy) {
+        this.id.set(toCopy.getId());
+        this.status.set(toCopy.getStatus());
+        this.location.set(toCopy.getLocation());
+        this.estimatedEffort.set(toCopy.getEstimatedEffort());
+        this.title.set(toCopy.getTitle());
+        this.description.set(toCopy.getDescription());
+        this.createdAt.set(toCopy.getCreatedAt());
     }
 
     //Getter
@@ -106,31 +109,31 @@ public class Task {
         return createdAt;
     }
 
-    public void setId( long id ) {
-        this.id.set( id );
+    public void setId(long id) {
+        this.id.set(id);
     }
 
-    public void setStatus( TaskStatus status ) {
-        this.status.set( status );
+    public void setStatus(TaskStatus status) {
+        this.status.set(status);
     }
 
-    public void setLocation( PGpoint location ) {
-        this.location.set( location );
+    public void setLocation(PGpoint location) {
+        this.location.set(location);
     }
 
-    public void setEstimatedEffort( int estimatedEffort) {
+    public void setEstimatedEffort(int estimatedEffort) {
         this.estimatedEffort.set(estimatedEffort);
     }
 
-    public void setTitle( String title ) {
-        this.title.set( title );
+    public void setTitle(String title) {
+        this.title.set(title);
     }
 
-    public void setDescription( String description ) {
-        this.description.set( description );
+    public void setDescription(String description) {
+        this.description.set(description);
     }
 
-    public void setCreatedAt( Timestamp createdAt) {
+    public void setCreatedAt(Timestamp createdAt) {
         this.createdAt.set(createdAt);
     }
 
