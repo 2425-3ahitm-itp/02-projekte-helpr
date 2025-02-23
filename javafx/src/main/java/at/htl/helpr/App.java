@@ -1,22 +1,27 @@
 package at.htl.helpr;
 
+import at.htl.helpr.model.Task;
+import at.htl.helpr.taskform.FormPresenter;
+import at.htl.helpr.taskform.FormView;
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
-import java.io.IOException;
+import java.awt.print.Book;
 
 public class App extends Application {
 
-  @Override
-  public void start(Stage primaryStage) throws IOException {
-    Scene scene = new Scene(new StackPane(), 320, 240);
-    primaryStage.setTitle("App");
-    primaryStage.show();
-  }
+    @Override
+    public void start(Stage stage) throws Exception {
 
-  public static void main(String[] args) {
-    launch();
-  }
+        var view = new FormView();
+        var presenter = new FormPresenter(new Task(), view);
+
+        var scene = new Scene(view, 600, 400);
+
+        stage.setTitle("Helpr");
+        stage.setScene(scene);
+        stage.show();
+    }
 }
