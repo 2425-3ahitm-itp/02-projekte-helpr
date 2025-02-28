@@ -8,9 +8,8 @@ authors:
   - simone
   - marlies
 tags: [project]
+weight: 50
 ---
-
-# Projektauftrag
 
 ## Projektbezeichnung
 

@@ -1,5 +1,12 @@
----
-date: 2025-02-28
-lastmod: 2025-02-28
----
 
+
+## Helpr is a platform that allows users to find help in their area and assist others.
+
+
+# Team
+
+
+{{< author name="jakob" >}}
+{{< author name="miriam" >}}
+{{< author name="simone" >}}
+{{< author name="marlies" >}}

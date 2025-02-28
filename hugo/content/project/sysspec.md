@@ -8,9 +8,8 @@ authors:
   - simone
   - marlies
 tags: [project]
+weight: 60
 ---
-
-## Pflichtenheft "Was mache ich"
 
 ### Ausgangssituation
 
