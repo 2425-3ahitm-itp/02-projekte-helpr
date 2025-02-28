@@ -5,7 +5,7 @@
 # Refer to the theme docs for more details about each of these parameters.
 # https://blowfish.page/docs/configuration/#theme-parameters
 
-colorScheme: blowfish
+colorScheme: custom
 defaultAppearance: dark
 autoSwitchAppearance: true
 
@@ -49,7 +49,7 @@ homepage:
   layout: custom # valid options: page, profile, hero, card, background, custom
   homepageImage: img/card/card-dodgerblue-b46.jpg # used in: hero, and card
   showRecent: true
-  showRecentItems: 5
+  showRecentItems: 10
   showMoreLink: false
   showMoreLinkDest: /
   cardView: true
@@ -109,7 +109,7 @@ list:
   showViews: false
   showLikes: false
   showTableOfContents: false
-  showCards: true
+  showCards: false
   orderByWeight: true
   groupByYear: true
   cardView: false
@@ -141,7 +141,7 @@ term:
   showViews: false
   showLikes: false
   showTableOfContents: true
-  groupByYear: true
-  cardView: true
+  groupByYear: false
+  cardView: false
   cardViewScreenWidth: false
 
