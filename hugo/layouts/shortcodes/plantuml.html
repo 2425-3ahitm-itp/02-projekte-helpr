@@ -1,6 +1,19 @@
-{{ $id := .Get "id" }} {{ $content := "" }} {{ if .Get "src" }} {{ $content =
-readFile (print "assets/" (.Get "src")) }} {{ end }} {{ if eq $content "" }} {{
-$content = .Inner }} {{ end }}
+{{ $id := .Get "id" }}
+{{ $content := "" }}
+{{ if .Get "src" }}
+{{ $src := .Get "src" }}
+{{ $path := "" }}
+{{ if hasPrefix $src "/" }}
+    {{ $path = substr $src 1 }}
+{{ else }}
+    {{ $currentDir := path.Dir .Page.RelPermalink }}
+    {{ $path = path.Join $currentDir $src }}
+{{ end }}
+{{ $content = readFile (relURL $path) }}
+{{ end }}
+{{ if eq $content "" }}
+    {{ $content = .Inner }}
+{{ end }}
 <!-- TODO: Multiple plants on a single page not supported without an id -->
 <img id="plantuml-{{ $id }}" />
 <script src="{{ "js/rawdeflate.js" | relURL }}"></script>
