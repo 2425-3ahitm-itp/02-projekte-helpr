@@ -72,7 +72,7 @@ article:
   showBreadcrumbs: true
   showDraftLabel: true
   showEdit: true
-  editURL: "https://github.com/2425-3ahitm-itp/02-projekte-helpr/edit/main/hugo/content"
+  editURL: "https://github.com/2425-3ahitm-itp/02-projekte-helpr/edit/dev/hugo/content"
   editAppendPath: true
   seriesOpened: false
   showHeadingAnchors: true

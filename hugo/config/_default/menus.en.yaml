@@ -19,6 +19,10 @@ main:
     pageRef: project
     weight: 20
 
+  - name: Releases
+    pageRef: releases
+    weight: 30
+
   - pre: github
     url: https://github.com/2425-3ahitm-itp/02-projekte-helpr
 #   - name: Blog
