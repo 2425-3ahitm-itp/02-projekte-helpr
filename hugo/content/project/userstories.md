@@ -11,8 +11,8 @@ tags: [user stories]
 
 <span style="color: rgba(var(--color-primary-300))">
 
-Als Nutzer  
-möchte ich einen Account erstellen können,  
+Als Nutzer\
+möchte ich einen Account erstellen können,\
 um mich später anmelden zu können.
 
 </span>
@@ -30,8 +30,8 @@ um mich später anmelden zu können.
 
 <span style="color: rgba(var(--color-primary-300))">
 
-Als Hilfe suchender Nutzer  
-möchte ich Aufgabenstellungen posten können,  
+Als Hilfe suchender Nutzer\
+möchte ich Aufgabenstellungen posten können,\
 damit mir geholfen werden kann.
 
 </span>
@@ -49,9 +49,9 @@ damit mir geholfen werden kann.
 
 <span style="color: rgba(var(--color-primary-300))">
 
-Als helfender Nutzer  
-möchte ich andere Aufgabenstellungen in meiner Umgebung sehen können,  
-um anderen zu helfen.  
+Als helfender Nutzer\
+möchte ich andere Aufgabenstellungen in meiner Umgebung sehen können,\
+um anderen zu helfen.
 
 </span>
 
@@ -67,8 +67,8 @@ um anderen zu helfen.
 
 <span style="color: rgba(var(--color-primary-300))">
 
-Als helfender Nutzer  
-möchte ich unter den Aufgaben filtern können,  
+Als helfender Nutzer\
+möchte ich unter den Aufgaben filtern können,\
 um meine Stärken am besten einsetzen zu können.
 
 </span>
@@ -85,8 +85,8 @@ um meine Stärken am besten einsetzen zu können.
 
 <span style="color: rgba(var(--color-primary-300))">
 
-Als helfender Nutzer  
-möchte ich Aufgabensteller kontaktieren können,  
+Als helfender Nutzer\
+möchte ich Aufgabensteller kontaktieren können,\
 um mich als Helfer zu bewerben.
 
 </span>
@@ -103,7 +103,7 @@ um mich als Helfer zu bewerben.
 
 <span style="color: rgba(var(--color-primary-300))">
 
-Als Hilfesuchender  
+Als Hilfesuchender\
 möchte ich einen Bewerber meiner Aufgabe auswählen können.
 
 </span>
@@ -119,7 +119,7 @@ möchte ich einen Bewerber meiner Aufgabe auswählen können.
 
 <span style="color: rgba(var(--color-primary-300))">
 
-Als ausgewählter Bewerber  
+Als ausgewählter Bewerber\
 möchte ich entscheiden können, ob ich die Aufgabe annehme.
 
 </span>
@@ -153,7 +153,7 @@ class Task {
 -description
 -location
 -status
-'    -createdAt
+'-createdAt
 -category
 -estimatedEffort
 -chats
