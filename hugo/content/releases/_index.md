@@ -1,5 +1,6 @@
 ---
 description: All releases
+showDate: false
 ---
 
 # Latest Release
