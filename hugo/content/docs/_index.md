@@ -15,3 +15,4 @@ description: All the documentation about the project
 <img src="https://img.shields.io/badge/Build-Docker%20Compose-2496ed?style=flat-rounded" alt="Docker Compose">
 {{< /shields >}}
 
+---
