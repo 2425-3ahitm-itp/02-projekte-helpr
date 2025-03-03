@@ -26,6 +26,32 @@ cd javafx/src/main/docker
 docker compose up
 ----
 
+=== Setup der Datenbank
+
+. SQL in `javafx/src/main/resources/database/schema.sql`
+kopieren.
+
+. `localhost:8090` im browser öffnen
+
+. Einmaliges beliebiges passwort festlegen
+
+. Server Hinzufügen
+
+    General
+        Name: Helpr
+    Connection
+        Hostname: postgres
+        Port: 5432
+        Username: app
+        Password: app
+    -> Save
+
+
+. Server "Helpr"
+. Rechtsklick auf Datenbank "helpr" -> Query Tool
+. schema.sql einfügen
+. Play button drücken "Execute Script"
+
 === Starten der Anwendung
 
 [source,shell]
@@ -34,3 +60,11 @@ cd javafx
 ./mvnw package
 ./mvnw quarkus:run
 ----
+
+== Team
+
+
+* link:https://github.com/JakobHuemer[Jakob Huemer-Fistelberger], 3AHITM, Project Lead
+* link:https://github.com/mGnadlinger[Miriam Gnadlinger], 3AHITM, Team Member
+* link:https://github.com/SimoneSperrer[Simone Sperrer], 3AHITM, Team Member
+* link:https://github.com/MarliesWkbr[Marlies Winklbauer], 3AHITM, Team Member
