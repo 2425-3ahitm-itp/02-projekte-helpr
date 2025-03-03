@@ -56,6 +56,9 @@ node_modules/
 *.iml
 *.ipr
 
+hugo/public
+hugo/resources
+
 # Other
 .vscode
 db/
