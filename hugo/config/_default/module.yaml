@@ -5,4 +5,5 @@ hugoVersion:
 
 imports:
   - path: github.com/nunocoracao/blowfish/v2
+  - path: github.com/KKKZOZ/hugo-admonitions
 
