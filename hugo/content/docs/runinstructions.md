@@ -7,44 +7,45 @@ date: 2025-03-02
 lastmod: 2025-03-03
 ---
 
-## Starten des Programms
-
-### Voraussetzungen
+## Prerequisites
 
 - docker compose
 
-### Starten der Datenbank
-
+## Starting the Database
 ```shell
 cd javafx/src/main/docker
 docker compose up
 ```
 
+## Database Setup
+1. Copy SQL from `javafx/src/main/resources/database/schema.sql`.
 
-### Setup der Datenbank
+2. Open `localhost:8090` in your browser.
 
-1. SQL in `javafx/src/main/resources/database/schema.sql` kopieren.
-2. `localhost:8090` im browser öffnen
-3. Einmaliges beliebiges passwort festlegen
-4. Server Hinzufügen
-    ```
-    General
+3. Set any password of your choice (one-time).
+
+4. Add Server:
+
+   ```
+   General
      Name: Helpr
-    Connection
+   Connection
      Hostname: postgres
      Port: 5432
      Username: app
      Password: app
-    -> Save
-    ```
+   -> Save
+   ```
 
-5. Server `Helpr`
-6. Rechtsklick auf Datenbank `helpr` -> Query Tool
-7. schema.sql einfügen
-8. Play button drücken "Execute Script"
+5. Select Server `Helpr`.
 
+6. Right-click on database `helpr` -> Query Tool.
 
-### Starten der Anwendung
+7. Paste schema.sql.
+
+8. Click the Play button `Execute Script`.
+
+## Starting the Application
 
 ```shell
 cd javafx
