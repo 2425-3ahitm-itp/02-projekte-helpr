@@ -1,6 +1,7 @@
 package at.htl.helpr;
 
 import at.htl.helpr.model.Task;
+import at.htl.helpr.sql.SqlRunner;
 import at.htl.helpr.taskform.FormPresenter;
 import at.htl.helpr.taskform.FormView;
 import javafx.application.Application;
@@ -13,7 +14,9 @@ import java.awt.print.Book;
 public class App extends Application {
 
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(Stage stage) {
+
+        SqlRunner.createIfNotExists();
 
         var view = new FormView();
         var presenter = new FormPresenter(new Task(), view);
