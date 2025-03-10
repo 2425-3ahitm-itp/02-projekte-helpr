@@ -21,10 +21,9 @@ authors:
 
 ## Ort und Zeit
 
-|         | Ort     |
-|---------|---------|
-| von-bis | 4. EH   |
-| Dauer   | 50 min. |
+| Ort    | von-bis | dauer   |
+|--------|---------|---------|
+| Schule | 4. EH   | 50 min. |
 
 ## Besprochene Themen
 
