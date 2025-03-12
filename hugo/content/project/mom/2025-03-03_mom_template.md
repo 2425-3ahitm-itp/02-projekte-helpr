@@ -11,11 +11,11 @@ authors:
 
 | anwesend             | Verteiler |
 |----------------------|-----------|
-| Vorname Nachname     | |
-| A. Anton (teilweise) | A. Anton |
-| B. Berta             | B. Berta |
-| C. Cäsar             | C. Cäsar |
-|                      | D. Dora |
+| Vorname Nachname     |           |
+| A. Anton (teilweise) | A. Anton  |
+| B. Berta             | B. Berta  |
+| C. Cäsar             | C. Cäsar  |
+|                      | D. Dora   |
 
 ## Ort und Zeit
 

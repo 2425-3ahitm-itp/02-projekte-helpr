@@ -7,6 +7,9 @@
 ## Latest Release
 {{< latest-release >}}
 
+## Current Agreement
+{{< article link="project/mom/2025-03-10_agreement_wireframes/" >}}
+
 ## Other
 
 {{< article link="project/projectassignment/" >}}
