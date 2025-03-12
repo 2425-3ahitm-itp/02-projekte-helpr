@@ -10,20 +10,24 @@ lastmod: 2025-03-03
 
 ## Prerequisites
 
-- hugo
-
+- hugo or docker
 
 ## developing
 
 ```shell
+cd hugo
 hugo server
 ```
 
-> [!NOTE] Hugo runs on localhost:1313
-> hugo server will automatically reload the page when you save a file
-
-> [!info]
-> Here's a callout block.
+Or if hugo isn't installed:
 
 
+```shell
+./hugo-docker.sh server
+```
+
+
+> [!INFO] Hugo runs on localhost:1313
+> hugo server will automatically reload the page when you save a file.\
+> Hugo server with docker will not refresh automatically
 
