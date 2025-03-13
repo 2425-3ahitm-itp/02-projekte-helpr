@@ -23,8 +23,16 @@ main:
     pageRef: releases
     weight: 30
 
-  - pre: github
+  - identifier: github
+    pre: github
     url: https://github.com/2425-3ahitm-itp/02-projekte-helpr
+    weight: 40
+
+  - identifier: youtrack
+    pre: youtrack
+    url: https://vm81.htl-leonding.ac.at/projects/e45f44b7-2834-4957-85e7-bd988524b629
+    weight: 50
+
 #   - name: Blog
 #     pageRef: posts
 #     weight: 10

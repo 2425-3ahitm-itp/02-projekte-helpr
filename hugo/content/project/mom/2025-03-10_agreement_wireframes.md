@@ -2,7 +2,6 @@
 title: Wireframes 2025-03-10
 description: drawing wireframes
 tags: [mom, agreement]
-author: Klemens
 date: 2025-03-10
 authors:
   - jakob
@@ -11,13 +10,13 @@ authors:
 
 ## Teilnehmende
 
-| anwesend                  | Verteiler      |
-|---------------------------|----------------|
-| Jakob Huemer-Fistelberger | J.H.F          |
-| Thomas Stütz              | T. Stütz       |
-| Miriam Gnadlinger         | M. Gnadlinger  |
-| Simone Sperrer            | S. Sperrer     |
-| Marlies Winklbauer        | M. Winkelbauer |
+| anwesend     |
+|--------------|
+| Jakob        |
+| Thomas Stütz |
+| Miriam       |
+| Simone       |
+| Marlies      |
 
 ## Ort und Zeit
 
