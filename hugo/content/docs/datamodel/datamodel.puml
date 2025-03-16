@@ -1,0 +1,39 @@
+@startuml
+
+
+entity u_user {
+    + user_id : bigint <<PK>>
+    --
+    username : varchar(50)
+    email : varchar(200)
+    password : char(100)
+    profile_picture : bytea
+}
+
+entity task {
+    task_id : bigint <<PK>>
+    --
+    author_id : bigint <<FK>>
+    title : varchar(200)
+    description : varchar(4096)
+    reward : smallint
+    effort : smallint
+    location : varchar(100)
+    created_at : timestamp <<generated>>
+}
+
+
+entity application {
+  - user_id : bigint <<FK>>
+  - task_id : bigint <<FK>>
+  --
+  created_at : timestamp <<generated>>
+}
+
+u_user ||--o{ task : "author"
+
+task ||--o{ application : "applies"
+application }o--|| u_user : "applies to"
+
+
+@enduml
