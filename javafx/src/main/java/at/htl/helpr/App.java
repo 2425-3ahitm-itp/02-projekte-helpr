@@ -1,5 +1,7 @@
 package at.htl.helpr;
 
+import at.htl.helpr.homeform.HomeFormPresenter;
+import at.htl.helpr.homeform.HomeFormView;
 import at.htl.helpr.taskform.model.Task;
 import at.htl.helpr.sql.SqlRunner;
 import at.htl.helpr.taskform.TaskFormPresenter;
@@ -15,10 +17,10 @@ public class App extends Application {
 
         SqlRunner.runSchema();
 
-        var view = new TaskFormView();
-        var presenter = new TaskFormPresenter(new Task(), view);
+        var view = new HomeFormView();
+        var presenter = new HomeFormPresenter(view);
 
-        var scene = new Scene(view, 600, 400);
+        var scene = new Scene(view, 750, 450);
 
         stage.setTitle("Helpr");
         stage.setScene(scene);
