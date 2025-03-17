@@ -1,20 +1,16 @@
 package at.htl.helpr.taskform.repository;
 
 import at.htl.helpr.sql.SqlRunner;
-import at.htl.helpr.taskform.repository.TaskRepository;
 import at.htl.helpr.taskform.model.Task;
-import at.htl.helpr.taskform.repository.TaskRepositoryImpl;
 import io.quarkus.test.junit.QuarkusTest;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
 
 @QuarkusTest
+@TestMethodOrder( MethodOrderer.OrderAnnotation.class )
 class TaskRepositoryTest {
 
     private final TaskRepository repository = new TaskRepositoryImpl();
@@ -26,6 +22,7 @@ class TaskRepositoryTest {
     }
 
     @Test
+    @Order( 1000 )
     void create() {
         Task task = new Task();
         task.setAuthorId( 1L );
@@ -50,6 +47,7 @@ class TaskRepositoryTest {
     }
 
     @Test
+    @Order( 1010 )
     void update() {
         Task task = new Task();
         task.setAuthorId( 2L );
@@ -79,6 +77,7 @@ class TaskRepositoryTest {
     }
 
     @Test
+    @Order( 1020 )
     void delete() {
         Task task = new Task();
         task.setAuthorId( 3L );
@@ -98,6 +97,7 @@ class TaskRepositoryTest {
     }
 
     @Test
+    @Order( 1030 )
     void findAll() {
 
         // Clear existing tasks first
@@ -131,6 +131,7 @@ class TaskRepositoryTest {
     }
 
     @Test
+    @Order( 1040 )
     void findAllAndDelete() {
 
         // Clear existing tasks first
@@ -172,6 +173,7 @@ class TaskRepositoryTest {
     }
 
     @Test
+    @Order( 1050 )
     void findById() {
         Task task = new Task();
         task.setAuthorId( 4L );
@@ -196,35 +198,37 @@ class TaskRepositoryTest {
     }
 
     @Test
+    @Order( 1080 )
     void getTaskBySearchQuery() {
         // Clear existing tasks first
         List<Task> existingTasks = repository.findAll();
-        for (Task t : existingTasks) {
-            repository.delete(t.getId());
+        for ( Task t : existingTasks ) {
+            repository.delete( t.getId() );
         }
 
         Task task1 = new Task();
-        task1.setAuthorId(1L);
-        task1.setTitle("Shopping Task");
-        task1.setDescription("Buy groceries");
-        task1.setReward(10);
-        task1.setEffort(2);
-        task1.setLocation("Supermarket");
-        repository.create(task1);
+        task1.setAuthorId( 1L );
+        task1.setTitle( "Shopping Task" );
+        task1.setDescription( "Buy groceries" );
+        task1.setReward( 10 );
+        task1.setEffort( 2 );
+        task1.setLocation( "Supermarket" );
+        repository.create( task1 );
 
         Task task2 = new Task();
-        task2.setAuthorId(2L);
-        task2.setTitle("Cleaning Task");
-        task2.setDescription("Clean the house");
-        task2.setReward(20);
-        task2.setEffort(3);
-        task2.setLocation("Home");
-        repository.create(task2);
+        task2.setAuthorId( 2L );
+        task2.setTitle( "Cleaning Task" );
+        task2.setDescription( "Clean the house" );
+        task2.setReward( 20 );
+        task2.setEffort( 3 );
+        task2.setLocation( "Home" );
+        repository.create( task2 );
 
-//        List<Task> tasks = repository.getTaskBySearchQuery("shopping");
-//        assertThat(tasks).isNotNull();
-//        assertThat(tasks).hasSize(1);
-//        assertThat(tasks.getFirst().getTitle()).isEqualTo("Shopping Task");
+        List<Task> tasks = repository.getTaskBySearchQueryAndLimit( "shopping", 1 );
+
+        assertThat( tasks ).isNotNull();
+        assertThat( tasks ).hasSize( 1 );
+        assertThat( tasks.getFirst().getTitle() ).isEqualTo( "Shopping Task" );
     }
 
 }
