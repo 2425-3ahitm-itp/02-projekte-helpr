@@ -2,7 +2,7 @@
 
 
 entity u_user {
-    + user_id : bigint <<PK>>
+    user_id : bigint <<PK>>
     --
     username : varchar(50)
     email : varchar(200)
@@ -19,15 +19,15 @@ entity task {
     reward : smallint
     effort : smallint
     location : varchar(100)
-    created_at : timestamp <<generated>>
+    created_at : timestamp <<default: now()>>
 }
 
 
 entity application {
-  - user_id : bigint <<FK>>
-  - task_id : bigint <<FK>>
+  user_id : bigint <<FK>>
+  task_id : bigint <<FK>>
   --
-  created_at : timestamp <<generated>>
+  created_at : timestamp <<default: now()>>
 }
 
 u_user ||--o{ task : "author"
