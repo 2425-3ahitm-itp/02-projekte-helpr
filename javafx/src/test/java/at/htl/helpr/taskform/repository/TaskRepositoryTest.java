@@ -1,4 +1,4 @@
-package at.htl.helpr.controller;
+package at.htl.helpr.taskform.repository;
 
 import at.htl.helpr.sql.SqlRunner;
 import at.htl.helpr.taskform.repository.TaskRepository;
