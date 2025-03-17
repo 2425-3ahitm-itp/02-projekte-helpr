@@ -6,17 +6,14 @@ import at.htl.helpr.taskform.FormPresenter;
 import at.htl.helpr.taskform.FormView;
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import java.awt.print.Book;
 
 public class App extends Application {
 
     @Override
     public void start(Stage stage) {
 
-        SqlRunner.createIfNotExists();
+        SqlRunner.runSchema();
 
         var view = new FormView();
         var presenter = new FormPresenter(new Task(), view);

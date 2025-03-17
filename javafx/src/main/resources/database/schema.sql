@@ -1,11 +1,72 @@
-create table "task" (
-    "id" BIGSERIAL not null primary key,
-    "title" VARCHAR(100) not null,
-    "description" VARCHAR(3000) not null,
-    "status" INTEGER not null,
-    "location" POINT not null,
-    "estimated_effort" INTEGER not null,
-    "created_at" TIMESTAMP default now() not null
+-- Database generated with pgModeler (PostgreSQL Database Modeler).
+-- pgModeler version: 1.1.6
+-- PostgreSQL version: 17.0
+-- Project Site: pgmodeler.io
+-- Model Author: ---
+
+
+-- object: public.u_user | type: TABLE --
+DROP TABLE IF EXISTS public.u_user CASCADE;
+CREATE TABLE public.u_user (
+	user_id bigint NOT NULL GENERATED ALWAYS AS IDENTITY ,
+	username varchar(50) NOT NULL,
+	email varchar(200) NOT NULL,
+	password char(100) NOT NULL,
+	profile_picture bytea,
+	CONSTRAINT u_user_pk PRIMARY KEY (user_id)
 );
-comment on table "task" is 'null';
+-- ddl-end --
+ALTER TABLE public.u_user OWNER TO helpr;
+-- ddl-end --
+
+-- object: public.task | type: TABLE --
+DROP TABLE IF EXISTS public.task CASCADE;
+CREATE TABLE public.task (
+	task_id bigint NOT NULL GENERATED ALWAYS AS IDENTITY ,
+	author_id bigint NOT NULL,
+	title varchar(200) NOT NULL,
+	description varchar(4096) NOT NULL,
+	reward smallint NOT NULL,
+	effort smallint NOT NULL,
+	location varchar(100) NOT NULL,
+	created_at timestamp DEFAULT now(),
+	CONSTRAINT task_pk PRIMARY KEY (task_id)
+);
+-- ddl-end --
+ALTER TABLE public.task OWNER TO helpr;
+-- ddl-end --
+
+-- object: author_u_user_fk | type: CONSTRAINT --
+ALTER TABLE public.task DROP CONSTRAINT IF EXISTS author_u_user_fk CASCADE;
+ALTER TABLE public.task ADD CONSTRAINT author_u_user_fk FOREIGN KEY (author_id)
+REFERENCES public.u_user (user_id) MATCH FULL
+ON DELETE RESTRICT ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: public.application | type: TABLE --
+DROP TABLE IF EXISTS public.application CASCADE;
+CREATE TABLE public.application (
+	user_id bigint,
+	task_id bigint,
+	created_at timestamp DEFAULT now()
+
+);
+-- ddl-end --
+ALTER TABLE public.application OWNER TO helpr;
+-- ddl-end --
+
+-- object: u_user_fk | type: CONSTRAINT --
+ALTER TABLE public.application DROP CONSTRAINT IF EXISTS u_user_fk CASCADE;
+ALTER TABLE public.application ADD CONSTRAINT u_user_fk FOREIGN KEY (user_id)
+REFERENCES public.u_user (user_id) MATCH FULL
+ON DELETE CASCADE ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: task_fk | type: CONSTRAINT --
+ALTER TABLE public.application DROP CONSTRAINT IF EXISTS task_fk CASCADE;
+ALTER TABLE public.application ADD CONSTRAINT task_fk FOREIGN KEY (task_id)
+REFERENCES public.task (task_id) MATCH FULL
+ON DELETE SET NULL ON UPDATE CASCADE;
+-- ddl-end --
+
 

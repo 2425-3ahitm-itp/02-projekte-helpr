@@ -16,8 +16,8 @@ public class Database {
     ).getPath();
 
 
-    static final String USERNAME = "app";
-    static final String PASSWORD = "app";
+    static final String USERNAME = "helpr";
+    static final String PASSWORD = "123";
     public static final String URL = "jdbc:postgresql://localhost:5432/helpr";
 
     /**
@@ -34,8 +34,8 @@ public class Database {
         try (FileInputStream in = new FileInputStream(appConfigPath)) {
             dbProperties.load(in);
 
-            dbProperties.setProperty("user", "app");
-            dbProperties.setProperty("password", "app");
+            dbProperties.setProperty("user", "helpr");
+            dbProperties.setProperty("password", "123");
 
             return DriverManager.getConnection(dbProperties.getProperty("url"), dbProperties);
         } catch (IOException e) {

@@ -2,17 +2,11 @@ package at.htl.helpr.sql;
 
 import at.htl.helpr.controller.Database;
 import org.apache.ibatis.jdbc.ScriptRunner;
-import javax.sql.DataSource;
-import javax.xml.crypto.Data;
 import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOException;
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.Objects;
-import java.util.Properties;
 
 public class SqlRunner {
 
@@ -20,8 +14,13 @@ public class SqlRunner {
             SqlRunner.class.getResource("/database/schema.sql")
     ).getPath();
 
-    public static void main(String[] args) {
+    private static final String INSERTS_FILE_PATH = Objects.requireNonNull(
+            SqlRunner.class.getResource("/database/insert.sql")
+    ).getPath();
 
+    public static void main(String[] args) {
+        runSchema();
+        runInserts();
     }
 
     private static void runScript( String filePath ) {
@@ -42,7 +41,11 @@ public class SqlRunner {
 
     }
 
-    public static void createIfNotExists() {
+    public static void runSchema() {
         runScript(SCHEMA_FILE_PATH);
+    }
+
+    public static void runInserts() {
+        runScript(INSERTS_FILE_PATH);
     }
 }

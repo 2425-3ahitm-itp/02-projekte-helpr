@@ -4,6 +4,6 @@
 <data-source source="LOCAL" name="helpr@localhost">
 <driver-ref>postgresql</driver-ref>
 <jdbc-url>jdbc:postgresql://localhost:5432/helpr</jdbc-url>
-<user-name>app</user-name>
+<user-name>helpr</user-name>
 </data-source>
 #END#
