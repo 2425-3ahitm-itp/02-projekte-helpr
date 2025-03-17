@@ -3,13 +3,14 @@ package at.htl.helpr.taskform.repository;
 import at.htl.helpr.controller.Database;
 import at.htl.helpr.taskform.model.Task;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 public class TaskRepositoryImpl implements TaskRepository {
 
     @Override
-    public void create(Task task, long authorID) {
+    public void create(Task task) {
         String sql = """
                 INSERT INTO task (author_id, title, description, reward, effort, location)
                 VALUES (?,?,?,?,?,?)
@@ -20,7 +21,7 @@ public class TaskRepositoryImpl implements TaskRepository {
                 PreparedStatement statement = conn.prepareStatement(sql,
                         Statement.RETURN_GENERATED_KEYS)) {
 
-            statement.setLong(1, authorID);
+            statement.setLong(1, task.getAuthorId());
             statement.setString(2, task.getTitle());
             statement.setString(3, task.getDescription());
             statement.setInt(4, task.getReward());
@@ -155,4 +156,63 @@ public class TaskRepositoryImpl implements TaskRepository {
         }
         return null;
     }
+
+    @Override
+    public List<Task> findAllTasksByUser(long userId) {
+        List<Task> taskList = new LinkedList<>();
+
+        String sql = """
+                SELECT * FROM task
+                WHERE author_id = ?
+                """;
+
+        return getTasksWithSqlAndUserID(userId, sql);
+    }
+
+
+    @Override
+    public List<Task> findAllTasksAppliedByUser(long userId) {
+
+        String sql = """
+                SELECT *
+                FROM application
+                LEFT JOIN task USING (task_id)
+                WHERE application.user_id = ?;
+                """;
+
+        return getTasksWithSqlAndUserID(userId, sql);
+    }
+
+
+    private List<Task> getTasksWithSqlAndUserID(long userId, String sql) {
+        List<Task> taskList = new ArrayList<>();
+        try (Connection connection = Database.getConnection();
+                PreparedStatement stmt = connection.prepareStatement(sql);
+        ) {
+
+            stmt.setLong(1, userId);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    Task task = new Task(
+                            rs.getLong("task_id"),
+                            rs.getLong("author_id"),
+                            rs.getString("title"),
+                            rs.getString("description"),
+                            rs.getInt("reward"),
+                            rs.getInt("effort"),
+                            rs.getString("location"),
+                            rs.getTimestamp("created_at").toLocalDateTime()
+                    );
+                    taskList.add(task);
+                }
+            }
+            return taskList;
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Error while invoking findAllTasksByUser() of tasks: " + e.getMessage(),
+                    e);
+        }
+    }
+
 }

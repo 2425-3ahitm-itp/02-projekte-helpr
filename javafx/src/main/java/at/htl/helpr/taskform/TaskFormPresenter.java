@@ -35,7 +35,7 @@ public class TaskFormPresenter {
         Task newTask = new Task(model);
 
         if (validateData()) {
-            repository.create(newTask, 0);
+            repository.create(newTask);
         }
 
     }
