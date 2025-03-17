@@ -1,9 +1,5 @@
 package at.htl.helpr.taskform;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -15,7 +11,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-public class FormView extends VBox {
+public class TaskFormView extends VBox {
 
     private final Label titleErrorLabel = new Label();
     private final TextField titleField = new TextField();
@@ -26,7 +22,7 @@ public class FormView extends VBox {
 
     private final static String ERROR_PREFIX = "-";
 
-    public FormView() {
+    public TaskFormView() {
 
         estimatedEffortSpinner.setValueFactory(
                 new IntegerSpinnerValueFactory(1, 10, 1, 1)

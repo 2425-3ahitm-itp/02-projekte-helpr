@@ -2,8 +2,8 @@ package at.htl.helpr;
 
 import at.htl.helpr.model.Task;
 import at.htl.helpr.sql.SqlRunner;
-import at.htl.helpr.taskform.FormPresenter;
-import at.htl.helpr.taskform.FormView;
+import at.htl.helpr.taskform.TaskFormPresenter;
+import at.htl.helpr.taskform.TaskFormView;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -15,8 +15,8 @@ public class App extends Application {
 
         SqlRunner.runSchema();
 
-        var view = new FormView();
-        var presenter = new FormPresenter(new Task(), view);
+        var view = new TaskFormView();
+        var presenter = new TaskFormPresenter(new Task(), view);
 
         var scene = new Scene(view, 600, 400);
 

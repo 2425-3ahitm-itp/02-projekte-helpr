@@ -2,18 +2,16 @@ package at.htl.helpr.taskform;
 
 import at.htl.helpr.controller.TaskRepository;
 import at.htl.helpr.model.Task;
-import javafx.util.converter.NumberStringConverter;
-import java.text.NumberFormat;
 
-public class FormPresenter {
+public class TaskFormPresenter {
 
-    private FormView view;
+    private TaskFormView view;
     private Task model;
 
     private final TaskRepository repository = new TaskRepository();
 
 
-    public FormPresenter(Task model, FormView view) {
+    public TaskFormPresenter( Task model, TaskFormView view) {
         this.model = model;
         this.view = view;
 
