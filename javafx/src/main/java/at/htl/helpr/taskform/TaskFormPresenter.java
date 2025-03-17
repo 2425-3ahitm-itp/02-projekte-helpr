@@ -28,14 +28,14 @@ public class TaskFormPresenter {
         view.getTitleField().textProperty().bindBidirectional(model.titleProperty());
         view.getDescriptionArea().textProperty().bindBidirectional(model.descriptionProperty());
         view.getEstimatedEffortSpinner().getValueFactory().valueProperty()
-                .bindBidirectional(model.estimatedEffortProperty().asObject());
+                .bindBidirectional(model.effortProperty().asObject());
     }
 
     private void saveTask() {
         Task newTask = new Task(model);
 
         if (validateData()) {
-            repository.create(newTask);
+            repository.create(newTask, 0);
         }
 
     }

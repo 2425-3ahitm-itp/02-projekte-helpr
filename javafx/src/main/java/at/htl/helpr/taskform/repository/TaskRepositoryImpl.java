@@ -2,40 +2,30 @@ package at.htl.helpr.taskform.repository;
 
 import at.htl.helpr.controller.Database;
 import at.htl.helpr.taskform.model.Task;
-import at.htl.helpr.taskform.model.TaskStatus;
-import org.postgresql.geometric.PGpoint;
 import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
 
 public class TaskRepositoryImpl implements TaskRepository {
 
-
     @Override
-    public void create(Task task) {
+    public void create(Task task, long authorID) {
         String sql = """
-                INSERT INTO task (
-                    title,
-                    description,
-                    status,
-                    location,
-                    estimated_effort
-                ) VALUES (?, ?, ?, ?, ?)
+                INSERT INTO task (author_id, title, description, reward, effort, location)
+                VALUES (?,?,?,?,?,?)
                 """;
 
         try (
                 Connection conn = Database.getConnection();
                 PreparedStatement statement = conn.prepareStatement(sql,
-                        Statement.RETURN_GENERATED_KEYS);) {
+                        Statement.RETURN_GENERATED_KEYS)) {
 
-            statement.setString(1, task.getTitle());
-            statement.setString(2, task.getDescription());
-            statement.setInt(3, task.getStatus().ordinal());
-            statement.setObject(4, task.getLocation());
-            statement.setInt(5, task.getEstimatedEffort());
-
-            // log statement
-            System.out.println(statement.getMetaData());
+            statement.setLong(1, authorID);
+            statement.setString(2, task.getTitle());
+            statement.setString(3, task.getDescription());
+            statement.setInt(4, task.getReward());
+            statement.setInt(5, task.getEffort());
+            statement.setString(6, task.getLocation());
 
             if (statement.executeUpdate() == 0) {
                 throw new SQLException("No task created");
@@ -43,7 +33,7 @@ public class TaskRepositoryImpl implements TaskRepository {
 
             try (ResultSet keys = statement.getGeneratedKeys()) {
                 if (keys.next()) {
-                    task.idProperty().setValue(keys.getLong(1));
+                    task.setId(keys.getLong(1));
                 } else {
                     throw new SQLException(
                             String.format("Insert into TASK failed, no ID obtained for %s",
@@ -54,16 +44,13 @@ public class TaskRepositoryImpl implements TaskRepository {
         } catch (SQLException e) {
             throw new RuntimeException("Error while creating task: " + e.getMessage(), e);
         }
-
     }
-
 
     @Override
     public void update(Task task) {
-
         String sql = """
-                UPDATE task SET title=?,description=?,status=?,estimated_effort=?
-                    WHERE id=?
+                UPDATE task SET title=?, description=?, reward=?, effort=?, location=?
+                WHERE task_id=?
                 """;
 
         try (Connection conn = Database.getConnection();
@@ -71,9 +58,10 @@ public class TaskRepositoryImpl implements TaskRepository {
         ) {
             statement.setString(1, task.getTitle());
             statement.setString(2, task.getDescription());
-            statement.setInt(3, task.getStatus().ordinal());
-            statement.setInt(4, task.getEstimatedEffort());
-            statement.setLong(5, task.getId());
+            statement.setInt(3, task.getReward());
+            statement.setInt(4, task.getEffort());
+            statement.setString(5, task.getLocation());
+            statement.setLong(6, task.getId());
 
             if (statement.executeUpdate() == 0) {
                 throw new SQLException(String.format("Update of TASK %s failed, no rows affected",
@@ -85,13 +73,11 @@ public class TaskRepositoryImpl implements TaskRepository {
         }
     }
 
-
     @Override
     public void delete(long id) {
-
-        String sql = """    
+        String sql = """
                 DELETE FROM task
-                    WHERE id=?
+                WHERE task_id=?
                 """;
 
         try (Connection connection = Database.getConnection();
@@ -109,10 +95,8 @@ public class TaskRepositoryImpl implements TaskRepository {
         }
     }
 
-
     @Override
     public List<Task> findAll() {
-
         List<Task> taskList = new LinkedList<>();
 
         String sql = """
@@ -123,18 +107,18 @@ public class TaskRepositoryImpl implements TaskRepository {
                 PreparedStatement stmt = connection.prepareStatement(sql);
                 ResultSet rs = stmt.executeQuery()
         ) {
-
             while (rs.next()) {
-                var point = rs.getObject("location", PGpoint.class);
-                Task contact = new Task(
-                        rs.getLong("id"),
-                        TaskStatus.fromInt(rs.getInt("status")),
-                        rs.getObject("location", PGpoint.class),
-                        rs.getInt("estimated_effort"),
+                Task task = new Task(
+                        rs.getLong("task_id"),
+                        rs.getLong("author_id"),
                         rs.getString("title"),
-                        rs.getString("description")
+                        rs.getString("description"),
+                        rs.getInt("reward"),
+                        rs.getInt("effort"),
+                        rs.getString("location"),
+                        rs.getTimestamp("created_at").toLocalDateTime()
                 );
-                taskList.add(contact);
+                taskList.add(task);
             }
             return taskList;
 
@@ -144,10 +128,9 @@ public class TaskRepositoryImpl implements TaskRepository {
         }
     }
 
-
     @Override
     public Task findById(long id) {
-        String sql = "SELECT * FROM task WHERE id=?";
+        String sql = "SELECT * FROM task WHERE task_id=?";
 
         try (Connection conn = Database.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql)
@@ -155,14 +138,15 @@ public class TaskRepositoryImpl implements TaskRepository {
             stmt.setLong(1, id);
             try (ResultSet result = stmt.executeQuery()) {
                 if (result.next()) {
-                    var point = result.getObject("location", PGpoint.class);
                     return new Task(
-                            result.getLong("id"),
-                            TaskStatus.fromInt(result.getInt("status")),
-                            result.getObject("location", PGpoint.class),
-                            result.getInt("estimated_effort"),
+                            result.getLong("task_id"),
+                            result.getLong("author_id"),
                             result.getString("title"),
-                            result.getString("description")
+                            result.getString("description"),
+                            result.getInt("reward"),
+                            result.getInt("effort"),
+                            result.getString("location"),
+                            result.getTimestamp("created_at").toLocalDateTime()
                     );
                 }
             }

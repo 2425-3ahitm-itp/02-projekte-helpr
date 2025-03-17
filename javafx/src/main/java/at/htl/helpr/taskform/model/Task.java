@@ -1,59 +1,62 @@
 package at.htl.helpr.taskform.model;
 
 import javafx.beans.property.*;
-import org.postgresql.geometric.PGpoint;
 
-import java.sql.Timestamp;
-import java.time.Instant;
+import java.time.LocalDateTime;
 
 
 public class Task {
 
     private final LongProperty id = new SimpleLongProperty();
-    private final ObjectProperty<TaskStatus> status = new SimpleObjectProperty<>();
-    private final ObjectProperty<PGpoint> location = new SimpleObjectProperty<>();
-    private final IntegerProperty estimatedEffort = new SimpleIntegerProperty();
+    private final LongProperty authorId = new SimpleLongProperty();
     private final StringProperty title = new SimpleStringProperty();
     private final StringProperty description = new SimpleStringProperty();
-    private final ObjectProperty<Timestamp> createdAt = new SimpleObjectProperty<>();
+    private final IntegerProperty reward = new SimpleIntegerProperty();
+    private final IntegerProperty effort = new SimpleIntegerProperty();
+    private final StringProperty location = new SimpleStringProperty();
+    private final ObjectProperty<LocalDateTime> createdAt = new SimpleObjectProperty<>();
 
     //Constructor
+
+
     public Task() {
-        this.setEstimatedEffort(1);
-        this.setLocation(new PGpoint(0, 0));
-        this.setStatus(TaskStatus.OPEN);
-        this.createdAt.set(Timestamp.from(Instant.now()));
     }
 
-    public Task(Long id, TaskStatus status, PGpoint location, int estimated_effort, String titel,
-            String description) {
-        this(status, location, estimated_effort, titel, description);
+    public Task(
+            long id,
+            long authorId,
+            String title,
+            String description,
+            int reward,
+            int effort,
+            String location,
+            LocalDateTime createdAt
+    ) {
         this.id.set(id);
-    }
-
-    public Task(TaskStatus status, PGpoint location, int estimated_effort, String titel,
-            String description) {
-        this();
-        this.status.set(status);
-        this.location.set(location);
-        this.estimatedEffort.set(estimated_effort);
-        this.title.set(titel);
+        this.authorId.set(authorId);
+        this.title.set(title);
         this.description.set(description);
+        this.reward.set(reward);
+        this.effort.set(effort);
+        this.location.set(location);
+        this.createdAt.set(createdAt);
     }
-
 
     //Copy-Constructor
-    public Task(Task toCopy) {
-        this.id.set(toCopy.getId());
-        this.status.set(toCopy.getStatus());
-        this.location.set(toCopy.getLocation());
-        this.estimatedEffort.set(toCopy.getEstimatedEffort());
-        this.title.set(toCopy.getTitle());
-        this.description.set(toCopy.getDescription());
-        this.createdAt.set(toCopy.getCreatedAt());
+
+    public Task(Task task) {
+        this.id.set(task.getId());
+        this.authorId.set(task.getAuthorId());
+        this.title.set(task.getTitle());
+        this.description.set(task.getDescription());
+        this.reward.set(task.getReward());
+        this.effort.set(task.getEffort());
+        this.location.set(task.getLocation());
+        this.createdAt.set(task.getCreatedAt());
     }
 
-    //Getter
+    // region getter and setter
+
     public long getId() {
         return id.get();
     }
@@ -62,31 +65,23 @@ public class Task {
         return id;
     }
 
-    public TaskStatus getStatus() {
-        return status.get();
+    public void setId(long id) {
+        this.id.set(id);
     }
 
-    public ObjectProperty<TaskStatus> statusProperty() {
-        return status;
+    public long getAuthorId() {
+        return authorId.get();
     }
 
-    public PGpoint getLocation() {
-        return location.get();
+    public LongProperty authorIdProperty() {
+        return authorId;
     }
 
-    public ObjectProperty<PGpoint> locationProperty() {
-        return location;
+    public void setAuthorId(long authorId) {
+        this.authorId.set(authorId);
     }
 
-    public int getEstimatedEffort() {
-        return estimatedEffort.get();
-    }
-
-    public IntegerProperty estimatedEffortProperty() {
-        return estimatedEffort;
-    }
-
-    public String getTitle() {
+    public java.lang.String getTitle() {
         return title.get();
     }
 
@@ -94,7 +89,11 @@ public class Task {
         return title;
     }
 
-    public String getDescription() {
+    public void setTitle(java.lang.String title) {
+        this.title.set(title);
+    }
+
+    public java.lang.String getDescription() {
         return description.get();
     }
 
@@ -102,46 +101,72 @@ public class Task {
         return description;
     }
 
-    public Timestamp getCreatedAt() {
-        return createdAt.get();
-    }
-
-    public ObjectProperty<Timestamp> createdAtProperty() {
-        return createdAt;
-    }
-
-    public void setId(long id) {
-        this.id.set(id);
-    }
-
-    public void setStatus(TaskStatus status) {
-        this.status.set(status);
-    }
-
-    public void setLocation(PGpoint location) {
-        this.location.set(location);
-    }
-
-    public void setEstimatedEffort(int estimatedEffort) {
-        this.estimatedEffort.set(estimatedEffort);
-    }
-
-    public void setTitle(String title) {
-        this.title.set(title);
-    }
-
-    public void setDescription(String description) {
+    public void setDescription(java.lang.String description) {
         this.description.set(description);
     }
 
-    public void setCreatedAt(Timestamp createdAt) {
+    public int getReward() {
+        return reward.get();
+    }
+
+    public IntegerProperty rewardProperty() {
+        return reward;
+    }
+
+    public void setReward(int reward) {
+        this.reward.set(reward);
+    }
+
+    public int getEffort() {
+        return effort.get();
+    }
+
+    public IntegerProperty effortProperty() {
+        return effort;
+    }
+
+    public void setEffort(int effort) {
+        this.effort.set(effort);
+    }
+
+    public java.lang.String getLocation() {
+        return location.get();
+    }
+
+    public StringProperty locationProperty() {
+        return location;
+    }
+
+    public void setLocation(java.lang.String location) {
+        this.location.set(location);
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt.get();
+    }
+
+    public ObjectProperty<LocalDateTime> createdAtProperty() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt.set(createdAt);
     }
 
-    //to-String
+    // endregion
+
 
     @Override
-    public String toString() {
-        return getId() + " | " + getTitle() + "; " + getStatus() + "; " + getEstimatedEffort();
+    public java.lang.String toString() {
+        return "Task{" +
+                "id=" + id +
+                ", authorId=" + authorId +
+                ", title=" + title +
+                ", description=" + description +
+                ", reward=" + reward +
+                ", effort=" + effort +
+                ", location=" + location +
+                ", createdAt=" + createdAt +
+                '}';
     }
 }
