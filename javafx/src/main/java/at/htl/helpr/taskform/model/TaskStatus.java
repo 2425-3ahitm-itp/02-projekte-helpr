@@ -1,6 +1,4 @@
-package at.htl.helpr.model;
-
-import java.util.Arrays;
+package at.htl.helpr.taskform.model;
 
 public enum TaskStatus {
     OPEN,

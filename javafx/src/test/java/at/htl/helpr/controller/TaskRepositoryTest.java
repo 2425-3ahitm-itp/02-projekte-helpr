@@ -1,6 +1,8 @@
 package at.htl.helpr.controller;
 
-import at.htl.helpr.model.TaskStatus;
+import at.htl.helpr.taskform.repository.TaskRepository;
+import at.htl.helpr.taskform.model.TaskStatus;
+import at.htl.helpr.taskform.repository.TaskRepositoryImpl;
 import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,7 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
-import at.htl.helpr.model.Task;
+import at.htl.helpr.taskform.model.Task;
 import org.postgresql.geometric.PGpoint;
 
 import static org.assertj.core.api.Assertions.*;
@@ -48,7 +50,7 @@ class TaskRepositoryTest {
 
     @Test
     void create() {
-        TaskRepository repository = new TaskRepository();
+        TaskRepository repository = new TaskRepositoryImpl();
         Task task = new Task();
         task.setTitle( "Test Task" );
         task.setDescription( "This is a test task" );
@@ -71,7 +73,7 @@ class TaskRepositoryTest {
 
     @Test
     void update() {
-        TaskRepository repository = new TaskRepository();
+        TaskRepository repository = new TaskRepositoryImpl();
         Task task = new Task();
         task.setTitle( "Initial Task" );
         task.setDescription( "This is the initial task" );
@@ -98,7 +100,7 @@ class TaskRepositoryTest {
 
     @Test
     void delete() {
-        TaskRepository repository = new TaskRepository();
+        TaskRepository repository = new TaskRepositoryImpl();
         Task task = new Task();
         task.setTitle( "Task to be deleted" );
         task.setDescription( "This task will be deleted" );
@@ -118,7 +120,7 @@ class TaskRepositoryTest {
 
     @Test
     void findAll() {
-        TaskRepository repository = new TaskRepository();
+        TaskRepository repository = new TaskRepositoryImpl();
 
         Task task1 = new Task();
         task1.setTitle( "Task 1" );
@@ -145,7 +147,7 @@ class TaskRepositoryTest {
 
     @Test
     void findAllAndDelete() {
-        TaskRepository repository = new TaskRepository();
+        TaskRepository repository = new TaskRepositoryImpl();
 
         Task task1 = new Task();
         task1.setTitle("Task 1");
@@ -179,7 +181,7 @@ class TaskRepositoryTest {
 
     @Test
     void findById() {
-        TaskRepository repository = new TaskRepository();
+        TaskRepository repository = new TaskRepositoryImpl();
         Task task = new Task();
         task.setTitle( "Find Task" );
         task.setDescription( "This task will be found by ID" );

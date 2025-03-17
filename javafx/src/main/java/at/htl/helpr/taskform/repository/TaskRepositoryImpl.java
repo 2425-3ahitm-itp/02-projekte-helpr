@@ -1,13 +1,14 @@
-package at.htl.helpr.controller;
+package at.htl.helpr.taskform.repository;
 
-import at.htl.helpr.model.Task;
-import at.htl.helpr.model.TaskStatus;
+import at.htl.helpr.controller.Database;
+import at.htl.helpr.taskform.model.Task;
+import at.htl.helpr.taskform.model.TaskStatus;
 import org.postgresql.geometric.PGpoint;
 import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
 
-public class TaskRepository implements Repository<Task> {
+public class TaskRepositoryImpl implements TaskRepository {
 
 
     @Override

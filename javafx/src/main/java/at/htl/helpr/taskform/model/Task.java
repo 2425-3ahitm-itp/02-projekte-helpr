@@ -1,4 +1,4 @@
-package at.htl.helpr.model;
+package at.htl.helpr.taskform.model;
 
 import javafx.beans.property.*;
 import org.postgresql.geometric.PGpoint;

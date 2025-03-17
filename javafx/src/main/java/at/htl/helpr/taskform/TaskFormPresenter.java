@@ -1,14 +1,15 @@
 package at.htl.helpr.taskform;
 
-import at.htl.helpr.controller.TaskRepository;
-import at.htl.helpr.model.Task;
+import at.htl.helpr.taskform.model.Task;
+import at.htl.helpr.taskform.repository.TaskRepository;
+import at.htl.helpr.taskform.repository.TaskRepositoryImpl;
 
 public class TaskFormPresenter {
 
     private TaskFormView view;
     private Task model;
 
-    private final TaskRepository repository = new TaskRepository();
+    private final TaskRepository repository = new TaskRepositoryImpl();
 
 
     public TaskFormPresenter( Task model, TaskFormView view) {
