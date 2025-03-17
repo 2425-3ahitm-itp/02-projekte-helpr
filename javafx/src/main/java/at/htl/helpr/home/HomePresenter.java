@@ -1,4 +1,4 @@
-package at.htl.helpr.homeform;
+package at.htl.helpr.home;
 
 import at.htl.helpr.taskform.model.Task;
 import javafx.geometry.Insets;

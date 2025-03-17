@@ -1,7 +1,7 @@
 package at.htl.helpr;
 
-import at.htl.helpr.homeform.HomePresenter;
-import at.htl.helpr.homeform.HomeView;
+import at.htl.helpr.home.HomePresenter;
+import at.htl.helpr.home.HomeView;
 import at.htl.helpr.sql.SqlRunner;
 import javafx.application.Application;
 import javafx.scene.Scene;

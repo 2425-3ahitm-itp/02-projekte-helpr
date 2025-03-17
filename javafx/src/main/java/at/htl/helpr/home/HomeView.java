@@ -1,4 +1,4 @@
-package at.htl.helpr.homeform;
+package at.htl.helpr.home;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
