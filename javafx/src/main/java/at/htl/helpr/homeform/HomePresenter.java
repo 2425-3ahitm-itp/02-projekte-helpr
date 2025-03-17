@@ -9,12 +9,12 @@ import javafx.scene.text.Font;
 
 import java.util.List;
 
-public class HomeFormPresenter {
+public class HomePresenter {
 
-    private final HomeFormView view;
+    private final HomeView view;
     private List<Task> taskList;
 
-    public HomeFormPresenter(HomeFormView view) {
+    public HomePresenter(HomeView view) {
         this.view = view;
         attachEvents();
     }
@@ -29,10 +29,7 @@ public class HomeFormPresenter {
     }
 
     private void updateTaskCards() {
-        updateTaskCards(taskList);
-    }
-
-    private void updateTaskCards(List<Task> tasks) {
+        List<Task> tasks = getTaskList();
         GridPane cardGrid = view.getCardGrid();
         cardGrid.getChildren().clear();
 
@@ -75,5 +72,14 @@ public class HomeFormPresenter {
 
         card.getChildren().addAll(titleLabel, locationLabel, imagePlaceholder, bottomRow);
         return card;
+    }
+
+
+    public List<Task> getTaskList() {
+        return taskList;
+    }
+
+    public HomeView getView() {
+        return view;
     }
 }

@@ -8,7 +8,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 
-public class HomeFormView extends BorderPane {
+public class HomeView extends BorderPane {
 
     private final GridPane cardGrid;
     private final Button filterButton;
@@ -18,7 +18,7 @@ public class HomeFormView extends BorderPane {
     private final Button searchButton;
     private final TextField searchField;
 
-    public HomeFormView() {
+    public HomeView() {
         setPadding(new Insets(10));
 
         // --- Sidebar (Links) ---
