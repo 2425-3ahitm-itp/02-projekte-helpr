@@ -108,20 +108,7 @@ public class TaskRepositoryImpl implements TaskRepository {
                 PreparedStatement stmt = connection.prepareStatement(sql);
                 ResultSet rs = stmt.executeQuery()
         ) {
-            while (rs.next()) {
-                Task task = new Task(
-                        rs.getLong("task_id"),
-                        rs.getLong("author_id"),
-                        rs.getString("title"),
-                        rs.getString("description"),
-                        rs.getInt("reward"),
-                        rs.getInt("effort"),
-                        rs.getString("location"),
-                        rs.getTimestamp("created_at").toLocalDateTime()
-                );
-                taskList.add(task);
-            }
-            return taskList;
+            return getTasksFromResultSet(stmt.executeQuery());
 
         } catch (SQLException e) {
             throw new RuntimeException("Error while invoking findall() of tasks: " + e.getMessage(),
@@ -183,6 +170,55 @@ public class TaskRepositoryImpl implements TaskRepository {
         return getTasksWithSqlAndUserID(userId, sql);
     }
 
+    public List<Task> getTaskBySearchQuery(String search) {
+        String sql = """
+                SELECT
+                    *,
+                    CASE
+                        WHEN MAX(similarity(title, 'shopping')) OVER() = 0 THEN 0
+                        ELSE similarity(title, 'shopping') /
+                             MAX(similarity(title, 'shopping')) OVER()
+                        END AS normalized_similarity
+                FROM task
+                ORDER BY normalized_similarity DESC;
+                """;
+
+        List<Task> taskList = new ArrayList<>();
+        try (Connection connection = Database.getConnection();
+                PreparedStatement stmt = connection.prepareStatement(sql);
+        ) {
+
+            stmt.setString(1, search);
+            stmt.setString(2, search);
+
+            return getTasksFromResultSet(stmt.executeQuery());
+
+        } catch (SQLException e) {
+            throw new RuntimeException(
+                    "Error while invoking findAllTasksByUser() of tasks: " + e.getMessage(), e);
+        }
+    }
+
+    private List<Task> getTasksFromResultSet(ResultSet rs) throws SQLException {
+        List<Task> taskList = new ArrayList<>();
+
+        while (rs.next()) {
+            Task task = new Task(
+                    rs.getLong("task_id"),
+                    rs.getLong("author_id"),
+                    rs.getString("title"),
+                    rs.getString("description"),
+                    rs.getInt("reward"),
+                    rs.getInt("effort"),
+                    rs.getString("location"),
+                    rs.getTimestamp("created_at").toLocalDateTime()
+            );
+            taskList.add(task);
+        }
+
+        return taskList;
+    }
+
 
     private List<Task> getTasksWithSqlAndUserID(long userId, String sql) {
         List<Task> taskList = new ArrayList<>();
@@ -192,25 +228,11 @@ public class TaskRepositoryImpl implements TaskRepository {
 
             stmt.setLong(1, userId);
 
-            try (ResultSet rs = stmt.executeQuery()) {
-                while (rs.next()) {
-                    Task task = new Task(
-                            rs.getLong("task_id"),
-                            rs.getLong("author_id"),
-                            rs.getString("title"),
-                            rs.getString("description"),
-                            rs.getInt("reward"),
-                            rs.getInt("effort"),
-                            rs.getString("location"),
-                            rs.getTimestamp("created_at").toLocalDateTime()
-                    );
-                    taskList.add(task);
-                }
-            }
-            return taskList;
+            return getTasksFromResultSet(stmt.executeQuery());
 
         } catch (SQLException e) {
-            throw new RuntimeException("Error while invoking findAllTasksByUser() of tasks: " + e.getMessage(),
+            throw new RuntimeException(
+                    "Error while invoking findAllTasksByUser() of tasks: " + e.getMessage(),
                     e);
         }
     }

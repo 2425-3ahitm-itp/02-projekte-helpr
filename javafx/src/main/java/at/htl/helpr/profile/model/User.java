@@ -12,11 +12,11 @@ import javafx.collections.ObservableList;
 
 public class User {
 
-    private LongProperty id = new SimpleLongProperty();
-    private StringProperty username = new SimpleStringProperty();
-    private StringProperty password = new SimpleStringProperty();
-    private StringProperty email = new SimpleStringProperty();
-    private ObjectProperty<byte[]> profilePicture = new SimpleObjectProperty<>();
+    private final LongProperty id = new SimpleLongProperty();
+    private final StringProperty username = new SimpleStringProperty();
+    private final StringProperty password = new SimpleStringProperty();
+    private final StringProperty email = new SimpleStringProperty();
+    private final ObjectProperty<byte[]> profilePicture = new SimpleObjectProperty<>();
 
 
     // region Constructors

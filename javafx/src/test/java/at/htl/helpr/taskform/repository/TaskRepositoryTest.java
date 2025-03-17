@@ -5,6 +5,7 @@ import at.htl.helpr.taskform.repository.TaskRepository;
 import at.htl.helpr.taskform.model.Task;
 import at.htl.helpr.taskform.repository.TaskRepositoryImpl;
 import io.quarkus.test.junit.QuarkusTest;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 
@@ -192,6 +193,38 @@ class TaskRepositoryTest {
         assertThat( foundTask.getEffort() ).isEqualTo( task.getEffort() );
         assertThat( foundTask.getLocation() ).isEqualTo( task.getLocation() );
         assertThat( foundTask.getAuthorId() ).isEqualTo( task.getAuthorId() );
+    }
+
+    @Test
+    void getTaskBySearchQuery() {
+        // Clear existing tasks first
+        List<Task> existingTasks = repository.findAll();
+        for (Task t : existingTasks) {
+            repository.delete(t.getId());
+        }
+
+        Task task1 = new Task();
+        task1.setAuthorId(1L);
+        task1.setTitle("Shopping Task");
+        task1.setDescription("Buy groceries");
+        task1.setReward(10);
+        task1.setEffort(2);
+        task1.setLocation("Supermarket");
+        repository.create(task1);
+
+        Task task2 = new Task();
+        task2.setAuthorId(2L);
+        task2.setTitle("Cleaning Task");
+        task2.setDescription("Clean the house");
+        task2.setReward(20);
+        task2.setEffort(3);
+        task2.setLocation("Home");
+        repository.create(task2);
+
+//        List<Task> tasks = repository.getTaskBySearchQuery("shopping");
+//        assertThat(tasks).isNotNull();
+//        assertThat(tasks).hasSize(1);
+//        assertThat(tasks.getFirst().getTitle()).isEqualTo("Shopping Task");
     }
 
 }

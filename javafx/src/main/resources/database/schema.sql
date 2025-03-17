@@ -72,3 +72,6 @@ ON DELETE CASCADE ON UPDATE CASCADE;
 -- ddl-end --
 
 
+-- extension pg_trgm
+CREATE EXTENSION pg_trgm;
+

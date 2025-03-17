@@ -12,4 +12,6 @@ public interface TaskRepository {
 
     public List<Task> findAllTasksByUser(long userId);
     public List<Task> findAllTasksAppliedByUser(long userId);
+
+    public List<Task> getTaskBySearchQuery(String search);
 }

@@ -13,6 +13,7 @@ public class App extends Application {
     public void start(Stage stage) {
 
         SqlRunner.runSchema();
+        SqlRunner.runInserts();
 
         var view = new HomeView();
         var presenter = new HomePresenter(view);
