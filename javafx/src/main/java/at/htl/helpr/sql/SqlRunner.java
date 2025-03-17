@@ -5,7 +5,9 @@ import org.apache.ibatis.jdbc.ScriptRunner;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.StringReader;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Objects;
 
 public class SqlRunner {
@@ -24,8 +26,8 @@ public class SqlRunner {
     }
 
     private static void runScript( String filePath ) {
-        try {
-            Connection conn = Database.getConnection();
+        try (Connection conn = Database.getConnection()) {
+
             ScriptRunner scriptRunner = new ScriptRunner( conn );
             scriptRunner.setLogWriter( null );
 
@@ -35,10 +37,25 @@ public class SqlRunner {
 
             scriptRunner.runScript( reader );
 
-        } catch (FileNotFoundException e) {
+        } catch (FileNotFoundException | SQLException e) {
             throw new RuntimeException(e);
         }
 
+    }
+
+    public static void runString(String sql) {
+        try (Connection conn = Database.getConnection()) {
+
+            // sql is the string containing the sql statements
+
+            ScriptRunner scriptRunner = new ScriptRunner( conn );
+            scriptRunner.setLogWriter( null );
+
+            scriptRunner.runScript( new BufferedReader( new StringReader( sql ) ) );
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static void runSchema() {

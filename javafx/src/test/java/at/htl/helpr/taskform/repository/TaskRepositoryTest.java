@@ -18,7 +18,12 @@ class TaskRepositoryTest {
     @BeforeEach
     void setUp() {
         SqlRunner.runSchema();
-        SqlRunner.runInserts();
+        SqlRunner.runString( """
+                INSERT INTO public.u_user (username, email, password)
+                VALUES
+                ('john_doe', 'john@example.com', 'helloworld1'),
+                ('jane_smith', 'jane@example.com', 'helloworld2');
+                """ );
     }
 
     @Test
@@ -50,7 +55,7 @@ class TaskRepositoryTest {
     @Order( 1010 )
     void update() {
         Task task = new Task();
-        task.setAuthorId( 2L );
+        task.setAuthorId( 1L );
         task.setTitle( "Initial Task" );
         task.setDescription( "This is the initial task" );
         task.setReward( 20 );
@@ -80,7 +85,7 @@ class TaskRepositoryTest {
     @Order( 1020 )
     void delete() {
         Task task = new Task();
-        task.setAuthorId( 3L );
+        task.setAuthorId( 1L );
         task.setTitle( "Task to be deleted" );
         task.setDescription( "This task will be deleted" );
         task.setReward( 15 );
@@ -134,12 +139,6 @@ class TaskRepositoryTest {
     @Order( 1040 )
     void findAllAndDelete() {
 
-        // Clear existing tasks first
-        List<Task> existingTasks = repository.findAll();
-        for ( Task t : existingTasks ) {
-            repository.delete( t.getId() );
-        }
-
         Task task1 = new Task();
         task1.setAuthorId( 1L );
         task1.setTitle( "Task 1" );
@@ -176,7 +175,7 @@ class TaskRepositoryTest {
     @Order( 1050 )
     void findById() {
         Task task = new Task();
-        task.setAuthorId( 4L );
+        task.setAuthorId( 1L );
         task.setTitle( "Find Task" );
         task.setDescription( "This task will be found by ID" );
         task.setReward( 20 );
@@ -201,34 +200,67 @@ class TaskRepositoryTest {
     @Order( 1080 )
     void getTaskBySearchQuery() {
         // Clear existing tasks first
-        List<Task> existingTasks = repository.findAll();
-        for ( Task t : existingTasks ) {
-            repository.delete( t.getId() );
-        }
-
-        Task task1 = new Task();
-        task1.setAuthorId( 1L );
-        task1.setTitle( "Shopping Task" );
-        task1.setDescription( "Buy groceries" );
-        task1.setReward( 10 );
-        task1.setEffort( 2 );
-        task1.setLocation( "Supermarket" );
-        repository.create( task1 );
-
-        Task task2 = new Task();
-        task2.setAuthorId( 2L );
-        task2.setTitle( "Cleaning Task" );
-        task2.setDescription( "Clean the house" );
-        task2.setReward( 20 );
-        task2.setEffort( 3 );
-        task2.setLocation( "Home" );
-        repository.create( task2 );
+        SqlRunner.runString("""
+            INSERT INTO task (author_id, title, description, reward, effort, location)
+            VALUES
+                (1, 'Shopping Task', 'Buy groceries', 10, 2, 'Supermarket'),
+                (2, 'Cleaning Task', 'Clean the house', 20, 3, 'Home');
+        """);
 
         List<Task> tasks = repository.getTaskBySearchQueryAndLimit( "shopping", 1 );
 
         assertThat( tasks ).isNotNull();
         assertThat( tasks ).hasSize( 1 );
         assertThat( tasks.getFirst().getTitle() ).isEqualTo( "Shopping Task" );
+    }
+
+    @Test
+    @Order(1060)
+    void findAllTasksByUser() {
+
+        Task task1 = new Task();
+        task1.setAuthorId(1L);
+        task1.setTitle("User 1 Task");
+        task1.setDescription("Task for user 1");
+        task1.setReward(10);
+        task1.setEffort(2);
+        task1.setLocation("Location 1");
+        repository.create(task1);
+
+        Task task2 = new Task();
+        task2.setAuthorId(2L);
+        task2.setTitle("User 2 Task");
+        task2.setDescription("Task for user 2");
+        task2.setReward(20);
+        task2.setEffort(3);
+        task2.setLocation("Location 2");
+        repository.create(task2);
+
+        List<Task> tasks = repository.findAllTasksByUser(1L);
+        assertThat(tasks).isNotNull();
+        assertThat(tasks).hasSize(1);
+        assertThat(tasks.get(0).getTitle()).isEqualTo("User 1 Task");
+    }
+
+    @Test
+    @Order(1070)
+    void findAllTasksAppliedByUser() {
+
+        SqlRunner.runString( """
+                INSERT INTO task (author_id, title, description, reward, effort, location)
+                VALUES
+                    (1, 'Applied Task 1', 'Task applied by user 1', 10, 2, 'Location 1'),
+                    (2, 'Applied Task 2', 'Task applied by user 2', 20, 3, 'Location 2');
+                
+                INSERT INTO application (user_id, task_id)
+                VALUES
+                    (1, 1);
+                """ );
+
+        List<Task> tasks = repository.findAllTasksAppliedByUser(1L);
+        assertThat(tasks).isNotNull();
+        assertThat(tasks).hasSize(1);
+        assertThat(tasks.getFirst().getTitle()).isEqualTo("Applied Task 1");
     }
 
 }
