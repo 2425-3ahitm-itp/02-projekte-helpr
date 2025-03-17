@@ -12,7 +12,7 @@ public class App extends Application {
     @Override
     public void start(Stage stage) {
 
-        SqlRunner.runSchema();
+        //SqlRunner.runSchema();
 
         var view = new HomeView();
         var presenter = new HomePresenter(view);

@@ -17,6 +17,8 @@ public class HomeView extends BorderPane {
     private final Button priceFilter;
     private final Button searchButton;
     private final TextField searchField;
+    private Circle profilePicture;
+    private Label usernameLabel;
 
     public HomeView() {
         setPadding(new Insets(10));
@@ -41,13 +43,13 @@ public class HomeView extends BorderPane {
         searchBar.setAlignment(Pos.CENTER_LEFT);
 
         // Profilbild (Kreisförmig)
-        Circle profilePicture = new Circle(20);
+        profilePicture = new Circle(20);
         profilePicture.setFill(Color.LIGHTGRAY);
         profilePicture.setStroke(Color.DARKGRAY);
         profilePicture.setStrokeWidth(1);
 
         // Username
-        Label usernameLabel = new Label("Username");
+        usernameLabel = new Label("Username");
         usernameLabel.setFont(new Font(14));
 
         // Container für Profilbild + Username
@@ -95,5 +97,29 @@ public class HomeView extends BorderPane {
 
     public TextField getSearchField() {
         return searchField;
+    }
+
+    public Button getFilterButton() {
+        return filterButton;
+    }
+
+    public Button getLocationFilter() {
+        return locationFilter;
+    }
+
+    public Button getDateFilter() {
+        return dateFilter;
+    }
+
+    public Button getPriceFilter() {
+        return priceFilter;
+    }
+
+    public Circle getProfilePicture() {
+        return profilePicture;
+    }
+
+    public Label getUsernameLabel() {
+        return usernameLabel;
     }
 }
