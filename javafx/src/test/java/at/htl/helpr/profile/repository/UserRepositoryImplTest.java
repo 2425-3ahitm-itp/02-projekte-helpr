@@ -59,14 +59,15 @@ public class UserRepositoryImplTest {
         User user = new User();
         user.setUsername("updateuser");
         user.setEmail("update@example.com");
-        user.setPassword("initialpass");
+        user.setPassword(get100CharsString( 'h' ));
 
         repository.create(user);
         long userId = user.getId();
 
         user.setUsername("updatedname");
         user.setEmail("newemail@example.com");
-        user.setPassword("newpassword");
+        final var newPassword = get100CharsString( 'g' );
+        user.setPassword(newPassword);
         byte[] profilePic = {10, 20, 30};
         user.setProfilePicture(profilePic);
 
@@ -74,10 +75,10 @@ public class UserRepositoryImplTest {
 
         User updatedUser = repository.findById(userId);
         assertThat(updatedUser).isNotNull();
-//        assertThat(updatedUser.getUsername()).isEqualTo("updatedname");
-//        assertThat(updatedUser.getEmail()).isEqualTo("newemail@example.com");
-//        assertThat(updatedUser.getPassword()).isEqualTo("newpassword");
-//        assertThat(updatedUser.getProfilePicture()).isEqualTo(profilePic);
+        assertThat(updatedUser.getUsername()).isEqualTo("updatedname");
+        assertThat(updatedUser.getEmail()).isEqualTo("newemail@example.com");
+        assertThat(updatedUser.getPassword()).isEqualTo(newPassword);
+        assertThat(updatedUser.getProfilePicture()).isEqualTo(profilePic);
     }
 
     @Test
@@ -140,9 +141,7 @@ public class UserRepositoryImplTest {
 
     private String get100CharsString(char base) {
 
-        StringBuilder sb = new StringBuilder();
-        sb.append( String.valueOf( base ).repeat( 100 ) );
-        return sb.toString();
+        return String.valueOf( base ).repeat( 100 );
 
     }
 }
