@@ -18,7 +18,6 @@ CREATE TABLE public.u_user (
 	CONSTRAINT u_user_pk PRIMARY KEY (user_id)
 );
 -- ddl-end --
-ALTER TABLE public.u_user OWNER TO helpr;
 -- ddl-end --
 
 -- object: public.task | type: TABLE --
@@ -34,9 +33,6 @@ CREATE TABLE public.task (
 	created_at timestamp DEFAULT now(),
 	CONSTRAINT task_pk PRIMARY KEY (task_id)
 );
--- ddl-end --
-ALTER TABLE public.task OWNER TO helpr;
--- ddl-end --
 
 -- object: author_u_user_fk | type: CONSTRAINT --
 -- ALTER TABLE public.task DROP CONSTRAINT IF EXISTS author_u_user_fk CASCADE;
@@ -53,9 +49,6 @@ CREATE TABLE public.application (
 	created_at timestamp DEFAULT now()
 
 );
--- ddl-end --
-ALTER TABLE public.application OWNER TO helpr;
--- ddl-end --
 
 -- object: u_user_fk | type: CONSTRAINT --
 -- ALTER TABLE public.application DROP CONSTRAINT IF EXISTS u_user_fk CASCADE;
