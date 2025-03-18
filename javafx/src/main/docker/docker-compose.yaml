@@ -3,8 +3,8 @@ services:
     image: postgres:17.2
     container_name: postgres_helpr
     environment:
-      POSTGRES_USER: helpr
-      POSTGRES_PASSWORD: 123
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: app
       POSTGRES_DB: helpr
     volumes:
       - postgres_helpr_data:/var/lib/postgresql/data
