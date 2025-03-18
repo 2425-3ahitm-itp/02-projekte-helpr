@@ -1,5 +1,6 @@
 package at.htl.helpr.taskform.repository;
 
+import at.htl.helpr.profile.repository.UserRepositoryImplTest;
 import at.htl.helpr.sql.SqlRunner;
 import at.htl.helpr.taskform.model.Task;
 import at.htl.helpr.taskform.repository.filter.EffortMinMaxFilter;
@@ -20,12 +21,12 @@ class TaskRepositoryTest {
     @BeforeEach
     void setUp() {
         SqlRunner.runSchema();
-        SqlRunner.runString( """
+        SqlRunner.runString( String.format("""
                 INSERT INTO public.u_user (username, email, password)
                 VALUES
-                ('john_doe', 'john@example.com', 'helloworld1'),
+                ('john_doe', 'john@example.com', '%s'),
                 ('jane_smith', 'jane@example.com', 'helloworld2');
-                """ );
+                """, UserRepositoryImplTest.get100CharsString( 'u' ) ) );
     }
 
 

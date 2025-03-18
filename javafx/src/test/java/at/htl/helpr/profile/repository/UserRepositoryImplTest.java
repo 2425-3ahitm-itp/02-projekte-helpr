@@ -139,7 +139,7 @@ public class UserRepositoryImplTest {
         assertThat(nonExistent).isNull();
     }
 
-    private String get100CharsString(char base) {
+    public static String get100CharsString(char base) {
 
         return String.valueOf( base ).repeat( 100 );
 
