@@ -63,7 +63,8 @@ public class HomeView extends BorderPane {
         searchField.setStyle("-fx-font-size: 14px;");
 
         searchButton = new Button("Suchen");
-        searchButton.setStyle("-fx-background-color: #cce5ff; -fx-border-color: #99c2ff; -fx-font-size: 14px;");
+        searchButton.setStyle("-fx-background-color: #cce5ff; "
+                + "-fx-border-color: #99c2ff; -fx-font-size: 14px;");
 
         searchBar.getChildren().addAll(profileBox, searchField, searchButton);
 
@@ -74,13 +75,13 @@ public class HomeView extends BorderPane {
         cardGrid.setVgap(20);
 
         // Taskliste
-        TaskList taskList = new TaskList(false);
+//        TaskList taskList = new TaskList(false);
 
 
         // Layout setzen
         setLeft(sidebar);
         setTop(searchBar);
-        setCenter(taskList);
+//        setCenter(cardGrid);
     }
 
     private Button createStyledButton(String text, boolean highlighted) {
