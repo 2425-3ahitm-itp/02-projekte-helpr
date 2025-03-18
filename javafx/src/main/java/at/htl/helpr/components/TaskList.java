@@ -18,6 +18,8 @@ public class TaskList extends ScrollPane {
     private final IntegerProperty columns = new SimpleIntegerProperty(4);
     private final boolean singleRow;
 
+    private final int[] previousColumns = {0};
+
     public TaskList(boolean singleRow) {
         this.singleRow = singleRow;
         initialize();
@@ -39,17 +41,15 @@ public class TaskList extends ScrollPane {
         gridPane.setHgap(10);
         gridPane.setVgap(10);
 
-        final int[] previousColumns = {0};
+        previousColumns[0] = columns.get();
 
         this.widthProperty().addListener((obs, oldWidth, newWidth) -> {
             resizeAndUpdateGrid(gridPane, previousColumns, newWidth.doubleValue());
         });
 
         this.setContent(gridPane);
-        this.setFitToWidth(true); // Ensure the ScrollPane fits its content to width
+        this.setFitToWidth(true);
 
-        // Initial resize and update
-        resizeAndUpdateGrid(gridPane, previousColumns, this.getWidth());
     }
 
     private void resizeAndUpdateGrid(GridPane gridPane, int[] previousColumns, double newWidth) {
@@ -76,6 +76,7 @@ public class TaskList extends ScrollPane {
     }
 
     private void updateCardWidths(GridPane gridPane, int columns) {
+        System.out.println("Update Card Widths for columns: " + columns);
         double availableWidth =
                 this.getWidth() - gridPane.getPadding().getLeft() - gridPane.getPadding()
                         .getRight();
@@ -92,6 +93,9 @@ public class TaskList extends ScrollPane {
         if (taskSupplier != null) {
             GridPane gridPane = (GridPane) this.getContent();
             updateGrid(gridPane, columns.get());
+
+            resizeAndUpdateGrid(gridPane, previousColumns, this.getWidth());
+
         }
     }
 

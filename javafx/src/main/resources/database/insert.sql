@@ -1,6 +1,6 @@
 -- insert users
 INSERT INTO public.u_user (username, email, password)
-VALUES 
+VALUES
 ('john_doe', 'john@example.com', 'helloworld1'),
 ('jane_smith', 'jane@example.com', 'helloworld2'),
 ('mike_wilson', 'mike@example.com', 'hellorworld3'),
