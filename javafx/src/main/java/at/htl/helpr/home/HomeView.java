@@ -1,5 +1,6 @@
 package at.htl.helpr.home;
 
+import at.htl.helpr.components.TaskList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -72,10 +73,14 @@ public class HomeView extends BorderPane {
         cardGrid.setHgap(20);
         cardGrid.setVgap(20);
 
+        // Taskliste
+        TaskList taskList = new TaskList(false);
+
+
         // Layout setzen
         setLeft(sidebar);
         setTop(searchBar);
-        setCenter(cardGrid);
+        setCenter(taskList);
     }
 
     private Button createStyledButton(String text, boolean highlighted) {
