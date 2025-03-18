@@ -207,7 +207,7 @@ class TaskRepositoryTest {
                 (2, 'Cleaning Task', 'Clean the house', 20, 3, 'Home');
         """);
 
-        List<Task> tasks = repository.getTaskBySearchQueryAndLimit( "shopping", 1 );
+        List<Task> tasks = repository.getTaskBySearchQueryAndLimit( "shopping" );
 
         assertThat( tasks ).isNotNull();
         assertThat( tasks ).hasSize( 1 );

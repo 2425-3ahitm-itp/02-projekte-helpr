@@ -170,18 +170,12 @@ public class TaskRepositoryImpl implements TaskRepository {
         return getTasksWithSqlAndUserID(userId, sql);
     }
 
-    public List<Task> getTaskBySearchQueryAndLimit(String search, int limit) {
+    public List<Task> getTaskBySearchQueryAndLimit(String search) {
         String sql = """
                 SELECT
-                    *,
-                    CASE
-                        WHEN MAX(similarity(title, ?)) OVER() = 0 THEN 0
-                        ELSE similarity(title, ?) /
-                             MAX(similarity(title, ?)) OVER()
-                        END AS normalized_similarity
+                    *
                 FROM task
-                ORDER BY normalized_similarity DESC
-                LIMIT ?;
+                WHERE ? % ANY(STRING_TO_ARRAY(title,' '));
                 """;
 
         try (Connection connection = Database.getConnection();
@@ -189,9 +183,6 @@ public class TaskRepositoryImpl implements TaskRepository {
         ) {
 
             stmt.setString(1, search);
-            stmt.setString(2, search);
-            stmt.setString(3, search);
-            stmt.setInt(4, limit);
 
             return getTasksFromResultSet(stmt.executeQuery());
 
