@@ -75,8 +75,16 @@ public class TaskList extends ScrollPane {
         }
     }
 
-    private void updateCardWidths(GridPane gridPane, int columns) {
-        System.out.println("Update Card Widths for columns: " + columns);
+private void updateCardWidths(GridPane gridPane, int columns) {
+    if (singleRow) {
+        double cardWidth = 200; // Fixed width for each card
+        for (var node : gridPane.getChildren()) {
+            if (node instanceof VBox) {
+                ((VBox) node).setPrefWidth(cardWidth);
+                ((VBox) node).setMinWidth(cardWidth); // Ensure the card does not shrink
+            }
+        }
+    } else {
         double availableWidth =
                 this.getWidth() - gridPane.getPadding().getLeft() - gridPane.getPadding()
                         .getRight();
@@ -85,9 +93,11 @@ public class TaskList extends ScrollPane {
         for (var node : gridPane.getChildren()) {
             if (node instanceof VBox) {
                 ((VBox) node).setPrefWidth(cardWidth);
+                ((VBox) node).setMinWidth(200); // Ensure the card does not shrink below 200
             }
         }
     }
+}
 
     public void rerender() {
         if (taskSupplier != null) {
@@ -117,6 +127,14 @@ public class TaskList extends ScrollPane {
                 column = 0;
                 row++;
             }
+        }
+
+        if (singleRow) {
+            this.setHbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
+            this.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        } else {
+            this.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+            this.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         }
     }
 

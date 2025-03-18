@@ -1,5 +1,8 @@
 package at.htl.helpr.profile;
 
+import at.htl.helpr.components.TaskList;
+import at.htl.helpr.taskform.repository.TaskRepository;
+import at.htl.helpr.taskform.repository.TaskRepositoryImpl;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -11,8 +14,14 @@ import javafx.scene.shape.Circle;
 import java.util.List;
 
 public class ProfilView extends BorderPane {
-    private ListView<String> angenommeneAufgabenList;
-    private ListView<String> erstellteAufgabenList;
+
+    private final TaskRepository repository = new TaskRepositoryImpl();
+
+    private final TaskList createdTasks = new TaskList(true,
+            () -> repository.findAllTasksByUser(1));
+
+    private final TaskList appliedTasks = new TaskList(true,
+            () -> repository.findAllTasksAppliedByUser(1));
 
     public ProfilView() {
         setPadding(new Insets(10));
@@ -43,34 +52,29 @@ public class ProfilView extends BorderPane {
         startseiteButton.setMaxWidth(Double.MAX_VALUE);
         startseiteButton.setStyle("-fx-background-color: #cce5ff; -fx-border-color: #99c2ff;");
 
-        sidebar.getChildren().addAll(profileCircle, usernameLabel, neueAufgabeButton, abmeldenButton, startseiteButton);
+        sidebar.getChildren()
+                .addAll(profileCircle, usernameLabel, neueAufgabeButton, abmeldenButton,
+                        startseiteButton);
 
         // Aufgabenbereiche
         VBox mainContent = new VBox(20);
         mainContent.setPadding(new Insets(15));
 
         Label angenommeneLabel = new Label("Angenommene Aufgaben");
-        angenommeneLabel.setStyle("-fx-background-color: #cce5ff; -fx-padding: 5px; -fx-font-size: 14px;");
-        angenommeneAufgabenList = new ListView<>();
-        angenommeneAufgabenList.setPrefHeight(150);
+        angenommeneLabel.setStyle(
+                "-fx-background-color: #cce5ff; -fx-padding: 5px; -fx-font-size: 14px;");
 
         Label erstellteLabel = new Label("Erstellte Aufgaben");
-        erstellteLabel.setStyle("-fx-background-color: #cce5ff; -fx-padding: 5px; -fx-font-size: 14px;");
-        erstellteAufgabenList = new ListView<>();
-        erstellteAufgabenList.setPrefHeight(150);
+        erstellteLabel.setStyle(
+                "-fx-background-color: #cce5ff; -fx-padding: 5px; -fx-font-size: 14px;");
+        appliedTasks.setPrefHeight(150);
 
-        mainContent.getChildren().addAll(angenommeneLabel, angenommeneAufgabenList, erstellteLabel, erstellteAufgabenList);
+        mainContent.getChildren().addAll(angenommeneLabel, appliedTasks, erstellteLabel,
+                createdTasks);
 
         // Hauptlayout setzen
         setLeft(sidebar);
         setCenter(mainContent);
     }
 
-    public void setAngenommeneAufgaben(List<String> aufgaben) {
-        angenommeneAufgabenList.getItems().setAll(aufgaben);
-    }
-
-    public void setErstellteAufgaben(List<String> aufgaben) {
-        erstellteAufgabenList.getItems().setAll(aufgaben);
-    }
 }
