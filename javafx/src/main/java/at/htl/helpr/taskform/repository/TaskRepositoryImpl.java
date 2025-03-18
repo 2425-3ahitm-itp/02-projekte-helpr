@@ -2,10 +2,12 @@ package at.htl.helpr.taskform.repository;
 
 import at.htl.helpr.controller.Database;
 import at.htl.helpr.taskform.model.Task;
+import at.htl.helpr.taskform.repository.filter.TaskQueryBuilder;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 public class TaskRepositoryImpl implements TaskRepository {
 
@@ -227,6 +229,40 @@ public class TaskRepositoryImpl implements TaskRepository {
             throw new RuntimeException(
                     "Error while invoking findAllTasksByUser() of tasks: " + e.getMessage(),
                     e);
+        }
+    }
+
+    public List<Task> getTasksWithFilter(TaskQueryBuilder queryBuilder) {
+
+        String sql = """
+                SELECT * FROM task
+                """;
+
+        List<Object> params = new ArrayList<>();
+        sql = queryBuilder.buildQuery(sql, params);
+
+        try (Connection connection = Database.getConnection();
+                PreparedStatement stmt = connection.prepareStatement(sql);
+        ) {
+
+            System.out.println("params = " + params);
+
+            for (int i = 0; i < params.size(); i++) {
+                System.out.println("paramsList.get(i) = " + params.get(i));
+                stmt.setObject(i + 1, params.get(i));
+            }
+
+            System.out.println("----------------------------------------");
+            System.out.println("----------------------------------------");
+            System.out.println(stmt);
+            System.out.println("----------------------------------------");
+            System.out.println("----------------------------------------");
+
+            return getTasksFromResultSet(stmt.executeQuery());
+
+        } catch (SQLException e) {
+            throw new RuntimeException(
+                    "Error while invoking findAllTasksByUser() of tasks: " + e.getMessage(), e);
         }
     }
 

@@ -2,6 +2,8 @@ package at.htl.helpr.taskform.repository;
 
 import at.htl.helpr.sql.SqlRunner;
 import at.htl.helpr.taskform.model.Task;
+import at.htl.helpr.taskform.repository.filter.EffortMinMaxFilter;
+import at.htl.helpr.taskform.repository.filter.TaskQueryBuilder;
 import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.*;
 
@@ -25,6 +27,7 @@ class TaskRepositoryTest {
                 ('jane_smith', 'jane@example.com', 'helloworld2');
                 """ );
     }
+
 
     @Test
     @Order( 1000 )
@@ -200,12 +203,12 @@ class TaskRepositoryTest {
     @Order( 1080 )
     void getTaskBySearchQuery() {
         // Clear existing tasks first
-        SqlRunner.runString("""
-            INSERT INTO task (author_id, title, description, reward, effort, location)
-            VALUES
-                (1, 'Shopping Task', 'Buy groceries', 10, 2, 'Supermarket'),
-                (2, 'Cleaning Task', 'Clean the house', 20, 3, 'Home');
-        """);
+        SqlRunner.runString( """
+                    INSERT INTO task (author_id, title, description, reward, effort, location)
+                    VALUES
+                        (1, 'Shopping Task', 'Buy groceries', 10, 2, 'Supermarket'),
+                        (2, 'Cleaning Task', 'Clean the house', 20, 3, 'Home');
+                """ );
 
         List<Task> tasks = repository.getTaskBySearchQueryAndLimit( "shopping" );
 
@@ -215,35 +218,35 @@ class TaskRepositoryTest {
     }
 
     @Test
-    @Order(1060)
+    @Order( 1060 )
     void findAllTasksByUser() {
 
         Task task1 = new Task();
-        task1.setAuthorId(1L);
-        task1.setTitle("User 1 Task");
-        task1.setDescription("Task for user 1");
-        task1.setReward(10);
-        task1.setEffort(2);
-        task1.setLocation("Location 1");
-        repository.create(task1);
+        task1.setAuthorId( 1L );
+        task1.setTitle( "User 1 Task" );
+        task1.setDescription( "Task for user 1" );
+        task1.setReward( 10 );
+        task1.setEffort( 2 );
+        task1.setLocation( "Location 1" );
+        repository.create( task1 );
 
         Task task2 = new Task();
-        task2.setAuthorId(2L);
-        task2.setTitle("User 2 Task");
-        task2.setDescription("Task for user 2");
-        task2.setReward(20);
-        task2.setEffort(3);
-        task2.setLocation("Location 2");
-        repository.create(task2);
+        task2.setAuthorId( 2L );
+        task2.setTitle( "User 2 Task" );
+        task2.setDescription( "Task for user 2" );
+        task2.setReward( 20 );
+        task2.setEffort( 3 );
+        task2.setLocation( "Location 2" );
+        repository.create( task2 );
 
-        List<Task> tasks = repository.findAllTasksByUser(1L);
-        assertThat(tasks).isNotNull();
-        assertThat(tasks).hasSize(1);
-        assertThat(tasks.getFirst().getTitle()).isEqualTo("User 1 Task");
+        List<Task> tasks = repository.findAllTasksByUser( 1L );
+        assertThat( tasks ).isNotNull();
+        assertThat( tasks ).hasSize( 1 );
+        assertThat( tasks.getFirst().getTitle() ).isEqualTo( "User 1 Task" );
     }
 
     @Test
-    @Order(1070)
+    @Order( 1070 )
     void findAllTasksAppliedByUser() {
 
         SqlRunner.runString( """
@@ -257,10 +260,110 @@ class TaskRepositoryTest {
                     (1, 1);
                 """ );
 
-        List<Task> tasks = repository.findAllTasksAppliedByUser(1L);
-        assertThat(tasks).isNotNull();
-        assertThat(tasks).hasSize(1);
-        assertThat(tasks.getFirst().getTitle()).isEqualTo("Applied Task 1");
+        List<Task> tasks = repository.findAllTasksAppliedByUser( 1L );
+        assertThat( tasks ).isNotNull();
+        assertThat( tasks ).hasSize( 1 );
+        assertThat( tasks.getFirst().getTitle() ).isEqualTo( "Applied Task 1" );
     }
 
+
+    // getTasksWithFilter tests
+
+    @Test
+    @Order( 1090 )
+    void getTasksWithEffortFilterBetween3And4() {
+        runFilterSetup();
+
+        TaskQueryBuilder queryBuilder = new TaskQueryBuilder();
+        queryBuilder.addFilter( new EffortMinMaxFilter( 3, 4 ) );
+
+        List<Task> tasks = repository.getTasksWithFilter( queryBuilder );
+
+        assertThat( tasks ).isNotNull();
+        assertThat( tasks ).hasSize( 3 );
+        assertThat( tasks ).extracting( Task::getTitle ).containsExactlyInAnyOrder(
+                "Help with moving furniture",
+                "Computer setup help",
+                "Lawn mowing service"
+        );
+    }
+
+    @Test
+    @Order( 1140 )
+    void getTasksWithMultipleFilters() {
+        runFilterSetup();
+
+        TaskQueryBuilder queryBuilder = new TaskQueryBuilder();
+        queryBuilder
+                .addFilter( new EffortMinMaxFilter( 2, 4 ) )
+                .addFilter( ( query, params ) -> {
+                    query.append( "reward > ?" );
+                    params.add( 20 );
+                } )
+                .addFilter( ( query, params ) -> {
+                    query.append( "location <> ?" );
+                    params.add( "Westside Park" );
+                } );
+
+        List<Task> tasks = repository.getTasksWithFilter( queryBuilder );
+
+        assertThat( tasks ).isNotNull();
+        assertThat( tasks ).hasSize( 3 );
+        assertThat( tasks ).extracting( Task::getTitle ).containsExactlyInAnyOrder(
+                "Help with moving furniture",
+                "Computer setup help",
+                "Lawn mowing service"
+        );
+    }
+
+    @Test
+    @Order( 1110 )
+    void getTasksWithCustomFilter() {
+        runFilterSetup();
+
+        TaskQueryBuilder queryBuilder = new TaskQueryBuilder();
+        queryBuilder.addFilter( ( query, params ) -> {
+            query.append( "location = ?" );
+            params.add( "Westside Park" );
+        } );
+
+        List<Task> tasks = repository.getTasksWithFilter( queryBuilder );
+
+        assertThat( tasks ).isNotNull();
+        assertThat( tasks ).hasSize( 1 );
+        assertThat( tasks ).extracting( Task::getTitle ).containsExactly( "Dog walking this weekend" );
+    }
+
+    private void runFilterSetup() {
+        SqlRunner.runString( """
+                    -- insert users
+                    INSERT INTO public.u_user (username, email, password)
+                    VALUES
+                    ('john_doe', 'john@example.com', 'helloworld1'),
+                    ('jane_smith', 'jane@example.com', 'helloworld2'),
+                    ('mike_wilson', 'mike@example.com', 'hellorworld3'),
+                    ('sarah_johnson', 'sarah@example.com', 'hellorowlrd4'),
+                    ('alex_brown', 'alex@example.com', 'hellorowlrd5');
+                
+                    -- insert tasks
+                    INSERT INTO public.task (author_id, title, description, reward, effort, location, created_at)
+                    VALUES
+                    (1, 'Help with moving furniture', 'Need help moving a couch and bookshelf from living room to bedroom', 25, 3, 'Downtown Area', '2025-03-15 10:30:00'),
+                    (2, 'Dog walking this weekend', 'Looking for someone to walk my dog Saturday and Sunday mornings', 30, 2, 'Westside Park', '2025-03-16 08:45:00'),
+                    (3, 'Grocery shopping assistance', 'Need help with grocery shopping as I recover from surgery', 20, 2, 'Northside Market', '2025-03-14 14:15:00'),
+                    (2, 'Computer setup help', 'Need assistance setting up my new computer and transferring files', 40, 4, 'Southside Apartments', '2025-03-17 09:00:00'),
+                    (4, 'Lawn mowing service', 'Looking for someone to mow my lawn this weekend', 35, 3, 'Eastside Neighborhood', '2025-03-16 16:20:00');
+                
+                    -- insert applications
+                    INSERT INTO public.application (user_id, task_id, created_at)
+                    VALUES
+                    (3, 1, '2025-03-15 11:45:00'),
+                    (4, 1, '2025-03-15 12:30:00'),
+                    (5, 2, '2025-03-16 09:10:00'),
+                    (1, 3, '2025-03-14 15:00:00'),
+                    (3, 4, '2025-03-17 10:15:00'),
+                    (2, 5, '2025-03-16 17:00:00'),
+                    (5, 3, '2025-03-14 16:30:00');
+                """ );
+    }
 }

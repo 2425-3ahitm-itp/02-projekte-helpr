@@ -1,6 +1,7 @@
 package at.htl.helpr.taskform.repository;
 
 import at.htl.helpr.taskform.model.Task;
+import at.htl.helpr.taskform.repository.filter.TaskQueryBuilder;
 import java.util.List;
 
 public interface TaskRepository {
@@ -14,4 +15,6 @@ public interface TaskRepository {
     public List<Task> findAllTasksAppliedByUser(long userId);
 
     public List<Task> getTaskBySearchQueryAndLimit(String search);
+
+    public List<Task> getTasksWithFilter(TaskQueryBuilder queryBuilder);
 }
