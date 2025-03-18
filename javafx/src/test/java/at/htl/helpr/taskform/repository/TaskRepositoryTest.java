@@ -290,7 +290,7 @@ class TaskRepositoryTest {
     }
 
     @Test
-    @Order( 1140 )
+    @Order( 1100 )
     void getTasksWithMultipleFilters() {
         runFilterSetup();
 

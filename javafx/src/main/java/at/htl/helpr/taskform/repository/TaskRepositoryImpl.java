@@ -252,12 +252,6 @@ public class TaskRepositoryImpl implements TaskRepository {
                 stmt.setObject(i + 1, params.get(i));
             }
 
-            System.out.println("----------------------------------------");
-            System.out.println("----------------------------------------");
-            System.out.println(stmt);
-            System.out.println("----------------------------------------");
-            System.out.println("----------------------------------------");
-
             return getTasksFromResultSet(stmt.executeQuery());
 
         } catch (SQLException e) {
