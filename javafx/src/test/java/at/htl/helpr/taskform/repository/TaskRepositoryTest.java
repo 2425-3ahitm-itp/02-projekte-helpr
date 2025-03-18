@@ -239,7 +239,7 @@ class TaskRepositoryTest {
         List<Task> tasks = repository.findAllTasksByUser(1L);
         assertThat(tasks).isNotNull();
         assertThat(tasks).hasSize(1);
-        assertThat(tasks.get(0).getTitle()).isEqualTo("User 1 Task");
+        assertThat(tasks.getFirst().getTitle()).isEqualTo("User 1 Task");
     }
 
     @Test
