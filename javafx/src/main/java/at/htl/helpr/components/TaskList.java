@@ -1,11 +1,13 @@
 package at.htl.helpr.components;
 
 import at.htl.helpr.taskform.model.Task;
+import javafx.animation.PathTransition.OrientationType;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.geometry.Insets;
+import javafx.geometry.Orientation;
 import javafx.scene.control.Label;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.ScrollPane;
 
@@ -18,11 +20,11 @@ public class TaskList extends ScrollPane {
     private final IntegerProperty columns = new SimpleIntegerProperty(4);
     private final boolean singleRow;
 
-    private final int[] previousColumns = {0};
-
     public TaskList(boolean singleRow) {
         this.singleRow = singleRow;
-        initialize();
+        this.setPadding(new Insets(10));
+        this.setFitToWidth(true);
+        this.setContent(new FlowPane());
     }
 
     public TaskList(boolean singleRow, Supplier<List<Task>> taskSupplier) {
@@ -35,101 +37,50 @@ public class TaskList extends ScrollPane {
         this.taskSupplier = taskSupplier;
     }
 
-    private void initialize() {
-        GridPane gridPane = new GridPane();
-        gridPane.setPadding(new Insets(10));
-        gridPane.setHgap(10);
-        gridPane.setVgap(10);
-
-        previousColumns[0] = columns.get();
-
-        this.widthProperty().addListener((obs, oldWidth, newWidth) -> {
-            resizeAndUpdateGrid(gridPane, previousColumns, newWidth.doubleValue());
-        });
-
-        this.setContent(gridPane);
-        this.setFitToWidth(true);
-
-    }
-
-    private void resizeAndUpdateGrid(GridPane gridPane, int[] previousColumns, double newWidth) {
-        int newColumns;
-        if (singleRow) {
-            if (taskSupplier != null) {
-                newColumns = taskSupplier.get().size();
-            } else {
-                newColumns = columns.get();
-            }
-        } else {
-            double availableWidth =
-                    newWidth - gridPane.getPadding().getLeft() - gridPane.getPadding().getRight();
-            newColumns = Math.max(1, (int) (availableWidth / (200 + gridPane.getHgap())));
-        }
-
-        if (newColumns != previousColumns[0]) {
-            columns.set(newColumns);
-            previousColumns[0] = newColumns;
-            updateGrid(gridPane, newColumns);
-        } else {
-            updateCardWidths(gridPane, newColumns);
-        }
-    }
-
-private void updateCardWidths(GridPane gridPane, int columns) {
-    if (singleRow) {
+    private void updateCardWidths(FlowPane flowPane) {
         double cardWidth = 200; // Fixed width for each card
-        for (var node : gridPane.getChildren()) {
+        for (var node : flowPane.getChildren()) {
             if (node instanceof VBox) {
                 ((VBox) node).setPrefWidth(cardWidth);
                 ((VBox) node).setMinWidth(cardWidth); // Ensure the card does not shrink
             }
         }
-    } else {
-        double availableWidth =
-                this.getWidth() - gridPane.getPadding().getLeft() - gridPane.getPadding()
-                        .getRight();
-        double cardWidth = (availableWidth - (columns - 1) * gridPane.getHgap()) / columns;
-
-        for (var node : gridPane.getChildren()) {
-            if (node instanceof VBox) {
-                ((VBox) node).setPrefWidth(cardWidth);
-                ((VBox) node).setMinWidth(200); // Ensure the card does not shrink below 200
-            }
-        }
     }
-}
 
     public void rerender() {
         if (taskSupplier != null) {
-            GridPane gridPane = (GridPane) this.getContent();
-            updateGrid(gridPane, columns.get());
+            FlowPane flowPane = (FlowPane) this.getContent();
+            flowPane.setPadding(new Insets(10));
+            flowPane.setHgap(10);
+            flowPane.setVgap(10);
 
-            resizeAndUpdateGrid(gridPane, previousColumns, this.getWidth());
 
+            this.widthProperty().addListener((obs, oldWidth, newWidth) -> {
+                updateCardWidths(flowPane);
+            });
+
+            updateFlowPane(flowPane);
+            updateCardWidths(flowPane);
         }
     }
 
-    private void updateGrid(GridPane gridPane, int columns) {
+    private void updateFlowPane(FlowPane flowPane) {
         if (taskSupplier == null) {
             return;
         }
         var tasks = taskSupplier.get();
-        gridPane.getChildren().clear();
-        int column = 0;
-        int row = 0;
+        flowPane.getChildren().clear();
 
         for (Task task : tasks) {
             VBox card = createTaskCard(task);
-            gridPane.add(card, column, row);
-
-            column++;
-            if (column == columns) {
-                column = 0;
-                row++;
-            }
+            flowPane.getChildren().add(card);
         }
 
         if (singleRow) {
+            flowPane.setPrefWrapLength(Double.MAX_VALUE);
+            flowPane.setOrientation(Orientation.HORIZONTAL);
+            flowPane.setMinWidth(tasks.size() * 200 + 20 * tasks.size());
+
             this.setHbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
             this.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         } else {
