@@ -8,8 +8,14 @@ import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 
 import java.util.List;
 import java.util.function.Supplier;
@@ -54,7 +60,6 @@ public class TaskList extends ScrollPane {
             flowPane.setHgap(10);
             flowPane.setVgap(10);
 
-
             this.widthProperty().addListener((obs, oldWidth, newWidth) -> {
                 updateCardWidths(flowPane);
             });
@@ -94,12 +99,34 @@ public class TaskList extends ScrollPane {
         card.setPadding(new Insets(10));
         card.setStyle("-fx-border-color: black; -fx-border-width: 1;");
 
-        Label titleLabel = new Label("Title: " + task.getTitle());
-        Label priceLabel = new Label("Price: " + task.getReward());
-        Label locationLabel = new Label("Location: " + task.getLocation());
-        Label effortLabel = new Label("Effort: " + task.getEffort());
+        // Title and Location at the top
+        Label titleLabel = new Label(task.getTitle());
+        titleLabel.setFont(Font.font("System", FontWeight.BOLD, 14));
+        Label locationLabel = new Label(task.getLocation());
 
-        card.getChildren().addAll(titleLabel, priceLabel, locationLabel, effortLabel);
+        // Empty image placeholder with dotted border
+        Pane imagePlaceholder = new Pane();
+        imagePlaceholder.setPrefHeight(100);
+        imagePlaceholder.setStyle("-fx-border-color: black; -fx-border-style: dotted; -fx-border-width: 2;");
+        VBox.setMargin(imagePlaceholder, new Insets(10, 0, 10, 0));
+
+        // Price and Effort at the bottom in a HBox
+        HBox bottomSection = new HBox();
+        bottomSection.setSpacing(10);
+
+        Label priceLabel = new Label(task.getReward() + " €");
+        priceLabel.setFont(Font.font("System", FontWeight.BOLD, 14));
+
+        Region spacer = new Region();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
+
+        Label effortLabel = new Label(String.valueOf(task.getEffort()));
+
+        bottomSection.getChildren().addAll(priceLabel, spacer, effortLabel);
+
+        // Add all components to the card
+        card.getChildren().addAll(titleLabel, locationLabel, imagePlaceholder, bottomSection);
+
         return card;
     }
 }
