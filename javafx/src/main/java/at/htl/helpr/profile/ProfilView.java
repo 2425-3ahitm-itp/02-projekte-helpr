@@ -67,10 +67,10 @@ public class ProfilView extends BorderPane {
         Label erstellteLabel = new Label("Erstellte Aufgaben");
         erstellteLabel.setStyle(
                 "-fx-background-color: #cce5ff; -fx-padding: 5px; -fx-font-size: 14px;");
-        appliedTasks.setMinHeight(150);
-        appliedTasks.setPrefHeight(150);
-        createdTasks.setMinHeight(150);
-        createdTasks.setPrefHeight(150);
+//        appliedTasks.setMinHeight(150);
+//        appliedTasks.setPrefHeight(150);
+//        createdTasks.setMinHeight(150);
+//        createdTasks.setPrefHeight(150);
 
         mainContent.getChildren().addAll(angenommeneLabel, appliedTasks, erstellteLabel,
                 createdTasks);
