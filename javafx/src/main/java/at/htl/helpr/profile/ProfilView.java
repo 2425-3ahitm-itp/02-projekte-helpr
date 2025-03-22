@@ -23,56 +23,65 @@ public class ProfilView extends BorderPane {
     private final TaskList appliedTasks = new TaskList(true,
             () -> repository.findAllTasksAppliedByUser(1));
 
+
+    private final VBox sidebar;
+    private final Circle profileCircle;
+    private final Label usernameLabel;
+    private final Button newTaskButton;
+    private final Button loginButton;
+    private final Button homeButton;
+    private final VBox mainContent;
+    private final Label acceptedLabel;
+    private final Label createdLabel;
+
+
+
     public ProfilView() {
         setPadding(new Insets(10));
 
         // Linke Seitenleiste
-        VBox sidebar = new VBox(15);
+        sidebar = new VBox(15);
         sidebar.setPadding(new Insets(15));
         sidebar.setPrefWidth(250);
-        sidebar.setAlignment(Pos.CENTER);
+        sidebar.setAlignment(Pos.TOP_CENTER);
 
         // Profilbild (Kreisförmig)
-        Circle profileCircle = new Circle(40);
+        profileCircle = new Circle(40);
         profileCircle.setFill(Color.LIGHTGRAY);
         profileCircle.setStroke(Color.DARKGRAY);
         profileCircle.setStrokeWidth(1);
 
-        Label usernameLabel = new Label("Username");
+        usernameLabel = new Label("Username");
         usernameLabel.setStyle("-fx-font-size: 14px;");
 
-        Button neueAufgabeButton = new Button("Neue Aufgabe");
-        neueAufgabeButton.setMaxWidth(Double.MAX_VALUE);
+        newTaskButton = new Button("Neue Aufgabe");
+        newTaskButton.setMaxWidth(Double.MAX_VALUE);
 
-        Button abmeldenButton = new Button("Abmelden");
-        abmeldenButton.setMaxWidth(Double.MAX_VALUE);
-        abmeldenButton.setStyle("-fx-border-color: black; -fx-border-style: dashed;");
+        loginButton = new Button("Abmelden");
+        loginButton.setMaxWidth(Double.MAX_VALUE);
+        loginButton.setStyle("-fx-border-color: black; -fx-border-style: dashed;");
 
-        Button startseiteButton = new Button("Startseite");
-        startseiteButton.setMaxWidth(Double.MAX_VALUE);
-        startseiteButton.setStyle("-fx-background-color: #cce5ff; -fx-border-color: #99c2ff;");
+        homeButton = new Button("Startseite");
+        homeButton.setMaxWidth(Double.MAX_VALUE);
+        homeButton.setStyle("-fx-background-color: #cce5ff; -fx-border-color: #99c2ff;");
 
         sidebar.getChildren()
-                .addAll(profileCircle, usernameLabel, neueAufgabeButton, abmeldenButton,
-                        startseiteButton);
+                .addAll(profileCircle, usernameLabel, newTaskButton, loginButton,
+                        homeButton);
 
         // Aufgabenbereiche
-        VBox mainContent = new VBox(20);
+        mainContent = new VBox(20);
         mainContent.setPadding(new Insets(15));
 
-        Label angenommeneLabel = new Label("Angenommene Aufgaben");
-        angenommeneLabel.setStyle(
+        acceptedLabel = new Label("Angenommene Aufgaben");
+        acceptedLabel.setStyle(
                 "-fx-background-color: #cce5ff; -fx-padding: 5px; -fx-font-size: 14px;");
 
-        Label erstellteLabel = new Label("Erstellte Aufgaben");
-        erstellteLabel.setStyle(
+        createdLabel = new Label("Erstellte Aufgaben");
+        createdLabel.setStyle(
                 "-fx-background-color: #cce5ff; -fx-padding: 5px; -fx-font-size: 14px;");
-//        appliedTasks.setMinHeight(150);
-//        appliedTasks.setPrefHeight(150);
-//        createdTasks.setMinHeight(150);
-//        createdTasks.setPrefHeight(150);
 
-        mainContent.getChildren().addAll(angenommeneLabel, appliedTasks, erstellteLabel,
+        mainContent.getChildren().addAll(acceptedLabel, appliedTasks, createdLabel,
                 createdTasks);
 
         // Hauptlayout setzen
@@ -80,4 +89,52 @@ public class ProfilView extends BorderPane {
         setCenter(mainContent);
     }
 
+
+    public VBox getSidebar() {
+        return sidebar;
+    }
+
+    public TaskRepository getRepository() {
+        return repository;
+    }
+
+    public TaskList getCreatedTasks() {
+        return createdTasks;
+    }
+
+    public TaskList getAppliedTasks() {
+        return appliedTasks;
+    }
+
+    public Circle getProfileCircle() {
+        return profileCircle;
+    }
+
+    public Label getUsernameLabel() {
+        return usernameLabel;
+    }
+
+    public Button getNewTaskButton() {
+        return newTaskButton;
+    }
+
+    public Button getLoginButton() {
+        return loginButton;
+    }
+
+    public Button getHomeButton() {
+        return homeButton;
+    }
+
+    public VBox getMainContent() {
+        return mainContent;
+    }
+
+    public Label getAcceptedLabel() {
+        return acceptedLabel;
+    }
+
+    public Label getCreatedLabel() {
+        return createdLabel;
+    }
 }
