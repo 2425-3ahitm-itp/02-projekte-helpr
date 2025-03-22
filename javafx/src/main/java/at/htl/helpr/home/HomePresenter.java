@@ -38,17 +38,15 @@ public class HomePresenter {
 
     private void openProfilView() {
         Stage currentStage = (Stage) getView().getProfilePicture().getScene().getWindow();
-        currentStage.close();
 
-        Stage stage = new Stage();
         var view = new ProfilView();
         var presenter = new ProfilPresenter(view);
 
-        var scene = new Scene(view, 750, 450);
+        var scene = new Scene(view, 750, 650);
 
-        stage.setTitle("Helpr Profil");
-        stage.setScene(scene);
-        stage.show();
+        currentStage.setTitle("Helpr Profil");
+        currentStage.setScene(scene);
+        currentStage.show();
     }
 
     public HomeView getView() {
