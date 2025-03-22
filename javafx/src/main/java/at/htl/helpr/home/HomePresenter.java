@@ -31,10 +31,22 @@ public class HomePresenter {
     private void attachEvents() {
         getView().getProfilePicture().setOnMouseClicked(mouseEvent -> openProfilView());
         getView().getUsernameLabel().setOnMouseClicked(mouseEvent -> openProfilView());
+        getView().getSearchButton().setOnAction(mouseEvent -> updateCardsBySearch());
 
     }
 
 
+    private void updateCardsBySearch() {
+        String searchQuery = getView().getSearchField().getText();
+
+        if (searchQuery.isBlank()) {
+            taskList.setTaskSupplier(repository::findAll);
+        } else {
+            taskList.setTaskSupplier(() -> repository.getTaskBySearchQueryAndLimit(searchQuery));
+        }
+        taskList.rerender();
+
+    }
 
     private void openProfilView() {
         Stage currentStage = (Stage) getView().getProfilePicture().getScene().getWindow();
