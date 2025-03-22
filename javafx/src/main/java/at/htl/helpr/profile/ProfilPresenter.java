@@ -63,4 +63,5 @@ public class ProfilPresenter {
     public ProfilView getView() {
         return view;
     }
+
 }

@@ -6,12 +6,9 @@ import at.htl.helpr.taskform.repository.TaskRepositoryImpl;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import java.util.List;
 
 public class ProfilView extends BorderPane {
 
@@ -80,6 +77,10 @@ public class ProfilView extends BorderPane {
         createdLabel = new Label("Erstellte Aufgaben");
         createdLabel.setStyle(
                 "-fx-background-color: #cce5ff; -fx-padding: 5px; -fx-font-size: 14px;");
+        //        appliedTasks.setMinHeight(150);
+//        appliedTasks.setPrefHeight(150);
+//        createdTasks.setMinHeight(150);
+//        createdTasks.setPrefHeight(150);
 
         mainContent.getChildren().addAll(acceptedLabel, appliedTasks, createdLabel,
                 createdTasks);
@@ -89,9 +90,8 @@ public class ProfilView extends BorderPane {
         setCenter(mainContent);
     }
 
-
-    public VBox getSidebar() {
-        return sidebar;
+    public TaskList getAppliedTasks() {
+        return appliedTasks;
     }
 
     public TaskRepository getRepository() {
@@ -102,8 +102,8 @@ public class ProfilView extends BorderPane {
         return createdTasks;
     }
 
-    public TaskList getAppliedTasks() {
-        return appliedTasks;
+    public VBox getSidebar() {
+        return sidebar;
     }
 
     public Circle getProfileCircle() {
