@@ -1,8 +1,12 @@
 package at.htl.helpr.taskform;
 
+import at.htl.helpr.profile.ProfilPresenter;
+import at.htl.helpr.profile.ProfilView;
 import at.htl.helpr.taskform.model.Task;
 import at.htl.helpr.taskform.repository.TaskRepository;
 import at.htl.helpr.taskform.repository.TaskRepositoryImpl;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 public class TaskFormPresenter {
 
@@ -32,11 +36,28 @@ public class TaskFormPresenter {
     }
 
     private void saveTask() {
-        Task newTask = new Task(model);
 
+        //Delete it when inserting a location Input in TaskView
+        model.setLocation("TestLocation");
+        //Delete it when adding users
+        model.setAuthorId(1);
+
+
+        Task newTask = new Task(model);
         if (validateData()) {
-            repository.create(newTask);
+            getRepository().create(newTask);
         }
+
+        Stage currentStage = (Stage) getView().getTitleField().getScene().getWindow();
+
+        var view = new ProfilView();
+        var presenter = new ProfilPresenter(view);
+
+        var scene = new Scene(view, 750, 650);
+
+        currentStage.setTitle("Helpr Profil");
+        currentStage.setScene(scene);
+        currentStage.show();
 
     }
 
@@ -53,4 +74,16 @@ public class TaskFormPresenter {
         return true;
     }
 
+
+    public TaskFormView getView() {
+        return view;
+    }
+
+    public Task getModel() {
+        return model;
+    }
+
+    public TaskRepository getRepository() {
+        return repository;
+    }
 }

@@ -124,7 +124,6 @@ public class HomeView extends BorderPane {
     public Circle getProfilePicture() {
         return profilePicture;
     }
-
     public Label getUsernameLabel() {
         return usernameLabel;
     }
