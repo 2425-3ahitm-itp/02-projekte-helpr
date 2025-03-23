@@ -11,6 +11,8 @@ public interface TaskRepository {
     public List<Task> findAll();
     public Task findById(long id);
 
+    public List<String> getTaskImages(long taskId);
+
     public List<Task> findAllTasksByUser(long userId);
     public List<Task> findAllTasksAppliedByUser(long userId);
 

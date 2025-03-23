@@ -20,7 +20,7 @@ public class HomePresenter {
 
     private final HomeView view;
     private final TaskRepository repository = new TaskRepositoryImpl();
-    private final TaskList taskList = new TaskList(false, repository::findAll);
+    private final TaskList taskList = new TaskList(false, repository::findAll, "Keine Aufgaben gefunden");
 
     public HomePresenter(HomeView view) {
         this.view = view;
