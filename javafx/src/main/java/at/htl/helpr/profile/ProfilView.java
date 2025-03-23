@@ -15,10 +15,10 @@ public class ProfilView extends BorderPane {
     private final TaskRepository repository = new TaskRepositoryImpl();
 
     private final TaskList createdTasks = new TaskList(true,
-            () -> repository.findAllTasksByUser(1));
+            () -> repository.findAllTasksByUser(1), "Keine Aufgaben erstellt");
 
     private final TaskList appliedTasks = new TaskList(true,
-            () -> repository.findAllTasksAppliedByUser(1));
+            () -> repository.findAllTasksAppliedByUser(1), "Keine Aufgaben angenommen");
 
 
     private final VBox sidebar;

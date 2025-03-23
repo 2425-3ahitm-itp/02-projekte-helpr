@@ -3,6 +3,7 @@ package at.htl.helpr.taskform.repository;
 import at.htl.helpr.controller.Database;
 import at.htl.helpr.taskform.model.Task;
 import at.htl.helpr.taskform.repository.filter.TaskQueryBuilder;
+import java.net.URL;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -144,6 +145,36 @@ public class TaskRepositoryImpl implements TaskRepository {
             throw new RuntimeException("Error while findById a task: " + e.getMessage());
         }
         return null;
+    }
+
+    @Override
+    public List<String> getTaskImages(long taskId) {
+        List<String> imagePathList = new ArrayList<>();
+
+        String sql = """
+                SELECT path FROM image
+                WHERE task_id = ?
+                ORDER BY "order"
+                """;
+
+        try (Connection connection = Database.getConnection();
+                PreparedStatement stmt = connection.prepareStatement(sql)
+        ) {
+            stmt.setLong(1, taskId);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                URL imgURL = TaskRepository.class.getResource(rs.getString("path"));
+                if (Objects.nonNull(imgURL)) {
+                    imagePathList.add(imgURL.getPath());
+                }
+            }
+
+            return imagePathList;
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Error while invoking getTaskImages() of tasks: " + e.getMessage(), e);
+        }
     }
 
     @Override

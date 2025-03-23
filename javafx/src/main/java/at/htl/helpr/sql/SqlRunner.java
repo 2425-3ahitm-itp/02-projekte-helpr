@@ -31,7 +31,6 @@ public class SqlRunner {
         runInserts();
 //        setImageForUser(1, Objects.requireNonNull(
 //                SqlRunner.class.getResource("/img/profiles/john.jpg")).getPath());
-//        writeImageFromUser(1, "john.jpg");
     }
 
     private static void runScript(String filePath) {
@@ -94,6 +93,27 @@ public class SqlRunner {
         }
     }
 
+    public static void addImageForTaskWithOrder(long taskId, int order, String imageFilePath) {
+        String sql = """
+                INSERT INTO image
+                (task_id, path, "order")
+                values (?, ?, ?)
+                """;
+
+        try (Connection conn = Database.getConnection();
+                var stmt = conn.prepareStatement(sql)) {
+
+            stmt.setLong(1, taskId);
+            stmt.setInt(3, order);
+            stmt.setString(2, imageFilePath);
+
+            stmt.execute();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public static void writeImageFromUser(long userId, String toWritePath) {
         String sql = """
                 SELECT u_user.profile_picture
@@ -151,6 +171,39 @@ public class SqlRunner {
 //            setImageForUser(i, Objects.requireNonNull(
 //                    SqlRunner.class.getResource("/img/profiles/" + imagesArray.get(i - 1))).getPath());
             setImageForUser(i, "/img/profiles/" + imagesArray.get(i - 1));
+        }
+
+        // run for each automatically scanned file in /img/task_images/
+
+        var taskImagesPath = Paths.get(Objects.requireNonNull(
+                SqlRunner.class.getResource("/img/task_images/")).getPath());
+
+        try {
+            var taskImages = java.nio.file.Files.list(taskImagesPath)
+                    .filter(path -> path.toString().endsWith(".png"))
+                    .toList();
+
+            for (int i = 0; i < taskImages.size(); i++) {
+                // filename: <task_id>_<order>_<blablabla>.png
+
+                var fileName = taskImages.get(i).getFileName().toString();
+                var parts = fileName.split("_");
+                if (parts.length < 2) {
+                    continue; // skip if filename is not in expected format
+                }
+                long taskId = Long.parseLong(parts[0]);
+                int order = Integer.parseInt(parts[1]);
+
+                System.out.println("adding image for task " + taskId + " with order " + order);
+
+                // convert taskImages.get(i).toString to a relative path from the jar
+                // addImageForTaskWithOrder(taskId, order, taskImages.get(i).toString());
+
+                addImageForTaskWithOrder(taskId, order, "/img/task_images/" + fileName);
+            }
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 }
