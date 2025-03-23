@@ -5,7 +5,7 @@ import io.quarkus.runtime.annotations.QuarkusMain;
 import javafx.application.Application;
 
 @QuarkusMain
-public class QuarkusFxApplication implements QuarkusApplication {
+public class yQuarkusFxApplication implements QuarkusApplication {
 
     @Override
     public int run(String... args) throws Exception {
