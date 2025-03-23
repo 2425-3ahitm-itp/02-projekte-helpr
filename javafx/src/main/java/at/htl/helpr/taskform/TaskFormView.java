@@ -8,6 +8,7 @@ import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory.IntegerSpinnerValueFactory;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
@@ -15,10 +16,22 @@ public class TaskFormView extends VBox {
 
     private final Label titleErrorLabel = new Label();
     private final TextField titleField = new TextField();
+    private final Label zipErrorLabel = new Label();
+    private final TextField zipField = new TextField();
+    private final Label cityErrorLabel = new Label();
+    private final TextField cityField = new TextField();
+    private final Label paymentErrorLabel = new Label();
+    private final TextField paymentField = new TextField();
     private final Label descriptionErrorLabel = new Label();
     private final TextArea descriptionArea = new TextArea();
     private final Spinner<Integer> estimatedEffortSpinner = new Spinner<>();
     private final Button createButton = new Button("Erstellen");
+    private final Button cancelButton = new Button("Abbrechen");
+
+    private final VBox leftLayout = new VBox();
+    private final VBox rightLayout = new VBox();
+    private final HBox layoutform = new HBox();
+    private final GridPane formGrid = new GridPane();
 
     private final static String ERROR_PREFIX = "-";
 
@@ -37,21 +50,39 @@ public class TaskFormView extends VBox {
         this.setPadding(new Insets(10));
         this.setAlignment(Pos.CENTER);
 
+        leftLayout.setPadding(new Insets(10));
+        rightLayout.setPadding(new Insets(10));
+        layoutform.setPadding(new Insets(10));
+        formGrid.setHgap(10);
+        formGrid.setVgap(10);
+
         estimatedEffortSpinner.setMinWidth(100);
 
         // title
         Label title = new Label("Task erstellen");
         title.setStyle("-fx-font-weight: bold; -fx-font-size: 18px;");
 
-        HBox titleBox = new HBox(5, new Label("Titel"), titleErrorLabel);
+        HBox titleBox = new HBox(5, new Label("Titel:"), titleErrorLabel);
         titleErrorLabel.setStyle("-fx-text-fill: red;");
 
         // description
-        HBox descriptionBox = new HBox(5, new Label("Beschreibung"), descriptionErrorLabel);
+        HBox descriptionBox = new HBox(5, new Label("Beschreibung:"), descriptionErrorLabel);
         descriptionErrorLabel.setStyle("-fx-text-fill: red;");
 
+        // zip code
+        HBox zipBox = new HBox(5, new Label("PLZ:"), zipErrorLabel);
+        zipErrorLabel.setStyle("-fx-text-fill: red;");
+
+        // city
+        HBox cityBox = new HBox(5, new Label("Stadt:"), cityErrorLabel);
+        cityErrorLabel.setStyle("-fx-text-fill: red;");
+
+        // payment
+        HBox paymentBox = new HBox(5, new Label("Entlohnung:"), paymentErrorLabel);
+        paymentErrorLabel.setStyle("-fx-text-fill: red;");
+
         // estimated effort
-        Label estimatedEffortLabel = new Label("Schwierigkeit");
+        Label estimatedEffortLabel = new Label("Schwierigkeit:");
         estimatedEffortLabel.setPrefWidth(Integer.MAX_VALUE);
         HBox difficultyBox = new HBox(5, estimatedEffortLabel, estimatedEffortSpinner);
 
@@ -59,10 +90,7 @@ public class TaskFormView extends VBox {
         createButton.setPrefWidth(Double.MAX_VALUE);
 
         this.getChildren().addAll(
-                title,
-                titleBox, titleField,
-                descriptionBox, descriptionArea,
-                difficultyBox, createButton
+                title
         );
 
 //        this.getChildren().add(formLayout);
