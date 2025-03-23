@@ -12,7 +12,9 @@ weight: 60
 
 ## Startseite
 Eine Übersicht aller Aufgaben, mit einer Suchleiste um nach bestimmten Aufgaben suchen zu können.
-Auch kann man nach den vorgegebenen Filter filtern.
+Auch kann man nach den vorgegebenen Filter filtern. Die Filter können individuell aus und eingeschaltet werden.
+Mit einem Klick auf den Button **"Filter Anwenden"** kann man wie der Name schon sagt,
+die ausgwählten Filter anwenden.
 ![Startseite-angemeldet](./Projekt_Wireframe_Startseite-angemeldet.jpg)
 
 Falls der Benutzer noch nicht angemeldet ist, steht neben dem Profilbild nicht der Benutzername,
@@ -30,6 +32,11 @@ Falls noch keine Aufgaben erstellt oder angenommen worden sind, ist der Schriftz
 ![Profilseite-ohneAufgaben](./Projekt_Wireframe_Profilseite-ohneAufgaben.jpg)
 Durch einen Klick auf den Button **"Startseite"** kommt man zurück zur Startseite.
 
+## Aufgabenerstellung
+Klickt man auf einen der Buttons mit dem Schriftzug **"Neue Aufgabe"** kommt man zu einem Fenster bei dem man die
+Infos zu einer Aufgabe ausfüllen und die Aufgabe zu erstellen.
+![Aufgabenerstellung](./Projekt_Wireframe_Aufgabenerstellung.jpg)
+
 ## Aufgaben-Detailansichtsseite
 Auf der Detailansicht der einzelnen Aufgaben sind alle für die Helfer relevanten Informationen zu finden.
 
@@ -46,4 +53,5 @@ Um Zurück auf die Startseite zu kommen, gibt es eine klickbaren Pfeil unter dem
 
 ## Zusammanhang der einzelnen Seiten
 Ein Überblick der einzelnen Seiten und wie diese zusammenhängen.
-![Zusammenhaenge](./Projekt_Wireframe_Zusammenhaenge.jpg)
+![Zusammenhaenge](./Projekt_Wireframe_Zusammenhaenge-1.jpg)
+![Zusammenhaenge](./Projekt_Wireframe_Zusammenhaenge-2.jpg)
