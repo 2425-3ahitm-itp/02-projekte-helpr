@@ -80,7 +80,11 @@ public class SqlRunner {
             stmt.setLong(2, userId);
 
             // binary image data from filePath
-            byte[] imageData = readAllBytes(Paths.get(filePath));
+            byte[] imageData;
+            try (var inputStream = SqlRunner.class.getResourceAsStream(filePath)) {
+                assert inputStream != null;
+                imageData = inputStream.readAllBytes();
+            }
             stmt.setBytes(1, imageData);
 
             stmt.execute();
@@ -144,8 +148,9 @@ public class SqlRunner {
 
         for (int i = 1; i <= imagesArray.size(); i++) {
             System.out.println("adding image " + imagesArray.get(i - 1));
-            setImageForUser(i, Objects.requireNonNull(
-                    SqlRunner.class.getResource("/img/profiles/" + imagesArray.get(i - 1))).getPath());
+//            setImageForUser(i, Objects.requireNonNull(
+//                    SqlRunner.class.getResource("/img/profiles/" + imagesArray.get(i - 1))).getPath());
+            setImageForUser(i, "/img/profiles/" + imagesArray.get(i - 1));
         }
     }
 }
