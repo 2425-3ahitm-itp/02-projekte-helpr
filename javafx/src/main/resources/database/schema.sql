@@ -4,11 +4,9 @@
 -- Project Site: pgmodeler.io
 -- Model Author: Jakob
 
-DROP SCHEMA IF EXISTS public CASCADE;
-CREATE SCHEMA public;
 
 -- object: public.u_user | type: TABLE --
--- DROP TABLE IF EXISTS public.u_user CASCADE;
+DROP TABLE IF EXISTS public.u_user CASCADE;
 CREATE TABLE public.u_user (
 	user_id bigint NOT NULL GENERATED ALWAYS AS IDENTITY ,
 	username varchar(50) NOT NULL,
@@ -18,10 +16,11 @@ CREATE TABLE public.u_user (
 	CONSTRAINT u_user_pk PRIMARY KEY (user_id)
 );
 -- ddl-end --
+ALTER TABLE public.u_user OWNER TO helpr;
 -- ddl-end --
 
 -- object: public.task | type: TABLE --
--- DROP TABLE IF EXISTS public.task CASCADE;
+DROP TABLE IF EXISTS public.task CASCADE;
 CREATE TABLE public.task (
 	task_id bigint NOT NULL GENERATED ALWAYS AS IDENTITY ,
 	author_id bigint NOT NULL,
@@ -33,38 +32,62 @@ CREATE TABLE public.task (
 	created_at timestamp DEFAULT now(),
 	CONSTRAINT task_pk PRIMARY KEY (task_id)
 );
+-- ddl-end --
+ALTER TABLE public.task OWNER TO helpr;
+-- ddl-end --
 
 -- object: author_u_user_fk | type: CONSTRAINT --
--- ALTER TABLE public.task DROP CONSTRAINT IF EXISTS author_u_user_fk CASCADE;
+ALTER TABLE public.task DROP CONSTRAINT IF EXISTS author_u_user_fk CASCADE;
 ALTER TABLE public.task ADD CONSTRAINT author_u_user_fk FOREIGN KEY (author_id)
 REFERENCES public.u_user (user_id) MATCH FULL
 ON DELETE RESTRICT ON UPDATE CASCADE;
 -- ddl-end --
 
 -- object: public.application | type: TABLE --
--- DROP TABLE IF EXISTS public.application CASCADE;
+DROP TABLE IF EXISTS public.application CASCADE;
 CREATE TABLE public.application (
 	user_id bigint NOT NULL,
 	task_id bigint NOT NULL,
 	created_at timestamp DEFAULT now()
 
 );
+-- ddl-end --
+ALTER TABLE public.application OWNER TO helpr;
+-- ddl-end --
 
 -- object: u_user_fk | type: CONSTRAINT --
--- ALTER TABLE public.application DROP CONSTRAINT IF EXISTS u_user_fk CASCADE;
+ALTER TABLE public.application DROP CONSTRAINT IF EXISTS u_user_fk CASCADE;
 ALTER TABLE public.application ADD CONSTRAINT u_user_fk FOREIGN KEY (user_id)
 REFERENCES public.u_user (user_id) MATCH FULL
 ON DELETE CASCADE ON UPDATE CASCADE;
 -- ddl-end --
 
 -- object: task_fk | type: CONSTRAINT --
--- ALTER TABLE public.application DROP CONSTRAINT IF EXISTS task_fk CASCADE;
+ALTER TABLE public.application DROP CONSTRAINT IF EXISTS task_fk CASCADE;
 ALTER TABLE public.application ADD CONSTRAINT task_fk FOREIGN KEY (task_id)
 REFERENCES public.task (task_id) MATCH FULL
 ON DELETE CASCADE ON UPDATE CASCADE;
 -- ddl-end --
 
+-- object: public.image | type: TABLE --
+DROP TABLE IF EXISTS public.image CASCADE;
+CREATE TABLE public.image (
+	image_id bigint NOT NULL GENERATED ALWAYS AS IDENTITY ,
+	task_id bigint NOT NULL,
+	path varchar(100) NOT NULL,
+	"order" smallint DEFAULT 0
 
--- extension pg_trgm
+);
+-- ddl-end --
+ALTER TABLE public.image OWNER TO helpr;
+-- ddl-end --
+
+-- object: task_fk | type: CONSTRAINT --
+ALTER TABLE public.image DROP CONSTRAINT IF EXISTS task_fk CASCADE;
+ALTER TABLE public.image ADD CONSTRAINT task_fk FOREIGN KEY (task_id)
+REFERENCES public.task (task_id) MATCH FULL
+ON DELETE CASCADE ON UPDATE CASCADE;
+-- ddl-end --
+
+
 CREATE EXTENSION pg_trgm;
-

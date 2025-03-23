@@ -4,7 +4,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
  Unexpected results may occur if the code is changed deliberately.
 -->
 <dbmodel pgmodeler-ver="1.1.6" use-changelog="false" author="Jakob" max-obj-count="4"
-	 last-position="62,288" last-zoom="1.15"
+	 last-position="0,55" last-zoom="1.15"
 	 default-schema="public" default-owner="helpr"
 	 layers="Default layer"
 	 active-layers="0"
@@ -100,7 +100,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="application" layers="0" collapse-mode="2" max-obj-count="3" z-value="0">
 	<schema name="public"/>
 	<role name="helpr"/>
-	<position x="400" y="660"/>
+	<position x="300" y="640"/>
 	<column name="created_at" default-value="now()">
 		<type name="timestamp" length="0"/>
 	</column>
@@ -141,6 +141,43 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	del-action="CASCADE">
 	<label ref-type="name-label">
 		<position x="7.76605" y="-31.853"/>
+	</label>
+</relationship>
+
+<table name="image" layers="0" collapse-mode="2" max-obj-count="4" z-value="0">
+	<schema name="public"/>
+	<role name="helpr"/>
+	<position x="580" y="660"/>
+	<column name="image_id" not-null="true"
+	 identity-type="ALWAYS">
+		<type name="bigint" length="0"/>
+	</column>
+	<column name="path" not-null="true">
+		<type name="varchar" length="100"/>
+	</column>
+	<column name="order" default-value="0">
+		<type name="smallint" length="0"/>
+	</column>
+
+	<customidxs object-type="column">
+		<object name="task_id" index="1"/>
+	</customidxs>
+	<customidxs object-type="constraint">
+		<object name="task_fk" index="0"/>
+	</customidxs></table>
+
+<relationship name="task_has_images" type="rel1n" layers="0"
+	 src-col-pattern="task_id"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#59200a"
+	 src-table="public.task"
+	 dst-table="public.image"
+	 src-required="true" dst-required="false"
+	upd-action="CASCADE"
+	del-action="CASCADE">
+	<label ref-type="name-label">
+		<position x="8.96295" y="-26.353"/>
 	</label>
 </relationship>
 

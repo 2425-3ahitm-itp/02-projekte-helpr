@@ -24,13 +24,23 @@ entity task {
 
 
 entity application {
-  user_id : bigint <<FK>>
-  task_id : bigint <<FK>>
+  user_id : bigint <<FK, PK>>
+  task_id : bigint <<FK, PK>>
   --
   created_at : timestamp <<default: now()>>
 }
 
-u_user ||--o{ task : "author"
+entity image {
+  image_id : bigint <<PK>>
+  --
+  task_id : bigint <<FK>>
+  path : varchar(100)
+  order : smallint <<default: 0>>
+}
+
+task ||--o{ image
+
+u_user ||-right-o{ task : "author"
 
 task ||--o{ application : "applies"
 application }o--|| u_user : "applies to"
