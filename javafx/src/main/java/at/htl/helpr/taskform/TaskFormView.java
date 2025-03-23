@@ -10,6 +10,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
 public class TaskFormView extends VBox {
@@ -31,7 +32,6 @@ public class TaskFormView extends VBox {
     private final VBox leftLayout = new VBox();
     private final VBox rightLayout = new VBox();
     private final HBox layoutform = new HBox();
-    private final GridPane formGrid = new GridPane();
 
     private final static String ERROR_PREFIX = "-";
 
@@ -53,9 +53,18 @@ public class TaskFormView extends VBox {
         leftLayout.setPadding(new Insets(10));
         rightLayout.setPadding(new Insets(10));
         layoutform.setPadding(new Insets(10));
-        formGrid.setHgap(10);
-        formGrid.setVgap(10);
 
+        // max width layouts
+        leftLayout.setMaxWidth(Double.MAX_VALUE);
+        rightLayout.setMaxWidth(Double.MAX_VALUE);
+
+        // fill width
+        leftLayout.setFillWidth(true);
+        rightLayout.setFillWidth(true);
+
+        // min width
+        leftLayout.setMinWidth(350);
+        rightLayout.setMinWidth(350);
         estimatedEffortSpinner.setMinWidth(100);
 
         // title
@@ -85,14 +94,49 @@ public class TaskFormView extends VBox {
         Label estimatedEffortLabel = new Label("Schwierigkeit:");
         estimatedEffortLabel.setPrefWidth(Integer.MAX_VALUE);
         HBox difficultyBox = new HBox(5, estimatedEffortLabel, estimatedEffortSpinner);
+        difficultyBox.setPadding(new Insets(10));
 
         // max width create button
         createButton.setPrefWidth(Double.MAX_VALUE);
+        cancelButton.setPrefWidth(Double.MAX_VALUE);
 
-        this.getChildren().addAll(
-                title
+        // ZIP-Code VBox
+        VBox zipVBox = new VBox(2, zipBox, zipField);
+        zipVBox.setAlignment(Pos.TOP_LEFT);
+        zipVBox.setFillWidth(true);
+
+        // City VBox
+        VBox cityVBox = new VBox(2, cityBox, cityField);
+        cityVBox.setAlignment(Pos.TOP_LEFT);
+        cityVBox.setFillWidth(true);
+
+        // zip code, city HBox
+        HBox locationBox = new HBox(10, zipVBox, cityVBox);
+        locationBox.setAlignment(Pos.TOP_LEFT);
+
+        // buttons VBox
+        VBox buttonBox = new VBox(10, createButton, cancelButton);
+        buttonBox.setAlignment(Pos.CENTER);
+        HBox.setHgrow(createButton, Priority.ALWAYS);
+        HBox.setHgrow(cancelButton, Priority.ALWAYS);
+
+        descriptionArea.setPrefHeight(130);
+
+        leftLayout.getChildren().addAll(
+                titleBox,titleField,
+                descriptionBox,descriptionArea
         );
 
+        rightLayout.getChildren().addAll(
+                        locationBox,
+                        paymentBox, paymentField,
+                        difficultyBox,
+                        buttonBox
+        );
+
+        layoutform.getChildren().addAll(leftLayout, rightLayout);
+
+        this.getChildren().addAll(title, layoutform);
 //        this.getChildren().add(formLayout);
     }
 
@@ -111,6 +155,8 @@ public class TaskFormView extends VBox {
         }
         descriptionErrorLabel.textProperty().set(String.format("%s %s", ERROR_PREFIX, message));
     }
+
+
 
     public Label getTitleErrorLabel() {
         return titleErrorLabel;
