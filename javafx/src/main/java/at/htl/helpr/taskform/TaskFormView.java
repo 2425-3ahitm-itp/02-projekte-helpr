@@ -195,6 +195,7 @@ public class TaskFormView extends VBox {
         descriptionErrorLabel.textProperty().set(String.format("%s %s", ERROR_PREFIX, message));
     }
 
+    //region Getter
     public Label getTitleErrorLabel() {
         return titleErrorLabel;
     }
@@ -218,4 +219,45 @@ public class TaskFormView extends VBox {
     public Button getCreateButton() {
         return createButton;
     }
+
+    public Button getCancelButton() {
+        return cancelButton;
+    }
+
+    public Button getUploadButton() {
+        return uploadButton;
+    }
+
+    public Button getNextButton() {
+        return nextButton;
+    }
+
+    public Button getPrevButton() {
+        return prevButton;
+    }
+
+    public TextField getRewardField() {
+        return rewardField;
+    }
+
+    public Label getRewardErrorLabel() {
+        return rewardErrorLabel;
+    }
+
+    public TextField getCityField() {
+        return cityField;
+    }
+
+    public TextField getZipField() {
+        return zipField;
+    }
+
+    public Label getZipErrorLabel() {
+        return zipErrorLabel;
+    }
+
+    public Label getCityErrorLabel() {
+        return cityErrorLabel;
+    }
+    //endregion
 }
