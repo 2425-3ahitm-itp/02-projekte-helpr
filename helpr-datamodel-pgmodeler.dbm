@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+CAUTION: Do not modify this file unless you know what you are doing.
+ Unexpected results may occur if the code is changed deliberately.
+-->
+<dbmodel pgmodeler-ver="1.1.6" use-changelog="false" author="Jakob" max-obj-count="4"
+	 last-position="0,55" last-zoom="1.15"
+	 default-schema="public" default-owner="helpr"
+	 layers="Default layer"
+	 active-layers="0"
+	 layer-name-colors="#000000"
+	 layer-rect-colors="#b4b4b4"
+	 show-layer-names="false" show-layer-rects="false">
+<role name="helpr"
+ password="123">
+</role>
+
+<database name="helpr" is-template="false" allow-conns="true">
+	<role name="helpr"/>
+</database>
+
+<schema name="public" layers="0" fill-color="#e1e1e1" name-color="#000000" sql-disabled="true">
+</schema>
+
+<table name="u_user" layers="0" collapse-mode="2" max-obj-count="6" z-value="0">
+	<schema name="public"/>
+	<role name="helpr"/>
+	<position x="220" y="320"/>
+	<column name="user_id" not-null="true"
+	 identity-type="ALWAYS">
+		<type name="bigint" length="0"/>
+	</column>
+	<column name="username" not-null="true">
+		<type name="varchar" length="50"/>
+	</column>
+	<column name="email" not-null="true">
+		<type name="varchar" length="200"/>
+	</column>
+	<column name="password" not-null="true">
+		<type name="char" length="100"/>
+	</column>
+	<column name="profile_picture">
+		<type name="bytea" length="0"/>
+	</column>
+	<constraint name="u_user_pk" type="pk-constr" table="public.u_user">
+		<columns names="user_id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="task" layers="0" collapse-mode="2" max-obj-count="9" z-value="0">
+	<schema name="public"/>
+	<role name="helpr"/>
+	<position x="580" y="320"/>
+	<column name="task_id" not-null="true"
+	 identity-type="ALWAYS">
+		<type name="bigint" length="0"/>
+	</column>
+	<column name="title" not-null="true">
+		<type name="varchar" length="200"/>
+	</column>
+	<column name="description" not-null="true">
+		<type name="varchar" length="4096"/>
+	</column>
+	<column name="reward" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="effort" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="location" not-null="true">
+		<type name="varchar" length="100"/>
+	</column>
+	<column name="created_at" default-value="now()">
+		<type name="timestamp" length="0"/>
+	</column>
+	<constraint name="task_pk" type="pk-constr" table="public.task">
+		<columns names="task_id" ref-type="src-columns"/>
+	</constraint>
+
+	<customidxs object-type="column">
+		<object name="author_id" index="1"/>
+	</customidxs>
+	<customidxs object-type="constraint">
+		<object name="author_u_user_fk" index="1"/>
+	</customidxs></table>
+
+<relationship name="user_has_tasks" type="rel1n" layers="0"
+	 src-col-pattern="author_id"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="author_{st}_fk"
+	 custom-color="#6106ac"
+	 src-table="public.u_user"
+	 dst-table="public.task"
+	 src-required="true" dst-required="false">
+	<label ref-type="name-label">
+		<position x="0" y="0"/>
+	</label>
+</relationship>
+
+<table name="application" layers="0" collapse-mode="2" max-obj-count="3" z-value="0">
+	<schema name="public"/>
+	<role name="helpr"/>
+	<position x="300" y="640"/>
+	<column name="created_at" default-value="now()">
+		<type name="timestamp" length="0"/>
+	</column>
+
+	<customidxs object-type="column">
+		<object name="task_id" index="1"/>
+		<object name="user_id" index="0"/>
+	</customidxs>
+	<customidxs object-type="constraint">
+		<object name="task_fk" index="1"/>
+		<object name="u_user_fk" index="0"/>
+	</customidxs></table>
+
+<relationship name="user_has_applications" type="rel1n" layers="0"
+	 src-col-pattern="user_id"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#c2761e"
+	 src-table="public.u_user"
+	 dst-table="public.application"
+	 src-required="true" dst-required="false"
+	upd-action="CASCADE"
+	del-action="CASCADE">
+	<label ref-type="name-label">
+		<position x="15.8452" y="-22.653"/>
+	</label>
+</relationship>
+
+<relationship name="task_has_applications" type="rel1n" layers="0"
+	 src-col-pattern="task_id"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#972d45"
+	 src-table="public.task"
+	 dst-table="public.application"
+	 src-required="true" dst-required="false"
+	upd-action="CASCADE"
+	del-action="CASCADE">
+	<label ref-type="name-label">
+		<position x="7.76605" y="-31.853"/>
+	</label>
+</relationship>
+
+<table name="image" layers="0" collapse-mode="2" max-obj-count="4" z-value="0">
+	<schema name="public"/>
+	<role name="helpr"/>
+	<position x="580" y="660"/>
+	<column name="image_id" not-null="true"
+	 identity-type="ALWAYS">
+		<type name="bigint" length="0"/>
+	</column>
+	<column name="path" not-null="true">
+		<type name="varchar" length="100"/>
+	</column>
+	<column name="order" default-value="0">
+		<type name="smallint" length="0"/>
+	</column>
+
+	<customidxs object-type="column">
+		<object name="task_id" index="1"/>
+	</customidxs>
+	<customidxs object-type="constraint">
+		<object name="task_fk" index="0"/>
+	</customidxs></table>
+
+<relationship name="task_has_images" type="rel1n" layers="0"
+	 src-col-pattern="task_id"
+	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
+	 src-fk-pattern="{st}_fk"
+	 custom-color="#59200a"
+	 src-table="public.task"
+	 dst-table="public.image"
+	 src-required="true" dst-required="false"
+	upd-action="CASCADE"
+	del-action="CASCADE">
+	<label ref-type="name-label">
+		<position x="8.96295" y="-26.353"/>
+	</label>
+</relationship>
+
+</dbmodel>
