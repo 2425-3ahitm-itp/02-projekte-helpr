@@ -5,8 +5,11 @@ import at.htl.helpr.profile.ProfilView;
 import at.htl.helpr.taskform.model.Task;
 import at.htl.helpr.taskform.repository.TaskRepository;
 import at.htl.helpr.taskform.repository.TaskRepositoryImpl;
+import javafx.beans.binding.Bindings;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.util.converter.IntegerStringConverter;
+import javafx.util.converter.NumberStringConverter;
 
 public class TaskFormPresenter {
 
@@ -14,7 +17,6 @@ public class TaskFormPresenter {
     private Task model;
 
     private final TaskRepository repository = new TaskRepositoryImpl();
-
 
     public TaskFormPresenter( Task model, TaskFormView view) {
         this.model = model;
@@ -33,14 +35,16 @@ public class TaskFormPresenter {
         view.getDescriptionArea().textProperty().bindBidirectional(model.descriptionProperty());
         view.getEstimatedEffortSpinner().getValueFactory().valueProperty()
                 .bindBidirectional(model.effortProperty().asObject());
+        model.locationProperty().bind(view.getZipField().textProperty().concat(" ").concat(view.getCityField().textProperty()));
+        Bindings.bindBidirectional(view.getRewardField().textProperty(), model.rewardProperty(), new NumberStringConverter());
     }
 
     private void saveTask() {
 
-        //Delete it when inserting a location Input in TaskView
-        model.setLocation("TestLocation");
-        //Delete it when adding users
-        model.setAuthorId(1);
+//        //Delete it when inserting a location Input in TaskView
+//        model.setLocation("TestLocation");
+//        //Delete it when adding users
+//        model.setAuthorId(1);
 
 
         Task newTask = new Task(model);
