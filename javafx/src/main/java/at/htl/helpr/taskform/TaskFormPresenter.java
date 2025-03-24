@@ -43,7 +43,7 @@ public class TaskFormPresenter {
     private void saveTask() {
 
 //        //Delete it when inserting a location Input in TaskView
-        model.setLocation("TestLocation");
+//        model.setLocation("TestLocation");
 //        //Delete it when adding users
         model.setAuthorId(1);
 
