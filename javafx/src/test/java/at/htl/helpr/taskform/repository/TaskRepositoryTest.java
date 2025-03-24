@@ -29,6 +29,11 @@ class TaskRepositoryTest {
                 """, UserRepositoryImplTest.get100CharsString( 'u' ) ) );
     }
 
+    @AfterAll
+    static void cleanup() {
+        SqlRunner.runSchema();
+    }
+
 
     @Test
     @Order( 1000 )

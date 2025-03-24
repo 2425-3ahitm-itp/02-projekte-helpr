@@ -46,8 +46,7 @@ Möglichkeit, ihre Fähigkeiten anzubieten und zusätzliches Einkommen zu erziel
 [source,shell]
 ----
 cd javafx
-./mvnw package
-./mvnw quarkus:run
+./mvnw quarkus:dev
 ----
 
 == Team

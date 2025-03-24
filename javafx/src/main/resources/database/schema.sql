@@ -3,6 +3,10 @@
 -- PostgreSQL version: 17.0
 -- Project Site: pgmodeler.io
 -- Model Author: Jakob
+DROP ROLE IF EXISTS helpr;
+CREATE ROLE app WITH
+	 PASSWORD 'app';
+-- ddl-end --
 
 
 -- object: public.u_user | type: TABLE --
@@ -90,4 +94,4 @@ ON DELETE CASCADE ON UPDATE CASCADE;
 -- ddl-end --
 
 
-CREATE EXTENSION pg_trgm;
+CREATE EXTENSION pg_trgm IF NOT EXISTS;
