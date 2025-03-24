@@ -183,10 +183,10 @@ public class SqlRunner {
                     .filter(path -> path.toString().endsWith(".png"))
                     .toList();
 
-            for (int i = 0; i < taskImages.size(); i++) {
+            for (java.nio.file.Path taskImage : taskImages) {
                 // filename: <task_id>_<order>_<blablabla>.png
 
-                var fileName = taskImages.get(i).getFileName().toString();
+                var fileName = taskImage.getFileName().toString();
                 var parts = fileName.split("_");
                 if (parts.length < 2) {
                     continue; // skip if filename is not in expected format
