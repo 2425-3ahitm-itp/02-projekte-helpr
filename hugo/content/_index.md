@@ -1,13 +1,16 @@
-
-## Helpr is a platform that allows users to find help in their area and assist others.
-
+_Helpr ist eine Plattform, die Menschen mit Unterstützungsbedarf ermöglicht, schnell und
+unkompliziert bezahlte Hilfe für alltägliche Aufgaben zu finden. Gleichzeitig bietet 
+sie Helfern eine flexible Möglichkeit, ihre Fähigkeiten anzubieten und zusätzliches 
+Einkommen zu erzielen._
 
 # Overview
 
 ## Latest Release
+
 {{< latest-release >}}
 
 ## Current Agreement
+
 {{< article link="project/mom/2025-03-10_agreement_wireframes/" >}}
 
 ## Other
