@@ -27,7 +27,6 @@ public class TaskFormView extends VBox {
     private final Button createButton = new Button("Erstellen");
     private final Button cancelButton = new Button("Abbrechen");
 
-
     private final VBox leftLayout = new VBox();
     private final VBox rightLayout = new VBox();
     private final HBox layoutform = new HBox();
@@ -178,7 +177,6 @@ public class TaskFormView extends VBox {
         imageSlider.getChildren().addAll(imageLayout, uploadButton);
     }
 
-
     public void setTitleErrorMessage(String message) {
         if (message.isEmpty()) {
             titleErrorLabel.textProperty().set("");
@@ -193,6 +191,30 @@ public class TaskFormView extends VBox {
             return;
         }
         descriptionErrorLabel.textProperty().set(String.format("%s %s", ERROR_PREFIX, message));
+    }
+
+    public void setZipErrorMessage(String message) {
+        if (message.isEmpty()) {
+            zipErrorLabel.textProperty().set("");
+            return;
+        }
+        zipErrorLabel.textProperty().set(String.format("%s %s", ERROR_PREFIX, message));
+    }
+
+    public void setCityErrorMessage(String message) {
+        if (message.isEmpty()) {
+            cityErrorLabel.textProperty().set("");
+            return;
+        }
+        cityErrorLabel.textProperty().set(String.format("%s %s", ERROR_PREFIX, message));
+    }
+
+    public void setRewardErrorMessage(String message) {
+        if (message.isEmpty()) {
+            rewardErrorLabel.textProperty().set("");
+            return;
+        }
+        rewardErrorLabel.textProperty().set(String.format("%s %s", ERROR_PREFIX, message));
     }
 
     //region Getter
