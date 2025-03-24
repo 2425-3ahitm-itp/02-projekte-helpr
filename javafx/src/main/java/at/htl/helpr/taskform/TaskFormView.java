@@ -8,7 +8,6 @@ import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory.IntegerSpinnerValueFactory;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
@@ -21,8 +20,8 @@ public class TaskFormView extends VBox {
     private final TextField zipField = new TextField();
     private final Label cityErrorLabel = new Label();
     private final TextField cityField = new TextField();
-    private final Label paymentErrorLabel = new Label();
-    private final TextField paymentField = new TextField();
+    private final Label rewardErrorLabel = new Label();
+    private final TextField rewardField = new TextField();
     private final Label descriptionErrorLabel = new Label();
     private final TextArea descriptionArea = new TextArea();
     private final Spinner<Integer> estimatedEffortSpinner = new Spinner<>();
@@ -68,7 +67,7 @@ public class TaskFormView extends VBox {
         estimatedEffortSpinner.setMinWidth(100);
 
         // title
-        Label title = new Label("Task erstellen");
+        Label title = new Label("Aufgabe erstellen");
         title.setStyle("-fx-font-weight: bold; -fx-font-size: 18px;");
 
         HBox titleBox = new HBox(5, new Label("Titel:"), titleErrorLabel);
@@ -87,8 +86,8 @@ public class TaskFormView extends VBox {
         cityErrorLabel.setStyle("-fx-text-fill: red;");
 
         // payment
-        HBox paymentBox = new HBox(5, new Label("Entlohnung:"), paymentErrorLabel);
-        paymentErrorLabel.setStyle("-fx-text-fill: red;");
+        HBox rewardBox = new HBox(5, new Label("Entlohnung:"), rewardErrorLabel);
+        rewardErrorLabel.setStyle("-fx-text-fill: red;");
 
         // estimated effort
         Label estimatedEffortLabel = new Label("Schwierigkeit:");
@@ -129,7 +128,7 @@ public class TaskFormView extends VBox {
 
         rightLayout.getChildren().addAll(
                         locationBox,
-                        paymentBox, paymentField,
+                        rewardBox, rewardField,
                         difficultyBox,
                         buttonBox
         );
