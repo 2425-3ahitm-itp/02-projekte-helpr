@@ -28,6 +28,7 @@ public class TaskFormPresenter {
 
     private void attachEvents() {
         view.getCreateButton().setOnAction(e -> saveTask());
+        view.getCancelButton().setOnAction(e -> openProfilView());
     }
 
     private void bindViewToModel() {
@@ -42,9 +43,9 @@ public class TaskFormPresenter {
     private void saveTask() {
 
 //        //Delete it when inserting a location Input in TaskView
-//        model.setLocation("TestLocation");
+        model.setLocation("TestLocation");
 //        //Delete it when adding users
-//        model.setAuthorId(1);
+        model.setAuthorId(1);
 
 
         Task newTask = new Task(model);
@@ -63,6 +64,19 @@ public class TaskFormPresenter {
         currentStage.setScene(scene);
         currentStage.show();
 
+    }
+
+    private void openProfilView() {
+        Stage currentStage = (Stage) getView().getTitleField().getScene().getWindow();
+
+        var view = new ProfilView();
+        var presenter = new ProfilPresenter(view);
+
+        var scene = new Scene(view, 750, 650);
+
+        currentStage.setTitle("Helpr Profil");
+        currentStage.setScene(scene);
+        currentStage.show();
     }
 
     private void updateTask() {
