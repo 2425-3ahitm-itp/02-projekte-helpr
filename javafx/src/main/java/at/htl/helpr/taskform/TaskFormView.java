@@ -9,7 +9,6 @@ import javafx.scene.control.SpinnerValueFactory.IntegerSpinnerValueFactory;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
 public class TaskFormView extends VBox {
@@ -28,9 +27,17 @@ public class TaskFormView extends VBox {
     private final Button createButton = new Button("Erstellen");
     private final Button cancelButton = new Button("Abbrechen");
 
+
     private final VBox leftLayout = new VBox();
     private final VBox rightLayout = new VBox();
     private final HBox layoutform = new HBox();
+
+    private final HBox imageBox = new HBox(10);
+    private final Button prevButton = new Button("<");
+    private final Button nextButton = new Button(">");
+    private final HBox imageLayout = new HBox(10);
+    private final Button uploadButton = new Button("Bild Hochladen");
+    private final VBox imageSlider = new VBox();
 
     private final static String ERROR_PREFIX = "-";
 
@@ -44,18 +51,13 @@ public class TaskFormView extends VBox {
     }
 
     private void setupLayout() {
-
+        // general layout setup
         this.setSpacing(10);
         this.setPadding(new Insets(10));
         this.setAlignment(Pos.CENTER);
 
         leftLayout.setPadding(new Insets(10));
         rightLayout.setPadding(new Insets(10));
-        layoutform.setPadding(new Insets(10));
-
-        // max width layouts
-        leftLayout.setMaxWidth(Double.MAX_VALUE);
-        rightLayout.setMaxWidth(Double.MAX_VALUE);
 
         // fill width
         leftLayout.setFillWidth(true);
@@ -70,42 +72,48 @@ public class TaskFormView extends VBox {
         Label title = new Label("Aufgabe erstellen");
         title.setStyle("-fx-font-weight: bold; -fx-font-size: 18px;");
 
-        HBox titleBox = new HBox(5, new Label("Titel:"), titleErrorLabel);
+        HBox titleBox = new HBox(10, new Label("Titel:"), titleErrorLabel);
         titleErrorLabel.setStyle("-fx-text-fill: red;");
+        titleBox.setPadding(new Insets(10, 0, 10, 0));
 
         // description
-        HBox descriptionBox = new HBox(5, new Label("Beschreibung:"), descriptionErrorLabel);
+        HBox descriptionBox = new HBox(10, new Label("Beschreibung:"), descriptionErrorLabel);
         descriptionErrorLabel.setStyle("-fx-text-fill: red;");
+        descriptionArea.setPrefHeight(55);
+        descriptionBox.setPadding(new Insets(10, 0, 10, 0));
 
         // zip code
-        HBox zipBox = new HBox(5, new Label("PLZ:"), zipErrorLabel);
+        HBox zipBox = new HBox(10, new Label("PLZ:"), zipErrorLabel);
         zipErrorLabel.setStyle("-fx-text-fill: red;");
+        zipBox.setPadding(new Insets(10, 0, 10, 0));
 
         // city
-        HBox cityBox = new HBox(5, new Label("Stadt:"), cityErrorLabel);
+        HBox cityBox = new HBox(10, new Label("Stadt:"), cityErrorLabel);
         cityErrorLabel.setStyle("-fx-text-fill: red;");
+        cityBox.setPadding(new Insets(10));
 
         // payment
-        HBox rewardBox = new HBox(5, new Label("Entlohnung:"), rewardErrorLabel);
+        HBox rewardBox = new HBox(10, new Label("Entlohnung:"), rewardErrorLabel);
         rewardErrorLabel.setStyle("-fx-text-fill: red;");
+        rewardBox.setPadding(new Insets(10, 0, 10, 0));
 
         // estimated effort
         Label estimatedEffortLabel = new Label("Schwierigkeit:");
         estimatedEffortLabel.setPrefWidth(Integer.MAX_VALUE);
-        HBox difficultyBox = new HBox(5, estimatedEffortLabel, estimatedEffortSpinner);
-        difficultyBox.setPadding(new Insets(10));
+        HBox difficultyBox = new HBox(10, estimatedEffortLabel, estimatedEffortSpinner);
+        difficultyBox.setPadding(new Insets(10, 0, 5, 0));
 
         // max width create button
         createButton.setPrefWidth(Double.MAX_VALUE);
         cancelButton.setPrefWidth(Double.MAX_VALUE);
 
         // ZIP-Code VBox
-        VBox zipVBox = new VBox(2, zipBox, zipField);
+        VBox zipVBox = new VBox(0, zipBox, zipField);
         zipVBox.setAlignment(Pos.TOP_LEFT);
         zipVBox.setFillWidth(true);
 
         // City VBox
-        VBox cityVBox = new VBox(2, cityBox, cityField);
+        VBox cityVBox = new VBox(0, cityBox, cityField);
         cityVBox.setAlignment(Pos.TOP_LEFT);
         cityVBox.setFillWidth(true);
 
@@ -116,28 +124,60 @@ public class TaskFormView extends VBox {
         // buttons VBox
         VBox buttonBox = new VBox(10, createButton, cancelButton);
         buttonBox.setAlignment(Pos.CENTER);
-        HBox.setHgrow(createButton, Priority.ALWAYS);
-        HBox.setHgrow(cancelButton, Priority.ALWAYS);
+        buttonBox.setPadding(new Insets(10, 0, 10, 0));
+        buttonBox.setMinWidth(300);
+        buttonBox.setFillWidth(true);
 
-        descriptionArea.setPrefHeight(130);
+        setupImageSlider();
 
+        // left layout
         leftLayout.getChildren().addAll(
-                titleBox,titleField,
-                descriptionBox,descriptionArea
+                titleBox, titleField,
+                descriptionBox, descriptionArea,
+                imageSlider
         );
 
+        // right layout
         rightLayout.getChildren().addAll(
-                        locationBox,
-                        rewardBox, rewardField,
-                        difficultyBox,
-                        buttonBox
+                locationBox,
+                rewardBox, rewardField,
+                difficultyBox,
+                buttonBox
         );
 
+        // form layout
         layoutform.getChildren().addAll(leftLayout, rightLayout);
 
         this.getChildren().addAll(title, layoutform);
-//        this.getChildren().add(formLayout);
     }
+
+    private void setupImageSlider() {
+        // configs slider buttons
+        prevButton.setDisable(true);
+        nextButton.setDisable(true);
+        prevButton.setStyle("-fx-font-size: 15px;");
+        nextButton.setStyle("-fx-font-size: 15px;");
+
+        // configs imageBox
+        imageBox.setAlignment(Pos.CENTER);
+        imageBox.setStyle("-fx-background-color: #f0f0f0; -fx-padding: 20px;");
+        imageBox.setPrefWidth(320);
+        imageBox.setPrefHeight(180);
+        imageBox.setStyle("-fx-border-color: grey; -fx-border-width: 1px;");
+
+        imageLayout.setAlignment(Pos.CENTER);
+        imageLayout.getChildren().addAll(prevButton, imageBox, nextButton);
+
+        // configs imadeSlider
+        imageSlider.setPadding(new Insets(20, 0, 10, 0));
+        imageSlider.setPrefWidth(350);
+        imageSlider.setPrefHeight(200);
+        imageSlider.setSpacing(15);
+        imageSlider.setAlignment(Pos.CENTER);
+
+        imageSlider.getChildren().addAll(imageLayout, uploadButton);
+    }
+
 
     public void setTitleErrorMessage(String message) {
         if (message.isEmpty()) {
@@ -154,8 +194,6 @@ public class TaskFormView extends VBox {
         }
         descriptionErrorLabel.textProperty().set(String.format("%s %s", ERROR_PREFIX, message));
     }
-
-
 
     public Label getTitleErrorLabel() {
         return titleErrorLabel;
