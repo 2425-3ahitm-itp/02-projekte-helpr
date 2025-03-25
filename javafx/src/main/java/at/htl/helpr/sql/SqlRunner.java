@@ -2,10 +2,9 @@ package at.htl.helpr.sql;
 
 import at.htl.helpr.controller.Database;
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.nio.file.Paths;
 import java.sql.Connection;
@@ -16,13 +15,8 @@ import org.apache.ibatis.jdbc.ScriptRunner;
 
 public class SqlRunner {
 
-    private static final String SCHEMA_FILE_PATH = Objects.requireNonNull(
-            SqlRunner.class.getResource("/database/schema.sql")
-    ).getPath();
-
-    private static final String INSERTS_FILE_PATH = Objects.requireNonNull(
-            SqlRunner.class.getResource("/database/insert.sql")
-    ).getPath();
+    private static final String SCHEMA_FILE_PATH = "/database/schema.sql";
+    private static final String INSERTS_FILE_PATH = "/database/insert.sql";
 
     public static void main(String[] args) {
         runSchema();
@@ -33,26 +27,25 @@ public class SqlRunner {
     }
 
     private static void runScript(String filePath) {
-        try (Connection conn = Database.getConnection()) {
+        try (Connection conn = Database.getConnection();
+                var reader = new BufferedReader(
+                        new InputStreamReader(Objects.requireNonNull(
+                                SqlRunner.class.getResourceAsStream(filePath))
+                        ))
+        ) {
 
             ScriptRunner scriptRunner = new ScriptRunner(conn);
             scriptRunner.setLogWriter(null);
 
-            BufferedReader reader = new BufferedReader(
-                    new FileReader(filePath)
-            );
-
             scriptRunner.runScript(reader);
 
-        } catch (FileNotFoundException | SQLException e) {
+        } catch (SQLException | IOException e) {
             throw new RuntimeException(e);
         }
     }
 
     public static void runString(String sql) {
         try (Connection conn = Database.getConnection()) {
-
-            // sql is the string containing the sql statements
 
             ScriptRunner scriptRunner = new ScriptRunner(conn);
             scriptRunner.setLogWriter(null);
@@ -169,26 +162,28 @@ public class SqlRunner {
         var taskImagesPath = Paths.get(Objects.requireNonNull(
                 SqlRunner.class.getResource("/img/task_images/")).getPath());
 
-        try (var imagesList = java.nio.file.Files.list(taskImagesPath)) {
-            var taskImages = imagesList
-                    .filter(path -> path.toString().endsWith(".png"))
-                    .toList();
+        String[] imagesList = new String[]{
+                "1_0_furniture.png",
+                "1_1_furniture.png",
+                "2_0_dog.png",
+                "2_1_dog.png",
+                "4_0_computer.png",
+                "5_0_lawn.png",
+                "5_1_lawn.png",
+                "5_2_lawn.png",
+        };
 
-            for (java.nio.file.Path taskImage : taskImages) {
+        for (String fileName : imagesList) {
 
-                var fileName = taskImage.getFileName().toString();
-                var parts = fileName.split("_");
-                if (parts.length < 2) {
-                    continue;
-                }
-                long taskId = Long.parseLong(parts[0]);
-                int order = Integer.parseInt(parts[1]);
-
-                addImageForTaskWithOrder(taskId, order, "/img/task_images/" + fileName);
+            var parts = fileName.split("_");
+            if (parts.length < 2) {
+                continue;
             }
+            long taskId = Long.parseLong(parts[0]);
+            int order = Integer.parseInt(parts[1]);
 
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+            addImageForTaskWithOrder(taskId, order, "/img/task_images/" + fileName);
         }
+
     }
 }

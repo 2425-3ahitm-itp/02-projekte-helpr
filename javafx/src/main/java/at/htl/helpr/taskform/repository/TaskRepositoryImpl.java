@@ -169,10 +169,7 @@ public class TaskRepositoryImpl implements TaskRepository {
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
-                URL imgURL = TaskRepository.class.getResource(rs.getString("path"));
-                if (Objects.nonNull(imgURL)) {
-                    imagePathList.add(imgURL.getPath());
-                }
+                imagePathList.add(rs.getString("path"));
             }
 
             return imagePathList;

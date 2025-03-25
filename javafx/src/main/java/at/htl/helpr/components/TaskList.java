@@ -2,6 +2,8 @@ package at.htl.helpr.components;
 
 import at.htl.helpr.taskform.model.Task;
 import at.htl.helpr.taskform.repository.TaskRepositoryImpl;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.function.Supplier;
 import javafx.beans.property.IntegerProperty;
@@ -146,12 +148,23 @@ public class TaskList extends ScrollPane {
         // Fetch the first image path for the task
         List<String> imagePaths = taskRepository.getTaskImages(task.getId());
         if (!imagePaths.isEmpty()) {
-            ImageView imageView = new ImageView(new Image("file:" + imagePaths.get(0)));
-            imageView.setFitHeight(100);
-            imageView.setFitWidth(177); // Adjusted width
-            imageView.setPreserveRatio(false);
-            VBox.setMargin(imageView, new Insets(10, 0, 10, 0));
-            card.getChildren().add(imageView);
+            String thumbnailPath = imagePaths.getFirst();
+
+            try (InputStream imageStream = getClass().getResourceAsStream(thumbnailPath)) {
+                if (imageStream != null) {
+                    ImageView imageView = new ImageView(new Image(imageStream));
+                    imageView.setFitHeight(100);
+                    imageView.setFitWidth(177); // Adjusted width
+                    imageView.setPreserveRatio(false);
+                    VBox.setMargin(imageView, new Insets(10, 0, 10, 0));
+                    card.getChildren().add(imageView);
+                } else {
+                    throw new RuntimeException("IMAGE '" + thumbnailPath + "' WAS NOT FOUND");
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
         } else {
             // Empty image placeholder with dotted border
             Pane imagePlaceholder = new Pane();
