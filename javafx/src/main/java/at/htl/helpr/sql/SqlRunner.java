@@ -1,7 +1,6 @@
 package at.htl.helpr.sql;
 
 import at.htl.helpr.controller.Database;
-import org.apache.ibatis.jdbc.ScriptRunner;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -13,8 +12,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Objects;
-
-import static java.nio.file.Files.readAllBytes;
+import org.apache.ibatis.jdbc.ScriptRunner;
 
 public class SqlRunner {
 
@@ -30,13 +28,12 @@ public class SqlRunner {
         runSchema();
         runInserts();
 
-//        ();
 //        setImageForUser(1, Objects.requireNonNull(
 //                SqlRunner.class.getResource("/img/profiles/john.jpg")).getPath());
     }
 
     private static void runScript(String filePath) {
-        try (Connection conn =  Database.getConnection()) {
+        try (Connection conn = Database.getConnection()) {
 
             ScriptRunner scriptRunner = new ScriptRunner(conn);
             scriptRunner.setLogWriter(null);
@@ -157,8 +154,6 @@ public class SqlRunner {
     public static void runInserts() {
         runScript(INSERTS_FILE_PATH);
 
-        System.out.println("Inserting images");
-
         var imagesArray = Arrays.asList(
                 "dana.jpg",
                 "john.jpg",
@@ -168,37 +163,26 @@ public class SqlRunner {
         );
 
         for (int i = 1; i <= imagesArray.size(); i++) {
-            System.out.println("adding image " + imagesArray.get(i - 1));
-//            setImageForUser(i, Objects.requireNonNull(
-//                    SqlRunner.class.getResource("/img/profiles/" + imagesArray.get(i - 1))).getPath());
             setImageForUser(i, "/img/profiles/" + imagesArray.get(i - 1));
         }
-
-        // run for each automatically scanned file in /img/task_images/
 
         var taskImagesPath = Paths.get(Objects.requireNonNull(
                 SqlRunner.class.getResource("/img/task_images/")).getPath());
 
-        try {
-            var taskImages = java.nio.file.Files.list(taskImagesPath)
+        try (var imagesList = java.nio.file.Files.list(taskImagesPath)) {
+            var taskImages = imagesList
                     .filter(path -> path.toString().endsWith(".png"))
                     .toList();
 
             for (java.nio.file.Path taskImage : taskImages) {
-                // filename: <task_id>_<order>_<blablabla>.png
 
                 var fileName = taskImage.getFileName().toString();
                 var parts = fileName.split("_");
                 if (parts.length < 2) {
-                    continue; // skip if filename is not in expected format
+                    continue;
                 }
                 long taskId = Long.parseLong(parts[0]);
                 int order = Integer.parseInt(parts[1]);
-
-                System.out.println("adding image for task " + taskId + " with order " + order);
-
-                // convert taskImages.get(i).toString to a relative path from the jar
-                // addImageForTaskWithOrder(taskId, order, taskImages.get(i).toString());
 
                 addImageForTaskWithOrder(taskId, order, "/img/task_images/" + fileName);
             }

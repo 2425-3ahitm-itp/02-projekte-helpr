@@ -1,10 +1,14 @@
 package at.htl.helpr.home;
 
-import at.htl.helpr.components.TaskList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.*;
-import javafx.scene.layout.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
@@ -18,8 +22,8 @@ public class HomeView extends BorderPane {
     private final Button priceFilter;
     private final Button searchButton;
     private final TextField searchField;
-    private Circle profilePicture;
-    private Label usernameLabel;
+    private final Circle profilePicture;
+    private final Label usernameLabel;
 
     public HomeView() {
         setPadding(new Insets(10));
@@ -77,7 +81,6 @@ public class HomeView extends BorderPane {
         // Taskliste
 //        TaskList taskList = new TaskList(false);
 
-
         // Layout setzen
         setLeft(sidebar);
         setTop(searchBar);
@@ -124,6 +127,7 @@ public class HomeView extends BorderPane {
     public Circle getProfilePicture() {
         return profilePicture;
     }
+
     public Label getUsernameLabel() {
         return usernameLabel;
     }

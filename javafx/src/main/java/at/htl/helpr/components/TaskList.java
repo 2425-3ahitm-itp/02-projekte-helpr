@@ -1,13 +1,15 @@
 package at.htl.helpr.components;
 
 import at.htl.helpr.taskform.model.Task;
-import at.htl.helpr.taskform.repository.TaskRepository;
 import at.htl.helpr.taskform.repository.TaskRepositoryImpl;
+import java.util.List;
+import java.util.function.Supplier;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
@@ -15,21 +17,18 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import javafx.scene.layout.StackPane;
-
-import java.util.List;
-import java.util.function.Supplier;
 
 public class TaskList extends ScrollPane {
+
+    private final TaskRepositoryImpl taskRepository = new TaskRepositoryImpl();
 
     private Supplier<List<Task>> taskSupplier;
     private final IntegerProperty columns = new SimpleIntegerProperty(4);
     private final boolean singleRow;
-    private final TaskRepository taskRepository = new TaskRepositoryImpl();
     private final String placeholderText;
 
     public TaskList(boolean singleRow, String placeholderText) {

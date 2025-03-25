@@ -15,6 +15,7 @@ public class TaskQueryBuilder {
 
     /**
      * Builds a query string from the filters
+     *
      * @param initialQuery - the initial query to append the filters to at the end
      * @return the query string
      */
@@ -30,16 +31,6 @@ public class TaskQueryBuilder {
                 query.append(" and ");
             }
         }
-
-        System.out.println("query = " + query);
-        System.out.println("query = " + query);
-        System.out.println("query = " + query);
-        System.out.println("query = " + query);
-        System.out.println("query = " + query);
-        System.out.println("query = " + query);
-        System.out.println("query = " + query);
-        System.out.println("query = " + query);
-        System.out.println("query = " + query);
 
         return query.toString();
     }

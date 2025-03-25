@@ -1,9 +1,14 @@
 package at.htl.helpr.taskform.model;
 
-import javafx.beans.property.*;
-
 import java.time.LocalDateTime;
-
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.LongProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleLongProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 public class Task {
 
@@ -17,7 +22,6 @@ public class Task {
     private final ObjectProperty<LocalDateTime> createdAt = new SimpleObjectProperty<>();
 
     //Constructor
-
 
     public Task() {
     }

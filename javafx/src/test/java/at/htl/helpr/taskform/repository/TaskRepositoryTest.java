@@ -6,17 +6,19 @@ import at.htl.helpr.taskform.model.Task;
 import at.htl.helpr.taskform.repository.filter.EffortMinMaxFilter;
 import at.htl.helpr.taskform.repository.filter.TaskQueryBuilder;
 import io.quarkus.test.junit.QuarkusTest;
+import jakarta.inject.Inject;
 import org.junit.jupiter.api.*;
 
 import java.util.List;
 
+import static at.htl.helpr.Utils.get100CharsString;
 import static org.assertj.core.api.Assertions.*;
 
 @QuarkusTest
 @TestMethodOrder( MethodOrderer.OrderAnnotation.class )
 class TaskRepositoryTest {
 
-    private final TaskRepository repository = new TaskRepositoryImpl();
+    TaskRepositoryImpl taskRepository = new TaskRepositoryImpl();
 
     @BeforeEach
     void setUp() {
@@ -26,7 +28,7 @@ class TaskRepositoryTest {
                 VALUES
                 ('john_doe', 'john@example.com', '%s'),
                 ('jane_smith', 'jane@example.com', 'helloworld2');
-                """, UserRepositoryImplTest.get100CharsString( 'u' ) ) );
+                """, get100CharsString( 'u' ) ) );
     }
 
     @AfterAll
@@ -46,11 +48,11 @@ class TaskRepositoryTest {
         task.setEffort( 5 );
         task.setLocation( "Test Location" );
 
-        repository.create( task );
+        taskRepository.create( task );
 
         System.out.println( task.getId() );
 
-        Task retrievedTask = repository.findById( task.getId() );
+        Task retrievedTask = taskRepository.findById( task.getId() );
         assertThat( retrievedTask ).isNotNull();
         assertThat( retrievedTask.getTitle() ).isEqualTo( task.getTitle() );
         assertThat( retrievedTask.getDescription() ).isEqualTo( task.getDescription() );
@@ -71,7 +73,7 @@ class TaskRepositoryTest {
         task.setEffort( 5 );
         task.setLocation( "Initial Location" );
 
-        repository.create( task );
+        taskRepository.create( task );
 
         task.setTitle( "Updated Task" );
         task.setDescription( "This is the updated task" );
@@ -79,9 +81,9 @@ class TaskRepositoryTest {
         task.setEffort( 10 );
         task.setLocation( "Updated Location" );
 
-        repository.update( task );
+        taskRepository.update( task );
 
-        Task updatedTask = repository.findById( task.getId() );
+        Task updatedTask = taskRepository.findById( task.getId() );
         assertThat( updatedTask ).isNotNull();
         assertThat( updatedTask.getTitle() ).isEqualTo( task.getTitle() );
         assertThat( updatedTask.getDescription() ).isEqualTo( task.getDescription() );
@@ -101,12 +103,12 @@ class TaskRepositoryTest {
         task.setEffort( 3 );
         task.setLocation( "Delete Location" );
 
-        repository.create( task );
+        taskRepository.create( task );
         long taskId = task.getId();
 
-        repository.delete( taskId );
+        taskRepository.delete( taskId );
 
-        Task deletedTask = repository.findById( taskId );
+        Task deletedTask = taskRepository.findById( taskId );
         assertThat( deletedTask ).isNull();
     }
 
@@ -115,9 +117,9 @@ class TaskRepositoryTest {
     void findAll() {
 
         // Clear existing tasks first
-        List<Task> existingTasks = repository.findAll();
+        List<Task> existingTasks = taskRepository.findAll();
         for ( Task t : existingTasks ) {
-            repository.delete( t.getId() );
+            taskRepository.delete( t.getId() );
         }
 
         Task task1 = new Task();
@@ -127,7 +129,7 @@ class TaskRepositoryTest {
         task1.setReward( 10 );
         task1.setEffort( 3 );
         task1.setLocation( "Location 1" );
-        repository.create( task1 );
+        taskRepository.create( task1 );
 
         Task task2 = new Task();
         task2.setAuthorId( 2L );
@@ -136,9 +138,9 @@ class TaskRepositoryTest {
         task2.setReward( 15 );
         task2.setEffort( 5 );
         task2.setLocation( "Location 2" );
-        repository.create( task2 );
+        taskRepository.create( task2 );
 
-        List<Task> tasks = repository.findAll();
+        List<Task> tasks = taskRepository.findAll();
         assertThat( tasks ).isNotNull();
         assertThat( tasks ).hasSize( 2 );
         assertThat( tasks ).extracting( Task::getTitle ).containsExactlyInAnyOrder( "Task 1", "Task 2" );
@@ -155,7 +157,7 @@ class TaskRepositoryTest {
         task1.setReward( 10 );
         task1.setEffort( 3 );
         task1.setLocation( "Location 1" );
-        repository.create( task1 );
+        taskRepository.create( task1 );
 
         Task task2 = new Task();
         task2.setAuthorId( 2L );
@@ -164,17 +166,17 @@ class TaskRepositoryTest {
         task2.setReward( 15 );
         task2.setEffort( 5 );
         task2.setLocation( "Location 2" );
-        repository.create( task2 );
+        taskRepository.create( task2 );
 
-        List<Task> tasks = repository.findAll();
+        List<Task> tasks = taskRepository.findAll();
         assertThat( tasks ).isNotNull();
         assertThat( tasks ).hasSize( 2 );
         assertThat( tasks ).extracting( Task::getTitle ).containsExactlyInAnyOrder( "Task 1", "Task 2" );
 
         // Delete task1
-        repository.delete( task1.getId() );
+        taskRepository.delete( task1.getId() );
 
-        tasks = repository.findAll();
+        tasks = taskRepository.findAll();
         assertThat( tasks ).isNotNull();
         assertThat( tasks ).hasSize( 1 );
         assertThat( tasks ).extracting( Task::getTitle ).containsExactly( "Task 2" );
@@ -191,10 +193,11 @@ class TaskRepositoryTest {
         task.setEffort( 4 );
         task.setLocation( "Find Location" );
 
-        repository.create( task );
+        taskRepository.create( task );
         long taskId = task.getId();
 
-        Task foundTask = repository.findById( taskId );
+        Task foundTask = taskRepository
+                .findById( taskId );
         assertThat( foundTask ).isNotNull();
         assertThat( foundTask.getId() ).isEqualTo( taskId );
         assertThat( foundTask.getTitle() ).isEqualTo( task.getTitle() );
@@ -216,7 +219,7 @@ class TaskRepositoryTest {
                         (2, 'Cleaning Task', 'Clean the house', 20, 3, 'Home');
                 """ );
 
-        List<Task> tasks = repository.getTaskBySearchQueryAndLimit( "shopping" );
+        List<Task> tasks = taskRepository.getTaskBySearchQueryAndLimit( "shopping" );
 
         assertThat( tasks ).isNotNull();
         assertThat( tasks ).hasSize( 1 );
@@ -234,7 +237,7 @@ class TaskRepositoryTest {
         task1.setReward( 10 );
         task1.setEffort( 2 );
         task1.setLocation( "Location 1" );
-        repository.create( task1 );
+        taskRepository.create( task1 );
 
         Task task2 = new Task();
         task2.setAuthorId( 2L );
@@ -243,9 +246,9 @@ class TaskRepositoryTest {
         task2.setReward( 20 );
         task2.setEffort( 3 );
         task2.setLocation( "Location 2" );
-        repository.create( task2 );
+        taskRepository.create( task2 );
 
-        List<Task> tasks = repository.findAllTasksByUser( 1L );
+        List<Task> tasks = taskRepository.findAllTasksByUser( 1L );
         assertThat( tasks ).isNotNull();
         assertThat( tasks ).hasSize( 1 );
         assertThat( tasks.getFirst().getTitle() ).isEqualTo( "User 1 Task" );
@@ -266,7 +269,7 @@ class TaskRepositoryTest {
                     (1, 1);
                 """ );
 
-        List<Task> tasks = repository.findAllTasksAppliedByUser( 1L );
+        List<Task> tasks = taskRepository.findAllTasksAppliedByUser( 1L );
         assertThat( tasks ).isNotNull();
         assertThat( tasks ).hasSize( 1 );
         assertThat( tasks.getFirst().getTitle() ).isEqualTo( "Applied Task 1" );
@@ -283,7 +286,7 @@ class TaskRepositoryTest {
         TaskQueryBuilder queryBuilder = new TaskQueryBuilder();
         queryBuilder.addFilter( new EffortMinMaxFilter( 3, 4 ) );
 
-        List<Task> tasks = repository.getTasksWithFilter( queryBuilder );
+        List<Task> tasks = taskRepository.getTasksWithFilter( queryBuilder );
 
         assertThat( tasks ).isNotNull();
         assertThat( tasks ).hasSize( 3 );
@@ -311,7 +314,7 @@ class TaskRepositoryTest {
                     params.add( "Westside Park" );
                 } );
 
-        List<Task> tasks = repository.getTasksWithFilter( queryBuilder );
+        List<Task> tasks = taskRepository.getTasksWithFilter( queryBuilder );
 
         assertThat( tasks ).isNotNull();
         assertThat( tasks ).hasSize( 3 );
@@ -333,7 +336,7 @@ class TaskRepositoryTest {
             params.add( "Westside Park" );
         } );
 
-        List<Task> tasks = repository.getTasksWithFilter( queryBuilder );
+        List<Task> tasks = taskRepository.getTasksWithFilter( queryBuilder );
 
         assertThat( tasks ).isNotNull();
         assertThat( tasks ).hasSize( 1 );

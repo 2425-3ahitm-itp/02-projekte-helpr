@@ -2,14 +2,17 @@ package at.htl.helpr.profile.repository;
 
 import at.htl.helpr.controller.Database;
 import at.htl.helpr.profile.model.User;
-import java.io.IOException;
 import java.nio.CharBuffer;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
 public class UserRepositoryImpl implements UserRepository {
-
 
     @Override
     public void create(User entity) {
