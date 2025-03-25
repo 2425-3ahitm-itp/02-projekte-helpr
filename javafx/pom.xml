@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>at.htl.helpr</groupId>
     <artifactId>helpr</artifactId>
-    <version>0.0.1</version>
+    <version>2025.3.24</version>
 
     <properties>
         <compiler-plugin.version>3.13.0</compiler-plugin.version>
@@ -150,4 +150,12 @@
             </properties>
         </profile>
     </profiles>
+
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>GitHub JakobHuemer Maven Packages</name>
+            <url>https://maven.pkg.github.com/2425-3ahitm-itp/02-projekte-helpr</url>
+        </repository>
+    </distributionManagement>
 </project>
