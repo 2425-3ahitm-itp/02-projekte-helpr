@@ -1,5 +1,5 @@
 -- insert users
-INSERT INTO public.u_user (username, email, password)
+INSERT INTO helpr.u_user (username, email, password)
 VALUES
 ('johann_doe', 'johann@example.com', 'halloWelt1'),
 ('jane_schmidt', 'jane@example.com', 'halloWelt2'),
@@ -8,7 +8,7 @@ VALUES
 ('alex_braun', 'alex@example.com', 'halloWelt5');
 
 -- insert tasks
-INSERT INTO public.task (author_id, title, description, reward, effort, location, created_at)
+INSERT INTO helpr.task (author_id, title, description, reward, effort, location, created_at)
 VALUES
 (1, 'Hilfe beim Möbeltransport', 'Brauche Hilfe, um ein Sofa und ein Bücherregal vom Wohnzimmer ins Schlafzimmer zu bringen', 25, 3, '10115 Berlin', '2025-03-15 10:30:00'),
 (2, 'Hundespaziergang am Wochenende', 'Suche jemanden, der meinen Hund am Samstag und Sonntag morgens ausführt', 30, 2, '80331 München', '2025-03-16 08:45:00'),
@@ -17,7 +17,7 @@ VALUES
 (4, 'Rasenmähen', 'Suche jemanden, der dieses Wochenende meinen Rasen mäht', 35, 3, '01067 Dresden', '2025-03-16 16:20:00');
 
 -- insert applications
-INSERT INTO public.application (user_id, task_id, created_at)
+INSERT INTO helpr.application (user_id, task_id, created_at)
 VALUES
 (3, 1, '2025-03-15 11:45:00'),
 (4, 1, '2025-03-15 12:30:00'),

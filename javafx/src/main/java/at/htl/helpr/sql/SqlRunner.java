@@ -29,12 +29,14 @@ public class SqlRunner {
     public static void main(String[] args) {
         runSchema();
         runInserts();
+
+//        ();
 //        setImageForUser(1, Objects.requireNonNull(
 //                SqlRunner.class.getResource("/img/profiles/john.jpg")).getPath());
     }
 
     private static void runScript(String filePath) {
-        try (Connection conn = Database.getConnection()) {
+        try (Connection conn =  Database.getConnection()) {
 
             ScriptRunner scriptRunner = new ScriptRunner(conn);
             scriptRunner.setLogWriter(null);
@@ -48,7 +50,6 @@ public class SqlRunner {
         } catch (FileNotFoundException | SQLException e) {
             throw new RuntimeException(e);
         }
-
     }
 
     public static void runString(String sql) {
@@ -95,7 +96,7 @@ public class SqlRunner {
 
     public static void addImageForTaskWithOrder(long taskId, int order, String imageFilePath) {
         String sql = """
-                INSERT INTO image
+                INSERT INTO helpr.image
                 (task_id, path, "order")
                 values (?, ?, ?)
                 """;
@@ -117,7 +118,7 @@ public class SqlRunner {
     public static void writeImageFromUser(long userId, String toWritePath) {
         String sql = """
                 SELECT u_user.profile_picture
-                from u_user
+                from helpr.u_user
                 WHERE user_id = ?
                 """;
 

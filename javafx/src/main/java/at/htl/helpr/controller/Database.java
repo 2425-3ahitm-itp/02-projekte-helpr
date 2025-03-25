@@ -18,7 +18,7 @@ public class Database {
 
     static final String USERNAME = "app";
     static final String PASSWORD = "app";
-    public static final String URL = "jdbc:postgresql://localhost:5432/helpr";
+    public static final String URL = "jdbc:postgresql://localhost:5432/helpr?currentSchema=helpr";
 
     /**
      * Get a DataSource object to connect to the database. The properties are read from a file
@@ -39,8 +39,7 @@ public class Database {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
-
     }
+
 
 }
