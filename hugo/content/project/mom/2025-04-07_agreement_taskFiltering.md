@@ -4,7 +4,6 @@ description: Aufgabenfilterung implementieren
 tags: [mom, agreement]
 date: 2025-04-07
 authors:
-  - jakob
   - miriam
 ---
 
