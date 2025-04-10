@@ -38,7 +38,7 @@ public class HomeView extends BorderPane {
         filterButton = createStyledButton("Filtern", true);
         locationFilter = createStyledButton("Ort", false);
         dateFilter = createStyledButton("Datum", false);
-        priceFilter = createStyledButton("Preis", false);
+        priceFilter = createStyledButton("Preis €", false);
 
         sidebar.getChildren().addAll(filterButton, locationFilter, dateFilter, priceFilter);
 
