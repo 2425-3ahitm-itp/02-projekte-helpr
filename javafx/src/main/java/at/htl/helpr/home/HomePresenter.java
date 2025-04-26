@@ -19,6 +19,7 @@ public class HomePresenter {
         this.view = view;
         view.setCenter(taskList);
         attachEvents();
+        toggledButtonSetOnAction();
     }
 
     private void attachEvents() {
@@ -29,7 +30,11 @@ public class HomePresenter {
     }
 
     private void toggledButtonSetOnAction() {
-
+        getView().getPaymentToggle().setOnAction(event -> handlePaymentFilter());
+        getView().getEffortToggle().setOnAction(event -> handleEffortFilter());
+        getView().getPostalToggle().setOnAction(event -> handlePlzFilter());
+        getView().getCityToggle().setOnAction(event -> handlePlaceFilter());
+        getView().getDateToggle().setOnAction(event -> handleDateFilter());
     }
     private void handlePaymentFilter() {}
     private void handleEffortFilter() {}
