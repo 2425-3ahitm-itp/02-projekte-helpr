@@ -9,6 +9,8 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -22,6 +24,7 @@ public class HomeView extends BorderPane {
     private final HBox paymentBox;
     private final TextField minPaymentField;
     private final TextField maxPaymentField;
+    private final ToggleButton paymentToggle;
     private final HBox effortBox;
     private final TextField effortField;
     private final ToggleButton effortToggle;
@@ -35,6 +38,7 @@ public class HomeView extends BorderPane {
     private final VBox dateFields;
     private final TextField fromDateField;
     private final TextField toDateField;
+    private final ToggleButton dateToggle;
 
     private final Button searchButton;
     private final TextField searchField;
@@ -43,6 +47,10 @@ public class HomeView extends BorderPane {
 
     public HomeView() {
         setPadding(new Insets(10));
+
+        // styling toggle button
+        getStylesheets().add(getClass().getResource("homeToggleButtonStyle.css").toExternalForm());
+
 
         // --- Sidebar (Links) ---
         VBox sidebar = new VBox(15);
@@ -54,46 +62,72 @@ public class HomeView extends BorderPane {
         filterButton = createStyledButton("Filter Anwenden", true);
 
 // Bezahlung Filter
-        Label paymentLabel = new Label("Bezahlung:");
         paymentBox = new HBox(5);
+        Label paymentLabel = new Label("Bezahlung:");
+        paymentToggle = createStyledToggleButton();
+        Region paymentSpacer = new Region();
+        HBox.setHgrow(paymentSpacer, Priority.ALWAYS);
+        HBox paymentLabelBox = new HBox(5, paymentLabel, paymentSpacer, paymentToggle);
+        paymentLabelBox.setAlignment(Pos.CENTER_LEFT);
+
         minPaymentField = new TextField();
         minPaymentField.setPromptText("MIN");
         minPaymentField.setPrefWidth(80);
+
         maxPaymentField = new TextField();
         maxPaymentField.setPromptText("MAX");
         maxPaymentField.setPrefWidth(80);
+
         paymentBox.getChildren().addAll(minPaymentField, maxPaymentField);
 
 // Aufwand Filter
-        Label effortLabel = new Label("Aufwand:");
         effortBox = new HBox(5);
+        Label effortLabel = new Label("Aufwand:");
+        effortToggle = createStyledToggleButton();
+        Region effortSpacer = new Region();
+        HBox.setHgrow(effortSpacer, Priority.ALWAYS);
+        HBox effortLabelBox = new HBox(5, effortLabel, effortSpacer, effortToggle);
+        effortLabelBox.setAlignment(Pos.CENTER_LEFT);
+
         effortField = new TextField();
-        effortField.setPrefWidth(170);
-        effortToggle = new ToggleButton();
-        effortToggle.setPrefWidth(20);
-        effortBox.getChildren().addAll(effortField, effortToggle);
+
+        effortBox.getChildren().addAll(effortField);
 
 // PLZ Filter
-        Label postalCodeLabel = new Label("PLZ:");
         postalCodeBox = new HBox(5);
+        Label postalCodeLabel = new Label("PLZ:");
+        postalToggle = createStyledToggleButton();
+        Region postalSpacer = new Region();
+        HBox.setHgrow(postalSpacer, Priority.ALWAYS);
+        HBox postalCodeLabelBox = new HBox(5, postalCodeLabel, postalSpacer, postalToggle);
+        postalCodeLabelBox.setAlignment(Pos.CENTER_LEFT);
+
         postalCodeField = new TextField();
-        postalCodeField.setPrefWidth(170);
-        postalToggle = new ToggleButton();
-        postalToggle.setPrefWidth(20);
-        postalCodeBox.getChildren().addAll(postalCodeField, postalToggle);
+
+        postalCodeBox.getChildren().addAll(postalCodeField);
 
 // Ort Filter
-        Label cityLabel = new Label("Ort:");
         cityBox = new HBox(5);
+        Label cityLabel = new Label("Ort:");
+        cityToggle = createStyledToggleButton();
+        Region citySpacer = new Region();
+        HBox.setHgrow(citySpacer, Priority.ALWAYS);
+        HBox cityLabelBox = new HBox(5, cityLabel, citySpacer, cityToggle);
+        cityLabelBox.setAlignment(Pos.CENTER_LEFT);
+
         cityField = new TextField();
-        cityField.setPrefWidth(170);
-        cityToggle = new ToggleButton();
-        cityToggle.setPrefWidth(20);
-        cityBox.getChildren().addAll(cityField, cityToggle);
+
+        cityBox.getChildren().addAll(cityField);
 
 // Erstelldatum Filter
-        Label creationDateLabel = new Label("Erstelldatum:");
         dateBox = new HBox(5);
+        Label creationDateLabel = new Label("Erstelldatum:");
+        dateToggle = createStyledToggleButton();
+        Region dateSpacer = new Region();
+        HBox.setHgrow(dateSpacer, Priority.ALWAYS);
+        HBox creationDateLabelBox = new HBox(5, creationDateLabel, dateSpacer, dateToggle);
+        creationDateLabelBox.setAlignment(Pos.CENTER_LEFT);
+
         dateFields = new VBox(5);
         fromDateField = new TextField();
         fromDateField.setPromptText("von");
@@ -103,15 +137,18 @@ public class HomeView extends BorderPane {
 
         dateBox.getChildren().addAll(dateFields);
 
-// Alles zusammensetzen
+// --- Sidebar zusammensetzen
         sidebar.getChildren().addAll(
                 filterButton,
-                paymentLabel, paymentBox,
-                effortLabel, effortBox,
-                postalCodeLabel, postalCodeBox,
-                cityLabel, cityBox,
-                creationDateLabel, dateBox
+                paymentLabelBox, paymentBox,
+                effortLabelBox, effortBox,
+                postalCodeLabelBox, postalCodeBox,
+                cityLabelBox, cityBox,
+                creationDateLabelBox, dateBox
         );
+
+
+        designToggleButton();
 
         // --- Suchleiste mit Profilbild & Username (Oben) ---
         HBox searchBar = new HBox(15);
@@ -158,6 +195,25 @@ public class HomeView extends BorderPane {
 //        setCenter(cardGrid);
     }
 
+    private void designToggleButton() {
+        effortToggle.setGraphic(new Region());
+        effortToggle.getGraphic().getStyleClass().add("thumb");
+
+        postalToggle.setGraphic(new Region());
+        postalToggle.getGraphic().getStyleClass().add("thumb");
+
+        cityToggle.setGraphic(new Region());
+        cityToggle.getGraphic().getStyleClass().add("thumb");
+
+        dateToggle.setGraphic(new Region());
+        dateToggle.getGraphic().getStyleClass().add("thumb");
+
+        paymentToggle.setGraphic(new Region());
+        paymentToggle.getGraphic().getStyleClass().add("thumb");
+
+
+    }
+
 
     private Button createStyledButton(String text, boolean highlighted) {
         Button button = new Button(text);
@@ -167,6 +223,15 @@ public class HomeView extends BorderPane {
                 "-fx-background-color: transparent; -fx-border-color: black; -fx-border-style: dashed; -fx-font-size: 14px;");
         return button;
     }
+
+
+    private ToggleButton createStyledToggleButton() {
+        ToggleButton toggle = new ToggleButton();
+        toggle.setPrefSize(40, 20);
+        toggle.getStyleClass().add("switch-toggle");
+        return toggle;
+    }
+
 
     public GridPane getCardGrid() {
         return cardGrid;
@@ -186,5 +251,81 @@ public class HomeView extends BorderPane {
 
     public Label getUsernameLabel() {
         return usernameLabel;
+    }
+
+    public Button getFilterButton() {
+        return filterButton;
+    }
+
+    public HBox getPaymentBox() {
+        return paymentBox;
+    }
+
+    public TextField getMinPaymentField() {
+        return minPaymentField;
+    }
+
+    public TextField getMaxPaymentField() {
+        return maxPaymentField;
+    }
+
+    public ToggleButton getPaymentToggle() {
+        return paymentToggle;
+    }
+
+    public HBox getEffortBox() {
+        return effortBox;
+    }
+
+    public TextField getEffortField() {
+        return effortField;
+    }
+
+    public ToggleButton getEffortToggle() {
+        return effortToggle;
+    }
+
+    public HBox getPostalCodeBox() {
+        return postalCodeBox;
+    }
+
+    public TextField getPostalCodeField() {
+        return postalCodeField;
+    }
+
+    public ToggleButton getPostalToggle() {
+        return postalToggle;
+    }
+
+    public HBox getCityBox() {
+        return cityBox;
+    }
+
+    public TextField getCityField() {
+        return cityField;
+    }
+
+    public ToggleButton getCityToggle() {
+        return cityToggle;
+    }
+
+    public HBox getDateBox() {
+        return dateBox;
+    }
+
+    public VBox getDateFields() {
+        return dateFields;
+    }
+
+    public TextField getFromDateField() {
+        return fromDateField;
+    }
+
+    public TextField getToDateField() {
+        return toDateField;
+    }
+
+    public ToggleButton getDateToggle() {
+        return dateToggle;
     }
 }
