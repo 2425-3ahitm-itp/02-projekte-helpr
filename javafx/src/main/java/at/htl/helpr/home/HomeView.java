@@ -9,6 +9,7 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -36,6 +37,7 @@ public class HomeView extends BorderPane {
     private final VBox dateFields;
     private final TextField fromDateField;
     private final TextField toDateField;
+    private final ToggleButton dateToggle;
 
     private final Button searchButton;
     private final TextField searchField;
@@ -103,7 +105,13 @@ public class HomeView extends BorderPane {
         toDateField = new TextField();
         toDateField.setPromptText("bis");
         dateFields.getChildren().addAll(fromDateField, toDateField);
-        dateBox.getChildren().addAll(dateFields);
+
+// ToggleButton für Erstelldatum
+        dateToggle = createStyledToggleButton();
+        dateToggle.setPrefWidth(20); // << gleiche Breite wie alle anderen
+        dateToggle.getStyleClass().add("toggle-button"); // falls du Styling hast
+
+        dateBox.getChildren().addAll(dateFields, dateToggle);
 
         // Alles zusammensetzen
         sidebar.getChildren().addAll(
@@ -114,6 +122,8 @@ public class HomeView extends BorderPane {
                 cityLabel, cityBox,
                 creationDateLabel, dateBox
         );
+
+        designToggleButton();
 
         // --- Suchleiste mit Profilbild & Username (Oben) ---
         HBox searchBar = new HBox(15);
@@ -158,6 +168,25 @@ public class HomeView extends BorderPane {
         setLeft(sidebar);
         setTop(searchBar);
 //        setCenter(cardGrid);
+    }
+
+    private void designToggleButton() {
+        effortToggle.setGraphic(new Region());
+        effortToggle.getGraphic().getStyleClass().add("thumb");
+
+        postalToggle.setGraphic(new Region());
+        postalToggle.getGraphic().getStyleClass().add("thumb");
+
+        cityToggle.setGraphic(new Region());
+        cityToggle.getGraphic().getStyleClass().add("thumb");
+
+        dateToggle.setGraphic(new Region());
+        dateToggle.getGraphic().getStyleClass().add("thumb");
+
+        paymentToggle.setGraphic(new Region());
+        paymentToggle.getGraphic().getStyleClass().add("thumb");
+
+
     }
 
 

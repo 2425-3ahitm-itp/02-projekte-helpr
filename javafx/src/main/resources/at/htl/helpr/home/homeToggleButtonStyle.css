@@ -1,36 +1,36 @@
-.switch-toggle {
-    -fx-background-color: white;
-    -fx-background-radius: 20;
-    -fx-border-color: black;
-    -fx-border-radius: 20;
-    -fx-border-width: 2;
+.toggle-button {
+    -fx-background-color: transparent;
+    -fx-background-radius: 15;
     -fx-padding: 0;
+    -fx-cursor: hand;
+    -fx-min-width: 40px;
+    -fx-min-height: 20px;
+    -fx-max-width: 40px;
+    -fx-max-height: 20px;
+    -fx-border-color: black;
+    -fx-border-radius: 15;
+    -fx-border-width: 1px;
+    -fx-alignment: center-left;
+    -fx-graphic-text-gap: 0;
 }
 
-.switch-toggle:selected {
+.toggle-button:selected {
     -fx-background-color: #cce5ff;
+    -fx-alignment: center-right;
 }
 
-.switch-toggle .text {
-    -fx-opacity: 0;
-}
-
-.switch-toggle::armed, .switch-toggle::hover {
+.toggle-button .thumb {
     -fx-background-color: white;
+    -fx-background-radius: 50%;
+    -fx-min-width: 14px;
+    -fx-min-height: 14px;
+    -fx-max-width: 14px;
+    -fx-max-height: 14px;
+    -fx-translate-x: 3;
+    -fx-border-color: #000000;
+    -fx-border-radius: 50%;
 }
 
-.switch-toggle > .graphic {
-    -fx-shape: "M0,0 h20 a10,10 0 0 1 10,10 a10,10 0 0 1 -10,10 h-20 a10,10 0 0 1 -10,-10 a10,10 0 0 1 10,-10 z";
-    -fx-background-color: black;
-    -fx-background-radius: 20;
-    -fx-min-width: 16;
-    -fx-min-height: 16;
-    -fx-max-width: 16;
-    -fx-max-height: 16;
-    -fx-translate-x: -10;
-    -fx-translate-y: 2;
-}
-
-.switch-toggle:selected > .graphic {
-    -fx-translate-x: 10;
+.toggle-button:selected .thumb {
+    -fx-translate-x: -3;
 }
