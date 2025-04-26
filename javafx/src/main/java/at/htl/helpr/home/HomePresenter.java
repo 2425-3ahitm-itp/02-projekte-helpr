@@ -5,17 +5,22 @@ import at.htl.helpr.profile.ProfilPresenter;
 import at.htl.helpr.profile.ProfilView;
 import at.htl.helpr.taskform.repository.TaskRepository;
 import at.htl.helpr.taskform.repository.TaskRepositoryImpl;
+import at.htl.helpr.taskform.repository.filter.DateFromToFilter;
 import at.htl.helpr.taskform.repository.filter.EffortFilter;
 import at.htl.helpr.taskform.repository.filter.LocationFilter;
 import at.htl.helpr.taskform.repository.filter.PaymentMinMaxFilter;
 import at.htl.helpr.taskform.repository.filter.TaskQueryBuilder;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import javafx.util.converter.LocalDateStringConverter;
 import javafx.util.converter.NumberStringConverter;
+import java.time.LocalDate;
 
 public class HomePresenter {
 
@@ -27,6 +32,9 @@ public class HomePresenter {
 
     private final IntegerProperty minPaymentProperty = new SimpleIntegerProperty();
     private final IntegerProperty maxPaymentProperty = new SimpleIntegerProperty();
+
+    private final ObjectProperty<LocalDate> fromDateProperty = new SimpleObjectProperty<>();
+    private final ObjectProperty<LocalDate> toDateProperty = new SimpleObjectProperty<>();
 
     public HomePresenter(HomeView view) {
         this.view = view;
@@ -65,6 +73,13 @@ public class HomePresenter {
                 minPaymentProperty, new NumberStringConverter());
         Bindings.bindBidirectional(getView().getMaxPaymentField().textProperty(),
                 maxPaymentProperty, new NumberStringConverter());
+
+        Bindings.bindBidirectional(getView().getFromDateField().textProperty(),
+                fromDateProperty, new LocalDateStringConverter());
+        Bindings.bindBidirectional(getView().getToDateField().textProperty(),
+                toDateProperty, new LocalDateStringConverter());
+
+
     }
 
     private void onlyAceptInt(TextField textField) {
@@ -81,6 +96,7 @@ public class HomePresenter {
         handlePlzFilter();
         handleCityFilter();
         handlePaymentFilter();
+        handleDateFilter();
         taskList.rerender();
 
 
@@ -121,6 +137,11 @@ public class HomePresenter {
     }
 
     private void handleDateFilter() {
+//        if (getView().getDateToggle().isSelected()) {
+//            filterTasks.addFilter(
+//                    new DateFromToFilter(fromDateProperty.get(), toDateProperty.get()));
+//            taskList.setTaskSupplier(() -> repository.getTasksWithFilter(filterTasks));
+//        }
     }
 
 
