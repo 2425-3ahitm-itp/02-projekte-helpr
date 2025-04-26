@@ -77,6 +77,7 @@ public class HomeView extends BorderPane {
 //        setCenter(cardGrid);
     }
 
+
     private Button createStyledButton(String text, boolean highlighted) {
         Button button = new Button(text);
         button.setMaxWidth(Double.MAX_VALUE);
