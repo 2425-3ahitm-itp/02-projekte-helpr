@@ -2,11 +2,11 @@ package at.htl.helpr.taskform.repository.filter;
 
 import java.util.List;
 
-public class PostalCodeFilter implements TaskFilter {
+public class LocationFilter implements TaskFilter {
 
     private String postalCode;
 
-    public PostalCodeFilter(String postalCode) {
+    public LocationFilter(String postalCode) {
         this.postalCode = postalCode;
     }
 

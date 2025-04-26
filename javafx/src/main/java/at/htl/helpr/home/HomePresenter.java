@@ -6,17 +6,12 @@ import at.htl.helpr.profile.ProfilView;
 import at.htl.helpr.taskform.repository.TaskRepository;
 import at.htl.helpr.taskform.repository.TaskRepositoryImpl;
 import at.htl.helpr.taskform.repository.filter.EffortFilter;
-import at.htl.helpr.taskform.repository.filter.EffortMinMaxFilter;
-import at.htl.helpr.taskform.repository.filter.PlaceFilter;
-import at.htl.helpr.taskform.repository.filter.PostalCodeFilter;
-import at.htl.helpr.taskform.repository.filter.TaskFilter;
+import at.htl.helpr.taskform.repository.filter.LocationFilter;
+import at.htl.helpr.taskform.repository.filter.PaymentMinMaxFilter;
 import at.htl.helpr.taskform.repository.filter.TaskQueryBuilder;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleButton;
 import javafx.stage.Stage;
-import javax.swing.JToggleButton;
-import java.util.List;
 
 public class HomePresenter {
 
@@ -74,7 +69,7 @@ public class HomePresenter {
         filterTasks = new TaskQueryBuilder();
         handleEffortFilter();
         handlePlzFilter();
-        handlePlaceFilter();
+        handleCityFilter();
         taskList.rerender();
 
 
@@ -96,14 +91,14 @@ public class HomePresenter {
 
     private void handlePlzFilter() {
         if (getView().getPostalToggle().isSelected()) {
-            filterTasks.addFilter(new PostalCodeFilter(getView().getPostalCodeField().getText()+"%"));
+            filterTasks.addFilter(new LocationFilter(getView().getPostalCodeField().getText()+" %"));
             taskList.setTaskSupplier(() -> repository.getTasksWithFilter(filterTasks));
         }
     }
 
-    private void handlePlaceFilter() {
+    private void handleCityFilter() {
         if (getView().getCityToggle().isSelected()) {
-            filterTasks.addFilter(new PlaceFilter(getView().getPostalCodeField().getText()));
+            filterTasks.addFilter(new LocationFilter("% " + getView().getCityField().getText()));
             taskList.setTaskSupplier(() -> repository.getTasksWithFilter(filterTasks));
         }
     }

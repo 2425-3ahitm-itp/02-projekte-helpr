@@ -2,11 +2,11 @@ package at.htl.helpr.taskform.repository.filter;
 
 import java.util.List;
 
-public class EffortMinMaxFilter implements TaskFilter {
+public class PaymentMinMaxFilter implements TaskFilter {
 
     private int min, max;
 
-    public EffortMinMaxFilter(int min, int max) {
+    public PaymentMinMaxFilter(int min, int max) {
         this.min = min;
         this.max = max;
     }
@@ -14,7 +14,7 @@ public class EffortMinMaxFilter implements TaskFilter {
 
     @Override
     public void apply(StringBuilder query, List<Object> params) {
-        query.append("effort between ? and ?");
+        query.append("reward between ? and ?");
         params.add(min);
         params.add(max);
     }
