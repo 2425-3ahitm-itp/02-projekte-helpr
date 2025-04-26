@@ -7,6 +7,7 @@ import at.htl.helpr.taskform.repository.TaskRepository;
 import at.htl.helpr.taskform.repository.TaskRepositoryImpl;
 import at.htl.helpr.taskform.repository.filter.EffortFilter;
 import at.htl.helpr.taskform.repository.filter.EffortMinMaxFilter;
+import at.htl.helpr.taskform.repository.filter.PlaceFilter;
 import at.htl.helpr.taskform.repository.filter.PostalCodeFilter;
 import at.htl.helpr.taskform.repository.filter.TaskFilter;
 import at.htl.helpr.taskform.repository.filter.TaskQueryBuilder;
@@ -73,6 +74,7 @@ public class HomePresenter {
         filterTasks = new TaskQueryBuilder();
         handleEffortFilter();
         handlePlzFilter();
+        handlePlaceFilter();
         taskList.rerender();
 
 
@@ -100,6 +102,10 @@ public class HomePresenter {
     }
 
     private void handlePlaceFilter() {
+        if (getView().getCityToggle().isSelected()) {
+            filterTasks.addFilter(new PlaceFilter(getView().getPostalCodeField().getText()));
+            taskList.setTaskSupplier(() -> repository.getTasksWithFilter(filterTasks));
+        }
     }
 
     private void handleDateFilter() {
