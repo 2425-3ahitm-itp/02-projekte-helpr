@@ -40,40 +40,23 @@ public class HomePresenter {
     }
 
     private void toggledButtonSetOnAction() {
-        getView().getPaymentToggle().selectedProperty()
-                .addListener((obs, wasSelected, isNowSelected) -> {
-                    getView().getMinPaymentField().setDisable(!isNowSelected);
-                    getView().getMaxPaymentField().setDisable(!isNowSelected);
-                });
-        getView().getMinPaymentField().setDisable(true);
-        getView().getMaxPaymentField().setDisable(true);
-        onlyAceptInt(getView().getEffortField());
+        getView().getMinPaymentField().disableProperty()
+                .bind(getView().getPaymentToggle().selectedProperty().not());
+        getView().getMaxPaymentField().disableProperty()
+                .bind(getView().getPaymentToggle().selectedProperty().not());
 
-        getView().getEffortToggle().selectedProperty()
-                .addListener((obs, wasSelected, isNowSelected) -> {
-                    getView().getEffortField().setDisable(!isNowSelected);
-                });
-        getView().getEffortField().setDisable(true);
-        onlyAceptInt(getView().getEffortField());
+        getView().getEffortField().disableProperty()
+                .bind(getView().getEffortToggle().selectedProperty().not());
+        getView().getPostalCodeField().disableProperty()
+                .bind(getView().getPostalToggle().selectedProperty().not());
+        getView().getCityField().disableProperty()
+                .bind(getView().getCityToggle().selectedProperty().not());
+        getView().getDateFields().disableProperty()
+                .bind(getView().getDateToggle().selectedProperty().not());
 
-        getView().getPostalToggle().selectedProperty()
-                .addListener((obs, wasSelected, isNowSelected) -> {
-                    getView().getPostalCodeField().setDisable(!isNowSelected);
-                });
-        getView().getPostalCodeField().setDisable(true);
+        // Nummernfelder nur Integer erlauben
+        onlyAceptInt(getView().getEffortField());
         onlyAceptInt(getView().getPostalCodeField());
-
-        getView().getCityToggle().selectedProperty()
-                .addListener((obs, wasSelected, isNowSelected) -> {
-                    getView().getCityField().setDisable(!isNowSelected);
-                });
-        getView().getCityField().setDisable(true);
-
-        getView().getDateToggle().selectedProperty()
-                .addListener((obs, wasSelected, isNowSelected) -> {
-                    getView().getDateFields().setDisable(!isNowSelected);
-                });
-        getView().getDateToggle().setDisable(true);
 
 
     }
@@ -91,6 +74,7 @@ public class HomePresenter {
         handleEffortFilter();
         handlePlzFilter();
         taskList.rerender();
+
 
     }
 
@@ -110,7 +94,7 @@ public class HomePresenter {
 
     private void handlePlzFilter() {
         if (getView().getPostalToggle().isSelected()) {
-            filterTasks.addFilter(new PostalCodeFilter(getView().getPostalCodeField().getText()));
+            filterTasks.addFilter(new PostalCodeFilter(getView().getPostalCodeField().getText()+"%"));
             taskList.setTaskSupplier(() -> repository.getTasksWithFilter(filterTasks));
         }
     }

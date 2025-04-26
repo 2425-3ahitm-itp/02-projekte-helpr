@@ -13,7 +13,7 @@ public class PostalCodeFilter implements TaskFilter {
 
     @Override
     public void apply(StringBuilder query, List<Object> params) {
-        query.append("location like '?%' ");
+        query.append("location like ? ");
         params.add(postalCode);
     }
 
