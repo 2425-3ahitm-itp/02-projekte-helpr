@@ -9,9 +9,13 @@ import at.htl.helpr.taskform.repository.filter.EffortFilter;
 import at.htl.helpr.taskform.repository.filter.LocationFilter;
 import at.htl.helpr.taskform.repository.filter.PaymentMinMaxFilter;
 import at.htl.helpr.taskform.repository.filter.TaskQueryBuilder;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import javafx.util.converter.NumberStringConverter;
 
 public class HomePresenter {
 
@@ -21,11 +25,14 @@ public class HomePresenter {
             "Keine Aufgaben gefunden");
     private TaskQueryBuilder filterTasks = new TaskQueryBuilder();
 
+    private final IntegerProperty minPaymentProperty = new SimpleIntegerProperty();
+    private final IntegerProperty maxPaymentProperty = new SimpleIntegerProperty();
+
     public HomePresenter(HomeView view) {
         this.view = view;
         view.setCenter(taskList);
         attachEvents();
-        toggledButtonSetOnAction();
+        bindings();
     }
 
     private void attachEvents() {
@@ -35,7 +42,7 @@ public class HomePresenter {
         getView().getFilterButton().setOnAction(mouseEvent -> useFilter());
     }
 
-    private void toggledButtonSetOnAction() {
+    private void bindings() {
         getView().getMinPaymentField().disableProperty()
                 .bind(getView().getPaymentToggle().selectedProperty().not());
         getView().getMaxPaymentField().disableProperty()
@@ -54,7 +61,10 @@ public class HomePresenter {
         onlyAceptInt(getView().getEffortField());
         onlyAceptInt(getView().getPostalCodeField());
 
-
+        Bindings.bindBidirectional(getView().getMinPaymentField().textProperty(),
+                minPaymentProperty, new NumberStringConverter());
+        Bindings.bindBidirectional(getView().getMaxPaymentField().textProperty(),
+                maxPaymentProperty, new NumberStringConverter());
     }
 
     private void onlyAceptInt(TextField textField) {
@@ -70,12 +80,18 @@ public class HomePresenter {
         handleEffortFilter();
         handlePlzFilter();
         handleCityFilter();
+        handlePaymentFilter();
         taskList.rerender();
 
 
     }
 
     private void handlePaymentFilter() {
+        if (getView().getPaymentToggle().isSelected()) {
+            filterTasks.addFilter(
+                    new PaymentMinMaxFilter(minPaymentProperty.get(), maxPaymentProperty.get()));
+            taskList.setTaskSupplier(() -> repository.getTasksWithFilter(filterTasks));
+        }
     }
 
     private void handleEffortFilter() {
@@ -91,7 +107,8 @@ public class HomePresenter {
 
     private void handlePlzFilter() {
         if (getView().getPostalToggle().isSelected()) {
-            filterTasks.addFilter(new LocationFilter(getView().getPostalCodeField().getText()+" %"));
+            filterTasks.addFilter(
+                    new LocationFilter(getView().getPostalCodeField().getText() + " %"));
             taskList.setTaskSupplier(() -> repository.getTasksWithFilter(filterTasks));
         }
     }
