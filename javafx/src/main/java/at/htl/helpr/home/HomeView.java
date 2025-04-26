@@ -16,10 +16,6 @@ import javafx.scene.text.Font;
 public class HomeView extends BorderPane {
 
     private final GridPane cardGrid;
-    private final Button filterButton;
-    private final Button locationFilter;
-    private final Button dateFilter;
-    private final Button priceFilter;
     private final Button searchButton;
     private final TextField searchField;
     private final Circle profilePicture;
@@ -34,13 +30,7 @@ public class HomeView extends BorderPane {
         sidebar.setPrefWidth(200);
         sidebar.setStyle("-fx-background-color: #f8f8f8; -fx-border-color: #d3d3d3;");
 
-        // Filter Buttons
-        filterButton = createStyledButton("Filtern", true);
-        locationFilter = createStyledButton("Ort", false);
-        dateFilter = createStyledButton("Datum", false);
-        priceFilter = createStyledButton("Preis $", false);
 
-        sidebar.getChildren().addAll(filterButton, locationFilter, dateFilter, priceFilter);
 
         // --- Suchleiste mit Profilbild & Username (Oben) ---
         HBox searchBar = new HBox(15);
@@ -106,22 +96,6 @@ public class HomeView extends BorderPane {
 
     public TextField getSearchField() {
         return searchField;
-    }
-
-    public Button getFilterButton() {
-        return filterButton;
-    }
-
-    public Button getLocationFilter() {
-        return locationFilter;
-    }
-
-    public Button getDateFilter() {
-        return dateFilter;
-    }
-
-    public Button getPriceFilter() {
-        return priceFilter;
     }
 
     public Circle getProfilePicture() {
