@@ -5,10 +5,17 @@ import at.htl.helpr.profile.ProfilPresenter;
 import at.htl.helpr.profile.ProfilView;
 import at.htl.helpr.taskform.repository.TaskRepository;
 import at.htl.helpr.taskform.repository.TaskRepositoryImpl;
+import at.htl.helpr.taskform.repository.filter.EffortFilter;
+import at.htl.helpr.taskform.repository.filter.EffortMinMaxFilter;
+import at.htl.helpr.taskform.repository.filter.PostalCodeFilter;
+import at.htl.helpr.taskform.repository.filter.TaskFilter;
+import at.htl.helpr.taskform.repository.filter.TaskQueryBuilder;
 import javafx.scene.Scene;
+import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.stage.Stage;
 import javax.swing.JToggleButton;
+import java.util.List;
 
 public class HomePresenter {
 
@@ -16,6 +23,7 @@ public class HomePresenter {
     private final TaskRepository repository = new TaskRepositoryImpl();
     private final TaskList taskList = new TaskList(false, repository::findAll,
             "Keine Aufgaben gefunden");
+    private TaskQueryBuilder filterTasks = new TaskQueryBuilder();
 
     public HomePresenter(HomeView view) {
         this.view = view;
@@ -28,39 +36,89 @@ public class HomePresenter {
         getView().getProfilePicture().setOnMouseClicked(mouseEvent -> openProfilView());
         getView().getUsernameLabel().setOnMouseClicked(mouseEvent -> openProfilView());
         getView().getSearchButton().setOnAction(mouseEvent -> updateCardsBySearch());
-
+        getView().getFilterButton().setOnAction(mouseEvent -> useFilter());
     }
 
     private void toggledButtonSetOnAction() {
         getView().getPaymentToggle().selectedProperty()
-                .addListener((obs, wasSelected, isNowSelected) -> handlePaymentFilter(isNowSelected));
+                .addListener((obs, wasSelected, isNowSelected) -> {
+                    getView().getMinPaymentField().setDisable(!isNowSelected);
+                    getView().getMaxPaymentField().setDisable(!isNowSelected);
+                });
+        getView().getMinPaymentField().setDisable(true);
+        getView().getMaxPaymentField().setDisable(true);
+        onlyAceptInt(getView().getEffortField());
+
         getView().getEffortToggle().selectedProperty()
-                .addListener((obs, wasSelected, isNowSelected) -> handleEffortFilter(isNowSelected));
+                .addListener((obs, wasSelected, isNowSelected) -> {
+                    getView().getEffortField().setDisable(!isNowSelected);
+                });
+        getView().getEffortField().setDisable(true);
+        onlyAceptInt(getView().getEffortField());
+
         getView().getPostalToggle().selectedProperty()
-                .addListener((obs, wasSelected, isNowSelected) -> handlePlzFilter(isNowSelected));
+                .addListener((obs, wasSelected, isNowSelected) -> {
+                    getView().getPostalCodeField().setDisable(!isNowSelected);
+                });
+        getView().getPostalCodeField().setDisable(true);
+        onlyAceptInt(getView().getPostalCodeField());
+
         getView().getCityToggle().selectedProperty()
-                .addListener((obs, wasSelected, isNowSelected) -> handlePlaceFilter(isNowSelected));
+                .addListener((obs, wasSelected, isNowSelected) -> {
+                    getView().getCityField().setDisable(!isNowSelected);
+                });
+        getView().getCityField().setDisable(true);
+
         getView().getDateToggle().selectedProperty()
-                .addListener((obs, wasSelected, isNowSelected) -> handleDateFilter(isNowSelected));
+                .addListener((obs, wasSelected, isNowSelected) -> {
+                    getView().getDateFields().setDisable(!isNowSelected);
+                });
+        getView().getDateToggle().setDisable(true);
 
 
     }
 
-    private void handlePaymentFilter(boolean isSelected) {
+    private void onlyAceptInt(TextField textField) {
+        textField.textProperty().addListener((obs, oldText, newText) -> {
+            if (!newText.matches("\\d*")) {
+                textField.setText(oldText);
+            }
+        });
     }
 
-    private void handleEffortFilter(boolean isSelected) {
+    private void useFilter() {
+        filterTasks = new TaskQueryBuilder();
+        handleEffortFilter();
+        handlePlzFilter();
+        taskList.rerender();
+
     }
 
-    private void handlePlzFilter(boolean isSelected) {
-        if (isSelected) {
+    private void handlePaymentFilter() {
+    }
+
+    private void handleEffortFilter() {
+        if (getView().getEffortToggle().isSelected()) {
+            if (getView().getEffortField().getText() != null) {
+
+                filterTasks.addFilter(
+                        new EffortFilter(Integer.parseInt(getView().getEffortField().getText())));
+                taskList.setTaskSupplier(() -> repository.getTasksWithFilter(filterTasks));
+            }
         }
     }
 
-    private void handlePlaceFilter(boolean isSelected) {
+    private void handlePlzFilter() {
+        if (getView().getPostalToggle().isSelected()) {
+            filterTasks.addFilter(new PostalCodeFilter(getView().getPostalCodeField().getText()));
+            taskList.setTaskSupplier(() -> repository.getTasksWithFilter(filterTasks));
+        }
     }
 
-    private void handleDateFilter(boolean isSelected) {
+    private void handlePlaceFilter() {
+    }
+
+    private void handleDateFilter() {
     }
 
 
