@@ -28,6 +28,15 @@ public class HomePresenter {
 
     }
 
+    private void toggledButtonSetOnAction() {
+
+    }
+    private void handlePaymentFilter() {}
+    private void handleEffortFilter() {}
+    private void handlePlzFilter() {}
+    private void handlePlaceFilter() {}
+    private void handleDateFilter() {}
+
 
     private void updateCardsBySearch() {
         String searchQuery = getView().getSearchField().getText();
