@@ -9,6 +9,7 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -61,44 +62,72 @@ public class HomeView extends BorderPane {
         filterButton = createStyledButton("Filter Anwenden", true);
 
 // Bezahlung Filter
-        Label paymentLabel = new Label("Bezahlung:");
         paymentBox = new HBox(5);
+        Label paymentLabel = new Label("Bezahlung:");
+        paymentToggle = createStyledToggleButton();
+        Region paymentSpacer = new Region();
+        HBox.setHgrow(paymentSpacer, Priority.ALWAYS);
+        HBox paymentLabelBox = new HBox(5, paymentLabel, paymentSpacer, paymentToggle);
+        paymentLabelBox.setAlignment(Pos.CENTER_LEFT);
+
         minPaymentField = new TextField();
         minPaymentField.setPromptText("MIN");
-        minPaymentField.setPrefWidth(70);
+        minPaymentField.setPrefWidth(80);
+
         maxPaymentField = new TextField();
         maxPaymentField.setPromptText("MAX");
-        maxPaymentField.setPrefWidth(70);
-        paymentToggle = createStyledToggleButton();
-        paymentBox.getChildren().addAll(minPaymentField, maxPaymentField, paymentToggle);
+        maxPaymentField.setPrefWidth(80);
+
+        paymentBox.getChildren().addAll(minPaymentField, maxPaymentField);
 
 // Aufwand Filter
-        Label effortLabel = new Label("Aufwand:");
         effortBox = new HBox(5);
-        effortField = new TextField();
-        effortField.setPrefWidth(140);
+        Label effortLabel = new Label("Aufwand:");
         effortToggle = createStyledToggleButton();
-        effortBox.getChildren().addAll(effortField, effortToggle);
+        Region effortSpacer = new Region();
+        HBox.setHgrow(effortSpacer, Priority.ALWAYS);
+        HBox effortLabelBox = new HBox(5, effortLabel, effortSpacer, effortToggle);
+        effortLabelBox.setAlignment(Pos.CENTER_LEFT);
 
-        // PLZ Filter
-        Label postalCodeLabel = new Label("PLZ:");
+        effortField = new TextField();
+
+        effortBox.getChildren().addAll(effortField);
+
+// PLZ Filter
         postalCodeBox = new HBox(5);
-        postalCodeField = new TextField();
-        postalCodeField.setPrefWidth(140);
+        Label postalCodeLabel = new Label("PLZ:");
         postalToggle = createStyledToggleButton();
-        postalCodeBox.getChildren().addAll(postalCodeField, postalToggle);
+        Region postalSpacer = new Region();
+        HBox.setHgrow(postalSpacer, Priority.ALWAYS);
+        HBox postalCodeLabelBox = new HBox(5, postalCodeLabel, postalSpacer, postalToggle);
+        postalCodeLabelBox.setAlignment(Pos.CENTER_LEFT);
 
-        // Ort Filter
-        Label cityLabel = new Label("Ort:");
+        postalCodeField = new TextField();
+
+        postalCodeBox.getChildren().addAll(postalCodeField);
+
+// Ort Filter
         cityBox = new HBox(5);
-        cityField = new TextField();
-        cityField.setPrefWidth(140);
+        Label cityLabel = new Label("Ort:");
         cityToggle = createStyledToggleButton();
-        cityBox.getChildren().addAll(cityField, cityToggle);
+        Region citySpacer = new Region();
+        HBox.setHgrow(citySpacer, Priority.ALWAYS);
+        HBox cityLabelBox = new HBox(5, cityLabel, citySpacer, cityToggle);
+        cityLabelBox.setAlignment(Pos.CENTER_LEFT);
 
-        // Erstelldatum Filter
-        Label creationDateLabel = new Label("Erstelldatum:");
+        cityField = new TextField();
+
+        cityBox.getChildren().addAll(cityField);
+
+// Erstelldatum Filter
         dateBox = new HBox(5);
+        Label creationDateLabel = new Label("Erstelldatum:");
+        dateToggle = createStyledToggleButton();
+        Region dateSpacer = new Region();
+        HBox.setHgrow(dateSpacer, Priority.ALWAYS);
+        HBox creationDateLabelBox = new HBox(5, creationDateLabel, dateSpacer, dateToggle);
+        creationDateLabelBox.setAlignment(Pos.CENTER_LEFT);
+
         dateFields = new VBox(5);
         fromDateField = new TextField();
         fromDateField.setPromptText("von");
@@ -106,22 +135,18 @@ public class HomeView extends BorderPane {
         toDateField.setPromptText("bis");
         dateFields.getChildren().addAll(fromDateField, toDateField);
 
-// ToggleButton für Erstelldatum
-        dateToggle = createStyledToggleButton();
-        dateToggle.setPrefWidth(20); // << gleiche Breite wie alle anderen
-        dateToggle.getStyleClass().add("toggle-button"); // falls du Styling hast
+        dateBox.getChildren().addAll(dateFields);
 
-        dateBox.getChildren().addAll(dateFields, dateToggle);
-
-        // Alles zusammensetzen
+// --- Sidebar zusammensetzen
         sidebar.getChildren().addAll(
                 filterButton,
-                paymentLabel, paymentBox,
-                effortLabel, effortBox,
-                postalCodeLabel, postalCodeBox,
-                cityLabel, cityBox,
-                creationDateLabel, dateBox
+                paymentLabelBox, paymentBox,
+                effortLabelBox, effortBox,
+                postalCodeLabelBox, postalCodeBox,
+                cityLabelBox, cityBox,
+                creationDateLabelBox, dateBox
         );
+
 
         designToggleButton();
 
