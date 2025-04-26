@@ -22,6 +22,7 @@ public class HomeView extends BorderPane {
     private final HBox paymentBox;
     private final TextField minPaymentField;
     private final TextField maxPaymentField;
+    private final ToggleButton paymentToggle;
     private final HBox effortBox;
     private final TextField effortField;
     private final ToggleButton effortToggle;
@@ -58,11 +59,12 @@ public class HomeView extends BorderPane {
         paymentBox = new HBox(5);
         minPaymentField = new TextField();
         minPaymentField.setPromptText("MIN");
-        minPaymentField.setPrefWidth(80);
+        minPaymentField.setPrefWidth(70);
         maxPaymentField = new TextField();
         maxPaymentField.setPromptText("MAX");
-        maxPaymentField.setPrefWidth(80);
-        paymentBox.getChildren().addAll(minPaymentField, maxPaymentField);
+        maxPaymentField.setPrefWidth(70);
+        paymentToggle = new ToggleButton();
+        paymentBox.getChildren().addAll(minPaymentField, maxPaymentField, paymentToggle);
 
 // Aufwand Filter
         Label effortLabel = new Label("Aufwand:");
