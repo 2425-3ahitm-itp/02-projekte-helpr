@@ -252,4 +252,80 @@ public class HomeView extends BorderPane {
     public Label getUsernameLabel() {
         return usernameLabel;
     }
+
+    public Button getFilterButton() {
+        return filterButton;
+    }
+
+    public HBox getPaymentBox() {
+        return paymentBox;
+    }
+
+    public TextField getMinPaymentField() {
+        return minPaymentField;
+    }
+
+    public TextField getMaxPaymentField() {
+        return maxPaymentField;
+    }
+
+    public ToggleButton getPaymentToggle() {
+        return paymentToggle;
+    }
+
+    public HBox getEffortBox() {
+        return effortBox;
+    }
+
+    public TextField getEffortField() {
+        return effortField;
+    }
+
+    public ToggleButton getEffortToggle() {
+        return effortToggle;
+    }
+
+    public HBox getPostalCodeBox() {
+        return postalCodeBox;
+    }
+
+    public TextField getPostalCodeField() {
+        return postalCodeField;
+    }
+
+    public ToggleButton getPostalToggle() {
+        return postalToggle;
+    }
+
+    public HBox getCityBox() {
+        return cityBox;
+    }
+
+    public TextField getCityField() {
+        return cityField;
+    }
+
+    public ToggleButton getCityToggle() {
+        return cityToggle;
+    }
+
+    public HBox getDateBox() {
+        return dateBox;
+    }
+
+    public VBox getDateFields() {
+        return dateFields;
+    }
+
+    public TextField getFromDateField() {
+        return fromDateField;
+    }
+
+    public TextField getToDateField() {
+        return toDateField;
+    }
+
+    public ToggleButton getDateToggle() {
+        return dateToggle;
+    }
 }
