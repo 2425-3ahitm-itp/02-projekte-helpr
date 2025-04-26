@@ -6,7 +6,9 @@ import at.htl.helpr.profile.ProfilView;
 import at.htl.helpr.taskform.repository.TaskRepository;
 import at.htl.helpr.taskform.repository.TaskRepositoryImpl;
 import javafx.scene.Scene;
+import javafx.scene.control.ToggleButton;
 import javafx.stage.Stage;
+import javax.swing.JToggleButton;
 
 public class HomePresenter {
 
@@ -30,17 +32,36 @@ public class HomePresenter {
     }
 
     private void toggledButtonSetOnAction() {
-        getView().getPaymentToggle().setOnAction(event -> handlePaymentFilter());
-        getView().getEffortToggle().setOnAction(event -> handleEffortFilter());
-        getView().getPostalToggle().setOnAction(event -> handlePlzFilter());
-        getView().getCityToggle().setOnAction(event -> handlePlaceFilter());
-        getView().getDateToggle().setOnAction(event -> handleDateFilter());
+        getView().getPaymentToggle().selectedProperty()
+                .addListener((obs, wasSelected, isNowSelected) -> handlePaymentFilter(isNowSelected));
+        getView().getEffortToggle().selectedProperty()
+                .addListener((obs, wasSelected, isNowSelected) -> handleEffortFilter(isNowSelected));
+        getView().getPostalToggle().selectedProperty()
+                .addListener((obs, wasSelected, isNowSelected) -> handlePlzFilter(isNowSelected));
+        getView().getCityToggle().selectedProperty()
+                .addListener((obs, wasSelected, isNowSelected) -> handlePlaceFilter(isNowSelected));
+        getView().getDateToggle().selectedProperty()
+                .addListener((obs, wasSelected, isNowSelected) -> handleDateFilter(isNowSelected));
+
+
     }
-    private void handlePaymentFilter() {}
-    private void handleEffortFilter() {}
-    private void handlePlzFilter() {}
-    private void handlePlaceFilter() {}
-    private void handleDateFilter() {}
+
+    private void handlePaymentFilter(boolean isSelected) {
+    }
+
+    private void handleEffortFilter(boolean isSelected) {
+    }
+
+    private void handlePlzFilter(boolean isSelected) {
+        if (isSelected) {
+        }
+    }
+
+    private void handlePlaceFilter(boolean isSelected) {
+    }
+
+    private void handleDateFilter(boolean isSelected) {
+    }
 
 
     private void updateCardsBySearch() {
