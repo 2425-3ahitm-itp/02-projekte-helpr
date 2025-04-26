@@ -45,6 +45,10 @@ public class HomeView extends BorderPane {
     public HomeView() {
         setPadding(new Insets(10));
 
+        // styling toggle button
+        getStylesheets().add(getClass().getResource("homeToggleButtonStyle.css").toExternalForm());
+
+
         // --- Sidebar (Links) ---
         VBox sidebar = new VBox(15);
         sidebar.setPadding(new Insets(15));
@@ -63,37 +67,34 @@ public class HomeView extends BorderPane {
         maxPaymentField = new TextField();
         maxPaymentField.setPromptText("MAX");
         maxPaymentField.setPrefWidth(70);
-        paymentToggle = new ToggleButton();
+        paymentToggle = createStyledToggleButton();
         paymentBox.getChildren().addAll(minPaymentField, maxPaymentField, paymentToggle);
 
 // Aufwand Filter
         Label effortLabel = new Label("Aufwand:");
         effortBox = new HBox(5);
         effortField = new TextField();
-        effortField.setPrefWidth(170);
-        effortToggle = new ToggleButton();
-        effortToggle.setPrefWidth(20);
+        effortField.setPrefWidth(140);
+        effortToggle = createStyledToggleButton();
         effortBox.getChildren().addAll(effortField, effortToggle);
 
-// PLZ Filter
+        // PLZ Filter
         Label postalCodeLabel = new Label("PLZ:");
         postalCodeBox = new HBox(5);
         postalCodeField = new TextField();
-        postalCodeField.setPrefWidth(170);
-        postalToggle = new ToggleButton();
-        postalToggle.setPrefWidth(20);
+        postalCodeField.setPrefWidth(140);
+        postalToggle = createStyledToggleButton();
         postalCodeBox.getChildren().addAll(postalCodeField, postalToggle);
 
-// Ort Filter
+        // Ort Filter
         Label cityLabel = new Label("Ort:");
         cityBox = new HBox(5);
         cityField = new TextField();
-        cityField.setPrefWidth(170);
-        cityToggle = new ToggleButton();
-        cityToggle.setPrefWidth(20);
+        cityField.setPrefWidth(140);
+        cityToggle = createStyledToggleButton();
         cityBox.getChildren().addAll(cityField, cityToggle);
 
-// Erstelldatum Filter
+        // Erstelldatum Filter
         Label creationDateLabel = new Label("Erstelldatum:");
         dateBox = new HBox(5);
         dateFields = new VBox(5);
@@ -102,10 +103,9 @@ public class HomeView extends BorderPane {
         toDateField = new TextField();
         toDateField.setPromptText("bis");
         dateFields.getChildren().addAll(fromDateField, toDateField);
-
         dateBox.getChildren().addAll(dateFields);
 
-// Alles zusammensetzen
+        // Alles zusammensetzen
         sidebar.getChildren().addAll(
                 filterButton,
                 paymentLabel, paymentBox,
@@ -169,6 +169,15 @@ public class HomeView extends BorderPane {
                 "-fx-background-color: transparent; -fx-border-color: black; -fx-border-style: dashed; -fx-font-size: 14px;");
         return button;
     }
+
+
+    private ToggleButton createStyledToggleButton() {
+        ToggleButton toggle = new ToggleButton();
+        toggle.setPrefSize(40, 20);
+        toggle.getStyleClass().add("switch-toggle");
+        return toggle;
+    }
+
 
     public GridPane getCardGrid() {
         return cardGrid;
