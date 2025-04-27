@@ -74,10 +74,8 @@ public class HomePresenter {
         Bindings.bindBidirectional(getView().getMaxPaymentField().textProperty(),
                 maxPaymentProperty, new NumberStringConverter());
 
-        Bindings.bindBidirectional(getView().getFromDateField().textProperty(),
-                fromDateProperty, new LocalDateStringConverter());
-        Bindings.bindBidirectional(getView().getToDateField().textProperty(),
-                toDateProperty, new LocalDateStringConverter());
+        getView().getFromDateField().valueProperty().bindBidirectional(fromDateProperty);
+        getView().getToDateField().valueProperty().bindBidirectional(toDateProperty);
 
 
     }
@@ -137,11 +135,11 @@ public class HomePresenter {
     }
 
     private void handleDateFilter() {
-//        if (getView().getDateToggle().isSelected()) {
-//            filterTasks.addFilter(
-//                    new DateFromToFilter(fromDateProperty.get(), toDateProperty.get()));
-//            taskList.setTaskSupplier(() -> repository.getTasksWithFilter(filterTasks));
-//        }
+        if (getView().getDateToggle().isSelected()) {
+            filterTasks.addFilter(
+                    new DateFromToFilter(fromDateProperty.get(), toDateProperty.get().plusDays(1)));
+            taskList.setTaskSupplier(() -> repository.getTasksWithFilter(filterTasks));
+        }
     }
 
 
