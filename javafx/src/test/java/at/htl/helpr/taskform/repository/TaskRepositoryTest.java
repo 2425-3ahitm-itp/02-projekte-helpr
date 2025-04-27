@@ -1,12 +1,10 @@
 package at.htl.helpr.taskform.repository;
 
-import at.htl.helpr.profile.repository.UserRepositoryImplTest;
 import at.htl.helpr.sql.SqlRunner;
 import at.htl.helpr.taskform.model.Task;
-import at.htl.helpr.taskform.repository.filter.EffortMinMaxFilter;
+import at.htl.helpr.taskform.repository.filter.PaymentMinMaxFilter;
 import at.htl.helpr.taskform.repository.filter.TaskQueryBuilder;
 import io.quarkus.test.junit.QuarkusTest;
-import jakarta.inject.Inject;
 import org.junit.jupiter.api.*;
 
 import java.util.List;
@@ -284,7 +282,7 @@ class TaskRepositoryTest {
         runFilterSetup();
 
         TaskQueryBuilder queryBuilder = new TaskQueryBuilder();
-        queryBuilder.addFilter( new EffortMinMaxFilter( 3, 4 ) );
+        queryBuilder.addFilter( new PaymentMinMaxFilter( 3, 4 ) );
 
         List<Task> tasks = taskRepository.getTasksWithFilter( queryBuilder );
 
@@ -304,7 +302,7 @@ class TaskRepositoryTest {
 
         TaskQueryBuilder queryBuilder = new TaskQueryBuilder();
         queryBuilder
-                .addFilter( new EffortMinMaxFilter( 2, 4 ) )
+                .addFilter( new PaymentMinMaxFilter( 2, 4 ) )
                 .addFilter( ( query, params ) -> {
                     query.append( "reward > ?" );
                     params.add( 20 );

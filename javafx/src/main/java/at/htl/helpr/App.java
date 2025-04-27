@@ -18,7 +18,7 @@ public class App extends Application {
         var view = new HomeView();
         var presenter = new HomePresenter(view);
 
-        var scene = new Scene(view, 750, 450);
+        var scene = new Scene(view, 750, 550);
 
         stage.setTitle("Helpr");
         stage.setScene(scene);

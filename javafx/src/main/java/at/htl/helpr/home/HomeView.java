@@ -3,6 +3,7 @@ package at.htl.helpr.home;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
@@ -36,8 +37,8 @@ public class HomeView extends BorderPane {
     private final ToggleButton cityToggle;
     private final HBox dateBox;
     private final VBox dateFields;
-    private final TextField fromDateField;
-    private final TextField toDateField;
+    private final DatePicker fromDateField;
+    private final DatePicker toDateField;
     private final ToggleButton dateToggle;
 
     private final Button searchButton;
@@ -129,9 +130,9 @@ public class HomeView extends BorderPane {
         creationDateLabelBox.setAlignment(Pos.CENTER_LEFT);
 
         dateFields = new VBox(5);
-        fromDateField = new TextField();
+        fromDateField = new DatePicker();
         fromDateField.setPromptText("von");
-        toDateField = new TextField();
+        toDateField = new DatePicker();
         toDateField.setPromptText("bis");
         dateFields.getChildren().addAll(fromDateField, toDateField);
 
@@ -317,11 +318,11 @@ public class HomeView extends BorderPane {
         return dateFields;
     }
 
-    public TextField getFromDateField() {
+    public DatePicker getFromDateField() {
         return fromDateField;
     }
 
-    public TextField getToDateField() {
+    public DatePicker getToDateField() {
         return toDateField;
     }
 
