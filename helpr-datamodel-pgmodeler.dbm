@@ -11,21 +11,27 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	 layer-name-colors="#000000"
 	 layer-rect-colors="#b4b4b4"
 	 show-layer-names="false" show-layer-rects="false">
-<role name="helpr"
- password="123">
+<role name="app"
+ superuser="true"
+ password="app"
+ sql-disabled="true">
 </role>
 
-<database name="helpr" is-template="false" allow-conns="true">
-	<role name="helpr"/>
+<database name="helpr" is-template="false" allow-conns="true" sql-disabled="true">
+	<role name="app"/>
 </database>
 
 <schema name="public" layers="0" fill-color="#e1e1e1" name-color="#000000" sql-disabled="true">
 </schema>
 
+<schema name="helpr" layers="0" rect-visible="true" fill-color="#e1e1e1" name-color="#31363b">
+	<role name="app"/>
+</schema>
+
 <table name="u_user" layers="0" collapse-mode="2" max-obj-count="6" z-value="0">
-	<schema name="public"/>
-	<role name="helpr"/>
-	<position x="220" y="320"/>
+	<schema name="helpr"/>
+	<role name="app"/>
+	<position x="300" y="260"/>
 	<column name="user_id" not-null="true"
 	 identity-type="ALWAYS">
 		<type name="bigint" length="0"/>
@@ -42,15 +48,15 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="profile_picture">
 		<type name="bytea" length="0"/>
 	</column>
-	<constraint name="u_user_pk" type="pk-constr" table="public.u_user">
+	<constraint name="u_user_pk" type="pk-constr" table="helpr.u_user">
 		<columns names="user_id" ref-type="src-columns"/>
 	</constraint>
 </table>
 
 <table name="task" layers="0" collapse-mode="2" max-obj-count="9" z-value="0">
-	<schema name="public"/>
-	<role name="helpr"/>
-	<position x="580" y="320"/>
+	<schema name="helpr"/>
+	<role name="app"/>
+	<position x="660" y="260"/>
 	<column name="task_id" not-null="true"
 	 identity-type="ALWAYS">
 		<type name="bigint" length="0"/>
@@ -73,7 +79,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="created_at" default-value="now()">
 		<type name="timestamp" length="0"/>
 	</column>
-	<constraint name="task_pk" type="pk-constr" table="public.task">
+	<constraint name="task_pk" type="pk-constr" table="helpr.task">
 		<columns names="task_id" ref-type="src-columns"/>
 	</constraint>
 
@@ -89,8 +95,8 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
 	 src-fk-pattern="author_{st}_fk"
 	 custom-color="#6106ac"
-	 src-table="public.u_user"
-	 dst-table="public.task"
+	 src-table="helpr.u_user"
+	 dst-table="helpr.task"
 	 src-required="true" dst-required="false">
 	<label ref-type="name-label">
 		<position x="0" y="0"/>
@@ -98,9 +104,9 @@ CAUTION: Do not modify this file unless you know what you are doing.
 </relationship>
 
 <table name="application" layers="0" collapse-mode="2" max-obj-count="3" z-value="0">
-	<schema name="public"/>
-	<role name="helpr"/>
-	<position x="300" y="640"/>
+	<schema name="helpr"/>
+	<role name="app"/>
+	<position x="380" y="580"/>
 	<column name="created_at" default-value="now()">
 		<type name="timestamp" length="0"/>
 	</column>
@@ -119,8 +125,8 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
 	 src-fk-pattern="{st}_fk"
 	 custom-color="#c2761e"
-	 src-table="public.u_user"
-	 dst-table="public.application"
+	 src-table="helpr.u_user"
+	 dst-table="helpr.application"
 	 src-required="true" dst-required="false"
 	upd-action="CASCADE"
 	del-action="CASCADE">
@@ -134,8 +140,8 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
 	 src-fk-pattern="{st}_fk"
 	 custom-color="#972d45"
-	 src-table="public.task"
-	 dst-table="public.application"
+	 src-table="helpr.task"
+	 dst-table="helpr.application"
 	 src-required="true" dst-required="false"
 	upd-action="CASCADE"
 	del-action="CASCADE">
@@ -145,9 +151,9 @@ CAUTION: Do not modify this file unless you know what you are doing.
 </relationship>
 
 <table name="image" layers="0" collapse-mode="2" max-obj-count="4" z-value="0">
-	<schema name="public"/>
-	<role name="helpr"/>
-	<position x="580" y="660"/>
+	<schema name="helpr"/>
+	<role name="app"/>
+	<position x="660" y="600"/>
 	<column name="image_id" not-null="true"
 	 identity-type="ALWAYS">
 		<type name="bigint" length="0"/>
@@ -171,8 +177,8 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	 pk-pattern="{dt}_pk" uq-pattern="{dt}_uq"
 	 src-fk-pattern="{st}_fk"
 	 custom-color="#59200a"
-	 src-table="public.task"
-	 dst-table="public.image"
+	 src-table="helpr.task"
+	 dst-table="helpr.image"
 	 src-required="true" dst-required="false"
 	upd-action="CASCADE"
 	del-action="CASCADE">
@@ -180,5 +186,9 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<position x="8.96295" y="-26.353"/>
 	</label>
 </relationship>
+
+<extension name="pg_trgm">
+	<schema name="helpr"/>
+</extension>
 
 </dbmodel>

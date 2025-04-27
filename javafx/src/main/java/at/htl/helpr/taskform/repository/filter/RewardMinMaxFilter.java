@@ -6,7 +6,7 @@ public class RewardMinMaxFilter implements TaskFilter {
 
     private int min, max;
 
-    public RewardMinMaxFilter( int min, int max) {
+    public RewardMinMaxFilter(int min, int max) {
         this.min = min;
         this.max = min;
     }

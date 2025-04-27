@@ -4,9 +4,14 @@ import at.htl.helpr.profile.model.User;
 import java.util.List;
 
 public interface UserRepository {
-    public void create(User entity);
-    public void update(User entity);
-    public void delete(long id);
-    public List<User> findAll();
-    public User findById(long id);
+
+    void create(User entity);
+
+    void update(User entity);
+
+    void delete(long id);
+
+    List<User> findAll();
+
+    User findById(long id);
 }

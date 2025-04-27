@@ -5,18 +5,8 @@ import at.htl.helpr.home.HomeView;
 import at.htl.helpr.taskform.TaskFormPresenter;
 import at.htl.helpr.taskform.TaskFormView;
 import at.htl.helpr.taskform.model.Task;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
-
-import java.util.List;
 
 public class ProfilPresenter {
 
@@ -30,7 +20,7 @@ public class ProfilPresenter {
     private void attachEvents() {
 
         view.getNewTaskButton().setOnAction(e -> openTaskView());
-        view.getHomeButton().setOnAction(e ->  openHomeView());
+        view.getHomeButton().setOnAction(e -> openHomeView());
     }
 
     private void openHomeView() {
@@ -39,7 +29,7 @@ public class ProfilPresenter {
         var view = new HomeView();
         var presenter = new HomePresenter(view);
 
-        var scene = new Scene(view, 750, 450);
+        var scene = new Scene(view, 920, 550);
 
         currentStage.setTitle("Helpr");
         currentStage.setScene(scene);
