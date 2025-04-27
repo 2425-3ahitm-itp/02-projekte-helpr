@@ -9,18 +9,17 @@ import at.htl.helpr.taskform.repository.filter.DateFromToFilter;
 import at.htl.helpr.taskform.repository.filter.EffortFilter;
 import at.htl.helpr.taskform.repository.filter.LocationFilter;
 import at.htl.helpr.taskform.repository.filter.PaymentMinMaxFilter;
+import at.htl.helpr.taskform.repository.filter.SearchFilter;
 import at.htl.helpr.taskform.repository.filter.TaskQueryBuilder;
+import java.time.LocalDate;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Scene;
-import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import javafx.util.converter.LocalDateStringConverter;
 import javafx.util.converter.NumberStringConverter;
-import java.time.LocalDate;
 
 public class HomePresenter {
 
@@ -28,7 +27,7 @@ public class HomePresenter {
     private final TaskRepository repository = new TaskRepositoryImpl();
     private final TaskList taskList = new TaskList(false, repository::findAll,
             "Keine Aufgaben gefunden");
-    private TaskQueryBuilder filterTasks = new TaskQueryBuilder();
+    private TaskQueryBuilder taskQueryBuilder = new TaskQueryBuilder();
 
     private final IntegerProperty minPaymentProperty = new SimpleIntegerProperty();
     private final IntegerProperty maxPaymentProperty = new SimpleIntegerProperty();
@@ -49,7 +48,7 @@ public class HomePresenter {
         getView().getProfilePicture().setOnMouseClicked(mouseEvent -> openProfilView());
         getView().getUsernameLabel().setOnMouseClicked(mouseEvent -> openProfilView());
         getView().getSearchButton().setOnAction(mouseEvent -> updateCardsBySearch());
-        getView().getFilterButton().setOnAction(mouseEvent -> useFilter());
+        getView().getFilterButton().setOnAction(mouseEvent -> updateCardsBySearch());
     }
 
     private void bindings() {
@@ -67,7 +66,6 @@ public class HomePresenter {
         getView().getDateFields().disableProperty()
                 .bind(getView().getDateToggle().selectedProperty().not());
 
-
         Bindings.bindBidirectional(getView().getMinPaymentField().textProperty(),
                 minPaymentProperty, new NumberStringConverter());
         Bindings.bindBidirectional(getView().getMaxPaymentField().textProperty(),
@@ -83,23 +81,10 @@ public class HomePresenter {
 
     }
 
-    private void useFilter() {
-        filterTasks = new TaskQueryBuilder();
-        handleEffortFilter();
-        handlePlzFilter();
-        handleCityFilter();
-        handlePaymentFilter();
-        handleDateFilter();
-        taskList.rerender();
-
-
-    }
-
     private void handlePaymentFilter() {
         if (getView().getPaymentToggle().isSelected()) {
-            filterTasks.addFilter(
+            taskQueryBuilder.addFilter(
                     new PaymentMinMaxFilter(minPaymentProperty.get(), maxPaymentProperty.get()));
-            taskList.setTaskSupplier(() -> repository.getTasksWithFilter(filterTasks));
         }
     }
 
@@ -107,33 +92,30 @@ public class HomePresenter {
         if (getView().getEffortToggle().isSelected()) {
             if (getView().getEffortField().getText() != null) {
 
-                filterTasks.addFilter(
+                taskQueryBuilder.addFilter(
                         new EffortFilter(effortProperty.get()));
-                taskList.setTaskSupplier(() -> repository.getTasksWithFilter(filterTasks));
             }
         }
     }
 
     private void handlePlzFilter() {
         if (getView().getPostalToggle().isSelected()) {
-            filterTasks.addFilter(
+            taskQueryBuilder.addFilter(
                     new LocationFilter(postalCodeProperty.get() + " %"));
-            taskList.setTaskSupplier(() -> repository.getTasksWithFilter(filterTasks));
         }
     }
 
     private void handleCityFilter() {
         if (getView().getCityToggle().isSelected()) {
-            filterTasks.addFilter(new LocationFilter("% " + getView().getCityField().getText()));
-            taskList.setTaskSupplier(() -> repository.getTasksWithFilter(filterTasks));
+            taskQueryBuilder.addFilter(
+                    new LocationFilter("% " + getView().getCityField().getText()));
         }
     }
 
     private void handleDateFilter() {
         if (getView().getDateToggle().isSelected()) {
-            filterTasks.addFilter(
+            taskQueryBuilder.addFilter(
                     new DateFromToFilter(fromDateProperty.get(), toDateProperty.get().plusDays(1)));
-            taskList.setTaskSupplier(() -> repository.getTasksWithFilter(filterTasks));
         }
     }
 
@@ -141,13 +123,29 @@ public class HomePresenter {
     private void updateCardsBySearch() {
         String searchQuery = getView().getSearchField().getText();
 
-        if (searchQuery.isBlank()) {
+        taskQueryBuilder = new TaskQueryBuilder();
+
+        addFiltersToQueryBuilder();
+
+        if (!searchQuery.isBlank()) {
+            taskQueryBuilder.addFilter(new SearchFilter(searchQuery));
+        }
+
+        if (taskQueryBuilder.getParamsCount() < 1) {
             taskList.setTaskSupplier(repository::findAll);
         } else {
-            taskList.setTaskSupplier(() -> repository.getTaskBySearchQueryAndLimit(searchQuery));
+            taskList.setTaskSupplier(() -> repository.getTasksWithFilter(taskQueryBuilder));
         }
-        taskList.rerender();
 
+        taskList.rerender();
+    }
+
+    private void addFiltersToQueryBuilder() {
+        handleEffortFilter();
+        handlePlzFilter();
+        handleCityFilter();
+        handlePaymentFilter();
+        handleDateFilter();
     }
 
     private void openProfilView() {

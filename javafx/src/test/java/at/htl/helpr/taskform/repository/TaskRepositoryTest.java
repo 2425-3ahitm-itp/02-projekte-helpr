@@ -278,11 +278,11 @@ class TaskRepositoryTest {
 
     @Test
     @Order( 1090 )
-    void getTasksWithEffortFilterBetween3And4() {
+    void getTasksWithPaymentFilterBetween20And30() {
         runFilterSetup();
 
         TaskQueryBuilder queryBuilder = new TaskQueryBuilder();
-        queryBuilder.addFilter( new PaymentMinMaxFilter( 3, 4 ) );
+        queryBuilder.addFilter( new PaymentMinMaxFilter( 20, 30 ) );
 
         List<Task> tasks = taskRepository.getTasksWithFilter( queryBuilder );
 
@@ -290,8 +290,8 @@ class TaskRepositoryTest {
         assertThat( tasks ).hasSize( 3 );
         assertThat( tasks ).extracting( Task::getTitle ).containsExactlyInAnyOrder(
                 "Help with moving furniture",
-                "Computer setup help",
-                "Lawn mowing service"
+                "Dog walking this weekend",
+                "Grocery shopping assistance"
         );
     }
 
@@ -302,7 +302,11 @@ class TaskRepositoryTest {
 
         TaskQueryBuilder queryBuilder = new TaskQueryBuilder();
         queryBuilder
-                .addFilter( new PaymentMinMaxFilter( 2, 4 ) )
+                .addFilter( (query, params) -> {
+                    query.append( "effort between ? and ?" );
+                    params.add( 2 );
+                    params.add( 4 );
+                } )
                 .addFilter( ( query, params ) -> {
                     query.append( "reward > ?" );
                     params.add( 20 );

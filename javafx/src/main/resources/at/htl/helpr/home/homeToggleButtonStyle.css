@@ -1,5 +1,5 @@
 .toggle-button {
-    -fx-background-color: transparent;
+    -fx-background-color: #e0e0e0;
     -fx-background-radius: 15;
     -fx-padding: 0;
     -fx-cursor: hand;
@@ -7,30 +7,36 @@
     -fx-min-height: 20px;
     -fx-max-width: 40px;
     -fx-max-height: 20px;
-    -fx-border-color: black;
+    -fx-border-color: transparent;
     -fx-border-radius: 15;
-    -fx-border-width: 1px;
+    -fx-border-width: 0;
     -fx-alignment: center-left;
     -fx-graphic-text-gap: 0;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 2, 0, 0, 1);
+    -fx-transition: 0.3s ease-in-out;
 }
 
 .toggle-button:selected {
-    -fx-background-color: #cce5ff;
+    -fx-background-color: #6200ee;
     -fx-alignment: center-right;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 4, 0, 0, 2);
 }
 
 .toggle-button .thumb {
     -fx-background-color: white;
     -fx-background-radius: 50%;
-    -fx-min-width: 14px;
-    -fx-min-height: 14px;
-    -fx-max-width: 14px;
-    -fx-max-height: 14px;
-    -fx-translate-x: 3;
-    -fx-border-color: #000000;
+    -fx-min-width: 18px;
+    -fx-min-height: 18px;
+    -fx-max-width: 18px;
+    -fx-max-height: 18px;
+    -fx-translate-x: 2;
+    -fx-border-color: rgba(0, 0, 0, 0.1);
     -fx-border-radius: 50%;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 2, 0, 0, 1);
+    -fx-transition: 0.3s ease-in-out;
 }
 
 .toggle-button:selected .thumb {
-    -fx-translate-x: -3;
+    -fx-translate-x: -2; /* Adjusted to move the thumb further right */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 4, 0, 0, 2);
 }

@@ -51,6 +51,7 @@ public class HomeView extends BorderPane {
 
         // styling toggle button
         getStylesheets().add(getClass().getResource("homeToggleButtonStyle.css").toExternalForm());
+        getStylesheets().add(getClass().getResource("homeDatePickerStyle.css").toExternalForm());
 
 
         // --- Sidebar (Links) ---
@@ -135,6 +136,8 @@ public class HomeView extends BorderPane {
         toDateField = new DatePicker();
         toDateField.setPromptText("bis");
         dateFields.getChildren().addAll(fromDateField, toDateField);
+
+        // add class date-picker to datepicker
 
         dateBox.getChildren().addAll(dateFields);
 

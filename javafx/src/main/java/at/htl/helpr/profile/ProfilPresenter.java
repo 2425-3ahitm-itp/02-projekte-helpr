@@ -29,7 +29,7 @@ public class ProfilPresenter {
         var view = new HomeView();
         var presenter = new HomePresenter(view);
 
-        var scene = new Scene(view, 750, 450);
+        var scene = new Scene(view, 920, 550);
 
         currentStage.setTitle("Helpr");
         currentStage.setScene(scene);

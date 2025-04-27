@@ -2,9 +2,12 @@ package at.htl.helpr.components;
 
 import at.htl.helpr.taskform.model.Task;
 import at.htl.helpr.taskform.repository.TaskRepositoryImpl;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Locale;
 import java.util.function.Supplier;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -16,7 +19,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
@@ -33,10 +35,12 @@ public class TaskList extends ScrollPane {
     private final boolean singleRow;
     private final String placeholderText;
 
+    private final int CARD_GAP = 20;
+
     public TaskList(boolean singleRow, String placeholderText) {
         this.singleRow = singleRow;
         this.placeholderText = placeholderText;
-        this.setPadding(new Insets(10));
+        this.setPadding(new Insets((double) CARD_GAP / 2));
         this.setFitToWidth(true);
         this.setContent(new FlowPane());
     }
@@ -65,8 +69,8 @@ public class TaskList extends ScrollPane {
         if (taskSupplier != null) {
             FlowPane flowPane = (FlowPane) this.getContent();
             flowPane.setPadding(new Insets(10));
-            flowPane.setHgap(10);
-            flowPane.setVgap(10);
+            flowPane.setHgap(CARD_GAP);
+            flowPane.setVgap(CARD_GAP);
 
             this.widthProperty().addListener((obs, oldWidth, newWidth) -> {
                 updateCardWidths(flowPane);
@@ -81,7 +85,14 @@ public class TaskList extends ScrollPane {
         if (taskSupplier == null) {
             return;
         }
-        var tasks = taskSupplier.get();
+        List<Task> tasks;
+
+        try {
+            tasks = taskSupplier.get();
+        } catch (RuntimeException e) {
+            return;
+        }
+
         flowPane.getChildren().clear();
 
         if (tasks.isEmpty()) {
@@ -121,13 +132,19 @@ public class TaskList extends ScrollPane {
 
     private VBox createTaskCard(Task task) {
         VBox card = new VBox();
-        card.setPadding(new Insets(10));
-        card.setStyle("-fx-border-color: black; -fx-border-width: 1;");
 
-        // Title and Location at the top
+        // add neomorphism to the card
+        card.setStyle(
+                "-fx-background-color: #f0f0f0; -fx-background-radius: 10px; -fx-padding: 10px; "
+                        + "-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 10, 0.0, 0, 1);");
+
+        // Title, Location and creation date at the top
         Label titleLabel = new Label(task.getTitle());
         titleLabel.setFont(Font.font("", FontWeight.BOLD, 14));
         Label locationLabel = new Label(task.getLocation());
+        Locale.setDefault(Locale.GERMAN);
+        Label dateLable = new Label(task.getCreatedAt().format(
+                DateTimeFormatter.ofPattern("dd. MMMM yyyy")));
 
         // Price and Effort at the bottom in a HBox
         HBox bottomSection = new HBox();
@@ -138,43 +155,57 @@ public class TaskList extends ScrollPane {
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
 
-        Label effortLabel = new Label(String.valueOf(task.getEffort()));
+        String[] effortColors = new String[]{
+                "#99FF99", "#CCFF99", "#FFFF99", "#FFCC99", "#FF9999"
+        };
+
+        Label effortLabel = new Label("Aufwand: " + task.getEffort());
+
+        // set bg color of effortlabel to the effort color
+        int effortIndex = Math.min(task.getEffort(), effortColors.length - 1);
+        String effortColor = effortColors[effortIndex];
+
+        // add borderradius 4px and font bold
+        effortLabel.setStyle("-fx-background-color: " + effortColor
+                + "; -fx-background-radius: 4px; -fx-padding: 5px;");
+        effortLabel.setFont(Font.font("", FontWeight.BOLD, 12));
 
         bottomSection.getChildren().addAll(priceLabel, spacer, effortLabel);
 
+        // make bottomSection align vertical center
+        bottomSection.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
+
         // Add all components to the card
-        card.getChildren().addAll(titleLabel, locationLabel);
+        card.getChildren().addAll(titleLabel, locationLabel, dateLable);
 
         // Fetch the first image path for the task
         List<String> imagePaths = taskRepository.getTaskImages(task.getId());
-        if (!imagePaths.isEmpty()) {
-            String thumbnailPath = imagePaths.getFirst();
 
-            try (InputStream imageStream = getClass().getResourceAsStream(thumbnailPath)) {
-                if (imageStream != null) {
-                    ImageView imageView = new ImageView(new Image(imageStream));
-                    imageView.setFitHeight(100);
-                    imageView.setFitWidth(177); // Adjusted width
-                    imageView.setPreserveRatio(false);
-                    VBox.setMargin(imageView, new Insets(10, 0, 10, 0));
-                    card.getChildren().add(imageView);
-                } else {
-                    throw new RuntimeException("IMAGE '" + thumbnailPath + "' WAS NOT FOUND");
-                }
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-
-        } else {
-            // Empty image placeholder with dotted border
-            Pane imagePlaceholder = new Pane();
-            imagePlaceholder.setPrefHeight(100);
-            imagePlaceholder.setPrefWidth(150); // Adjusted width
-            imagePlaceholder.setStyle(
-                    "-fx-border-color: black; -fx-border-style: dotted; -fx-border-width: 2;");
-            VBox.setMargin(imagePlaceholder, new Insets(10, 0, 10, 0));
-            card.getChildren().add(imagePlaceholder);
+        if (imagePaths.isEmpty()) {
+            imagePaths.add("placeholder.png");
         }
+
+        String thumbnailPath = "store/task_images/" + imagePaths.getFirst();
+        try (InputStream is = new FileInputStream(thumbnailPath)) {
+            ImageView imageView = new ImageView(new Image(is));
+            imageView.setFitHeight(100);
+            imageView.setFitWidth(177);
+            imageView.setPreserveRatio(false);
+            VBox.setMargin(imageView, new Insets(10, 0, 10, 0));
+            card.getChildren().add(imageView);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+//        } else {
+//            // Empty image placeholder with dotted border
+//            Pane imagePlaceholder = new Pane();
+//            imagePlaceholder.setPrefHeight(100);
+//            imagePlaceholder.setPrefWidth(150); // Adjusted width
+//            imagePlaceholder.setStyle(
+//                    "-fx-border-color: black; -fx-border-style: dotted; -fx-border-width: 2;");
+//            VBox.setMargin(imagePlaceholder, new Insets(10, 0, 10, 0));
+//            card.getChildren().add(imagePlaceholder);
+//        }
 
         card.getChildren().add(bottomSection);
 
