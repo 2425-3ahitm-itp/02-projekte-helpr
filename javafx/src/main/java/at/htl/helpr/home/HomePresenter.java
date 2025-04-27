@@ -32,6 +32,8 @@ public class HomePresenter {
 
     private final IntegerProperty minPaymentProperty = new SimpleIntegerProperty();
     private final IntegerProperty maxPaymentProperty = new SimpleIntegerProperty();
+    private final IntegerProperty postalCodeProperty = new SimpleIntegerProperty();
+    private final IntegerProperty effortProperty = new SimpleIntegerProperty();
 
     private final ObjectProperty<LocalDate> fromDateProperty = new SimpleObjectProperty<>();
     private final ObjectProperty<LocalDate> toDateProperty = new SimpleObjectProperty<>();
@@ -65,27 +67,20 @@ public class HomePresenter {
         getView().getDateFields().disableProperty()
                 .bind(getView().getDateToggle().selectedProperty().not());
 
-        // Nummernfelder nur Integer erlauben
-        onlyAceptInt(getView().getEffortField());
-        onlyAceptInt(getView().getPostalCodeField());
 
         Bindings.bindBidirectional(getView().getMinPaymentField().textProperty(),
                 minPaymentProperty, new NumberStringConverter());
         Bindings.bindBidirectional(getView().getMaxPaymentField().textProperty(),
                 maxPaymentProperty, new NumberStringConverter());
+        Bindings.bindBidirectional(getView().getPostalCodeField().textProperty(),
+                postalCodeProperty, new NumberStringConverter());
+        Bindings.bindBidirectional(getView().getEffortField().textProperty(),
+                effortProperty, new NumberStringConverter());
 
         getView().getFromDateField().valueProperty().bindBidirectional(fromDateProperty);
         getView().getToDateField().valueProperty().bindBidirectional(toDateProperty);
 
 
-    }
-
-    private void onlyAceptInt(TextField textField) {
-        textField.textProperty().addListener((obs, oldText, newText) -> {
-            if (!newText.matches("\\d*")) {
-                textField.setText(oldText);
-            }
-        });
     }
 
     private void useFilter() {
@@ -113,7 +108,7 @@ public class HomePresenter {
             if (getView().getEffortField().getText() != null) {
 
                 filterTasks.addFilter(
-                        new EffortFilter(Integer.parseInt(getView().getEffortField().getText())));
+                        new EffortFilter(effortProperty.get()));
                 taskList.setTaskSupplier(() -> repository.getTasksWithFilter(filterTasks));
             }
         }
@@ -122,7 +117,7 @@ public class HomePresenter {
     private void handlePlzFilter() {
         if (getView().getPostalToggle().isSelected()) {
             filterTasks.addFilter(
-                    new LocationFilter(getView().getPostalCodeField().getText() + " %"));
+                    new LocationFilter(postalCodeProperty.get() + " %"));
             taskList.setTaskSupplier(() -> repository.getTasksWithFilter(filterTasks));
         }
     }
