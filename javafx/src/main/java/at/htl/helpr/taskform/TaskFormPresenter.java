@@ -2,6 +2,8 @@ package at.htl.helpr.taskform;
 
 import at.htl.helpr.profile.ProfilPresenter;
 import at.htl.helpr.profile.ProfilView;
+import at.htl.helpr.scenemanager.Presenter;
+import at.htl.helpr.scenemanager.SceneManager;
 import at.htl.helpr.taskform.model.Task;
 import at.htl.helpr.taskform.repository.TaskRepository;
 import at.htl.helpr.taskform.repository.TaskRepositoryImpl;
@@ -10,14 +12,15 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.util.converter.NumberStringConverter;
 
-public class TaskFormPresenter {
+public class TaskFormPresenter extends Presenter {
 
     private final TaskFormView view;
     private final Task model;
 
     private final TaskRepository repository = new TaskRepositoryImpl();
 
-    public TaskFormPresenter(Task model, TaskFormView view) {
+    public TaskFormPresenter(Task model, TaskFormView view, SceneManager sceneManager) {
+        super(sceneManager);
         this.model = model;
         this.view = view;
 
@@ -53,13 +56,9 @@ public class TaskFormPresenter {
 
         Stage currentStage = (Stage) getView().getTitleField().getScene().getWindow();
 
-        var view = new ProfilView();
-        var presenter = new ProfilPresenter(view);
+        sceneManager.setScene(ProfilPresenter.class);
 
-        var scene = new Scene(view, 750, 650);
-
-        currentStage.setTitle("Helpr Profil");
-        currentStage.setScene(scene);
+        currentStage.setTitle("Helpr-Profil");
         currentStage.show();
 
     }
@@ -67,13 +66,9 @@ public class TaskFormPresenter {
     private void openProfilView() {
         Stage currentStage = (Stage) getView().getTitleField().getScene().getWindow();
 
-        var view = new ProfilView();
-        var presenter = new ProfilPresenter(view);
+        sceneManager.setScene(ProfilPresenter.class);
 
-        var scene = new Scene(view, 750, 650);
-
-        currentStage.setTitle("Helpr Profil");
-        currentStage.setScene(scene);
+        currentStage.setTitle("Helpr-Profil");
         currentStage.show();
     }
 
@@ -101,5 +96,20 @@ public class TaskFormPresenter {
 
     public TaskRepository getRepository() {
         return repository;
+    }
+
+    @Override
+    public Scene getScene() {
+        return new Scene(view, 750, 450);
+    }
+
+    @Override
+    public void onShow() {
+
+    }
+
+    @Override
+    public void onHide() {
+
     }
 }
