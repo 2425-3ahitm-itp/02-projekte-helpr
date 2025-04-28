@@ -78,7 +78,7 @@ public class SqlRunner {
             byte[] imageData;
 
             // read image at store/profile/filePath
-            try (var fis = new FileReader(filePath)) {
+            try (var fis = new FileReader("store/profiles/" + filePath)) {
                 StringBuilder sb = new StringBuilder();
                 int ch;
                 while ((ch = fis.read()) != -1) {
@@ -178,7 +178,12 @@ public class SqlRunner {
         if (listOfFiles != null) {
             for (File file : listOfFiles) {
                 if (file.isFile() && file.getName().endsWith(".jpg")) {
-                    profilesArray.add(file.getPath());
+                    try {
+                        String fileName = file.getCanonicalFile().getName();
+                        profilesArray.add(fileName);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             }
         }
@@ -192,13 +197,22 @@ public class SqlRunner {
         // get all filenames in root/store/task_images
         folder = new File("store/task_images");
         listOfFiles = folder.listFiles();
+
+        System.out.println("--------------------------------------------------");
         if (listOfFiles != null) {
             for (File file : listOfFiles) {
                 if (file.isFile() && file.getName().endsWith(".png")) {
-                    imagesList.add(file.getName());
+                    try {
+                        System.out.println("Adding image " + file.getCanonicalFile().getName());
+                        imagesList.add(file.getCanonicalFile().getName());
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             }
         }
+
+        System.out.println("========================");;
 
         for (String fileName : imagesList) {
 

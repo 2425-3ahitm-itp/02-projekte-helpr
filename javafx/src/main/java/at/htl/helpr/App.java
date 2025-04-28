@@ -14,9 +14,6 @@ public class App extends Application {
 
         SqlRunner.main();
 
-        SqlRunner.runSchema();
-        SqlRunner.runInserts();
-
         var view = new HomeView();
         var presenter = new HomePresenter(view);
 
