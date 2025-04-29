@@ -1,0 +1,118 @@
+name: deploy-helpr
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - javafx/**
+  workflow_dispatch:
+
+
+permissions:
+  contents: write
+  packages: write
+
+jobs:
+  # TODO: return if the tag already exists
+  build-and-release:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+           fetch-depth: 0
+
+      - uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Extract release version
+        id: version
+        run: |
+          cd javafx
+
+          # Extract POM version
+          POM_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+
+          # Stop workflow if POM_VERSION is 1
+          if [ "$POM_VERSION" = "1" ]; then
+            echo "POM_VERSION is 1. Stopping workflow."
+            exit 1
+          fi
+
+          if git tag | grep -q "^v$POM_VERSION-"; then
+            echo "Version $POM_VERSION already exists in git tags! Nothing Changed!"
+            exit 1
+          fi
+
+          # Get commit hash
+          COMMIT_HASH=$(git rev-parse --short HEAD)
+
+          # Generate final version string
+          VERSION="v${POM_VERSION}-${COMMIT_HASH}"
+
+          # Set as environment variable and output
+          echo "POM_VERSION=${POM_VERSION}" >> $GITHUB_ENV
+          echo "VERSION=${VERSION}" >> $GITHUB_ENV
+          echo "version=${VERSION}" >> $GITHUB_OUTPUT
+
+      - name: Docker Compose
+        uses: hoverkraft-tech/compose-action@v2.0.1
+        with:
+          compose-file: "./javafx/src/main/docker/docker-compose.yaml"
+          services: |
+            postgres
+
+      - name: Create Tag
+        uses: piszmog/create-tag@v1
+        with:
+          version: ${{ env.VERSION }}
+          message: ${{ github.event.inputs.message }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish package
+        run: |
+          cd javafx
+          mvn --batch-mode --update-snapshots deploy
+
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Generate SHA1 and MD5
+        run: |
+          cd javafx/target
+
+          md5sum helpr-*-runner.jar | awk '{print $1}' > helpr-${{ env.POM_VERSION }}-runner.jar.md5
+          sha1sum helpr-*-runner.jar | awk '{print $1}' > helpr-${{ env.POM_VERSION }}-runner.jar.sha1
+
+      - name: Generating Release
+        run: |
+          most_recent_tag=$(git describe --tags --abbrev=0)
+          second_recent_tag=$(git for-each-ref --sort=-taggerdate --format '%(tag)' refs/tags | sed -n 2p)
+
+          echo "$(git log -1 --pretty=%B | tail -n +3)
+          " > RELEASE.txt
+
+          git log $(
+            git for-each-ref --sort=-taggerdate --format '%(tag)' refs/tags | sed -n 2p
+          )..$(
+            git describe --tags --abbrev=0
+          ) --oneline --pretty="%an;%h;%s" | tee logfile.txt | ./scripts/release-generator.sh >> RELEASE.txt
+
+          cat logfile.txt
+
+          echo "GENERATED RELEASE:"
+          cat RELEASE.txt
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            javafx/target/helpr-*-runner.jar
+            javafx/target/helpr-*-runner.jar.md5
+            javafx/target/helpr-*-runner.jar.sha1
+          body_path: RELEASE.txt
+          tag_name: ${{ env.VERSION }}
+          name: Helpr ${{ env.VERSION }}
