@@ -32,4 +32,6 @@ jobs:
           cache: maven
 
       - name: Test Java
-        run: mvn --batch-mode --update-snapshots verify
+        run: |
+          cd javafx &&
+          mvn --batch-mode --update-snapshots verify
