@@ -5,12 +5,14 @@ on:
     branches:
       - feat/**
       - task/**
+      - hotfix/**
     paths:
       - javafx/src/**
   pull_request:
     branches:
       - dev
       - main
+      - feat/**
     types: [opened, synchronize, reopened]
     paths:
       - javafx/src/**
