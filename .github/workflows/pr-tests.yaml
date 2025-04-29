@@ -1,13 +1,19 @@
 name: test-java
 
 on:
-  pull_request:
   push:
     branches:
       - feat/**
       - task/**
     paths:
-      - javafx/src/main/**
+      - javafx/src/**
+  pull_request:
+    branches:
+      - dev
+      - main
+    types: [opened, synchronize, reopened]
+    paths:
+      - javafx/src/**
   workflow_dispatch:
 
 jobs:
@@ -16,6 +22,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
 
       - name: Docker Compose
         uses: hoverkraft-tech/compose-action@v2.0.1
