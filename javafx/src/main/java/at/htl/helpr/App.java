@@ -7,23 +7,26 @@ import at.htl.helpr.profile.ProfilView;
 import at.htl.helpr.sql.SqlRunner;
 import at.htl.helpr.scenemanager.SceneManager;
 import at.htl.helpr.taskform.TaskFormPresenter;
+import at.htl.helpr.taskform.TaskFormView;
 import at.htl.helpr.taskform.model.Task;
 import javafx.application.Application;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class App extends Application {
 
     @Override
     public void start(Stage stage) {
-
         SqlRunner.runSchema();
         SqlRunner.runInserts();
 
-        SceneManager sceneManager = new SceneManager(stage);
+        // SceneManager als Singleton initialisieren
+        SceneManager.initialize(stage);
+        SceneManager sceneManager = SceneManager.getInstance();
 
-
+        // Presenter registrieren
         addAllPresenters(sceneManager);
+
+        // Erste Szene setzen
         sceneManager.setScene(HomePresenter.class);
 
         stage.setTitle("Helpr");
@@ -34,17 +37,17 @@ public class App extends Application {
         launch(args);
     }
 
-    public void addAllPresenters(SceneManager sceneManager) {
-        var view = new HomeView();
-        var presenter = new HomePresenter(view, sceneManager);
-        sceneManager.addPresenter(HomePresenter.class, presenter);
+    private void addAllPresenters(SceneManager sceneManager) {
+        var homeView = new HomeView();
+        var homePresenter = new HomePresenter(homeView, sceneManager);
+        sceneManager.addPresenter(HomePresenter.class, homePresenter);
 
         var profilView = new ProfilView();
         var profilPresenter = new ProfilPresenter(profilView, sceneManager);
-        sceneManager.addPresenter(at.htl.helpr.profile.ProfilPresenter.class, profilPresenter);
+        sceneManager.addPresenter(ProfilPresenter.class, profilPresenter);
 
-        var taskFormView = new at.htl.helpr.taskform.TaskFormView();
-        var taskFormPresenter = new TaskFormPresenter(new Task(), taskFormView, sceneManager);
+        var taskFormView = new TaskFormView();
+        var taskFormPresenter = new TaskFormPresenter(new Task(), taskFormView);
         sceneManager.addPresenter(TaskFormPresenter.class, taskFormPresenter);
     }
 }

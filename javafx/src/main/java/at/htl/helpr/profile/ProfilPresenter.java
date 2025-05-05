@@ -10,13 +10,15 @@ import at.htl.helpr.taskform.model.Task;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class ProfilPresenter extends Presenter {
+public class ProfilPresenter implements Presenter {
 
-    private final ProfilView view;
+    private ProfilView view;
+    private SceneManager sceneManager;
+    private Scene scene;
 
     public ProfilPresenter(ProfilView view, SceneManager sceneManager) {
-        super(sceneManager);
         this.view = view;
+        this.sceneManager = sceneManager;
         attachEvents();
     }
 
@@ -50,7 +52,10 @@ public class ProfilPresenter extends Presenter {
 
     @Override
     public Scene getScene() {
-        return new Scene(view, 750, 450);
+        if (scene == null) {
+            scene = new Scene(view, 1080, 648);
+        }
+        return scene;
     }
 
     @Override

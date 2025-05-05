@@ -10,16 +10,19 @@ import at.htl.helpr.taskform.repository.TaskRepositoryImpl;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class HomePresenter extends Presenter {
+public class HomePresenter implements Presenter {
 
-    private final HomeView view;
+    private  HomeView view;
+    private SceneManager sceneManager;
+    private Scene scene;
+
     private final TaskRepository repository = new TaskRepositoryImpl();
     private final TaskList taskList = new TaskList(false, repository::findAll,
             "Keine Aufgaben gefunden");
 
     public HomePresenter(HomeView view, SceneManager sceneManager) {
-        super(sceneManager);
         this.view = view;
+        this.sceneManager = sceneManager;
         view.setCenter(taskList);
         attachEvents();
     }
@@ -59,7 +62,10 @@ public class HomePresenter extends Presenter {
 
     @Override
     public Scene getScene() {
-        return new Scene(view, 750, 450);
+        if (scene == null) {
+            scene = new Scene(view, 1080, 648);
+        }
+        return scene;
     }
 
     @Override
