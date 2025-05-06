@@ -6,10 +6,11 @@ import java.util.List;
 public class TaskQueryBuilder {
 
     private final List<TaskFilter> filterList = new ArrayList<>();
-
+    private int paramsCount = 0;
 
     public TaskQueryBuilder addFilter(TaskFilter taskFilter) {
         this.filterList.add(taskFilter);
+        paramsCount++;
         return this;
     }
 
@@ -33,6 +34,10 @@ public class TaskQueryBuilder {
         }
 
         return query.toString();
+    }
+
+    public int getParamsCount() {
+        return paramsCount;
     }
 
 }

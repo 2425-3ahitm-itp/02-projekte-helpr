@@ -1,14 +1,14 @@
 package at.htl.helpr.scenemanager;
 
+import java.util.HashMap;
+import java.util.Map;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
- * The SceneManager class is responsible for managing and switching between different scenes in the application.
- * It provides functionality for adding presenters, switching scenes, and ensuring that the UI is updated correctly.
+ * The SceneManager class is responsible for managing and switching between different scenes in the
+ * application. It provides functionality for adding presenters, switching scenes, and ensuring that
+ * the UI is updated correctly.
  *
  * <p>Usage Example:</p>
  * <pre>{@code
@@ -23,7 +23,7 @@ import java.util.Map;
  *   <li>Add presenters for the scenes using {@link #addPresenter}.</li>
  *   <li>Switch between scenes using {@link #setScene(Class)}.</li>
  * </ol>
-
+ *
  * @see Presenter
  * @see javafx.scene.Scene
  * @see javafx.stage.Stage
@@ -45,7 +45,8 @@ public class SceneManager {
     }
 
     /**
-     * Initializes the SceneManager instance. This method must be called before using the SceneManager.
+     * Initializes the SceneManager instance. This method must be called before using the
+     * SceneManager.
      *
      * @param stage The primary Stage of the application.
      * @throws IllegalStateException If the SceneManager is already initialized.
@@ -64,7 +65,8 @@ public class SceneManager {
      */
     public static SceneManager getInstance() {
         if (instance == null) {
-            throw new IllegalStateException("SceneManager not initialized. Call initialize() first.");
+            throw new IllegalStateException(
+                    "SceneManager not initialized. Call initialize() first.");
         }
         return instance;
     }
@@ -73,15 +75,15 @@ public class SceneManager {
      * Adds a presenter to the SceneManager.
      *
      * @param presenterClass The class of the presenter to be added.
-     * @param presenter The presenter instance to be added.
+     * @param presenter      The presenter instance to be added.
      */
     public void addPresenter(Class<? extends Presenter> presenterClass, Presenter presenter) {
         presenters.put(presenterClass, presenter);
     }
 
     /**
-     * Switches the current scene to the one managed by the specified presenter class.
-     * The current presenter is notified to hide, and the new presenter is shown.
+     * Switches the current scene to the one managed by the specified presenter class. The current
+     * presenter is notified to hide, and the new presenter is shown.
      *
      * @param presenterClass The class of the presenter that controls the scene to be set.
      * @throws IllegalArgumentException If the presenter class is not registered.
@@ -90,7 +92,8 @@ public class SceneManager {
         Presenter nextPresenter = presenters.get(presenterClass);
 
         if (nextPresenter == null) {
-            throw new IllegalArgumentException("Presenter not registered: " + presenterClass.getSimpleName());
+            throw new IllegalArgumentException(
+                    "Presenter not registered: " + presenterClass.getSimpleName());
         }
 
         if (currentPresenter != null) {

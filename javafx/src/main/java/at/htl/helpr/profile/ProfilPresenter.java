@@ -1,19 +1,16 @@
 package at.htl.helpr.profile;
 
 import at.htl.helpr.home.HomePresenter;
-import at.htl.helpr.home.HomeView;
 import at.htl.helpr.scenemanager.Presenter;
 import at.htl.helpr.scenemanager.SceneManager;
 import at.htl.helpr.taskform.TaskFormPresenter;
-import at.htl.helpr.taskform.TaskFormView;
-import at.htl.helpr.taskform.model.Task;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class ProfilPresenter implements Presenter {
 
-    private ProfilView view;
-    private SceneManager sceneManager;
+    private final ProfilView view;
+    private final SceneManager sceneManager;
     private Scene scene;
 
     public ProfilPresenter(ProfilView view, SceneManager sceneManager) {
@@ -34,6 +31,7 @@ public class ProfilPresenter implements Presenter {
         sceneManager.setScene(HomePresenter.class);
 
         currentStage.setTitle("Helpr");
+        currentStage.setScene(scene);
         currentStage.show();
     }
 

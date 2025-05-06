@@ -45,64 +45,63 @@ public class User {
         return id.get();
     }
 
-    public LongProperty idProperty() {
-        return id;
-    }
-
     public void setId(long id) {
         this.id.set(id);
+    }
+
+    public LongProperty idProperty() {
+        return id;
     }
 
     public String getUsername() {
         return username.get();
     }
 
-    public StringProperty usernameProperty() {
-        return username;
-    }
-
     public void setUsername(String username) {
         this.username.set(username);
+    }
+
+    public StringProperty usernameProperty() {
+        return username;
     }
 
     public String getPassword() {
         return password.get();
     }
 
-    public StringProperty passwordProperty() {
-        return password;
-    }
-
     public void setPassword(String password) {
         this.password.set(password);
+    }
+
+    public StringProperty passwordProperty() {
+        return password;
     }
 
     public String getEmail() {
         return email.get();
     }
 
-    public StringProperty emailProperty() {
-        return email;
-    }
-
     public void setEmail(String email) {
         this.email.set(email);
+    }
+
+    public StringProperty emailProperty() {
+        return email;
     }
 
     public byte[] getProfilePicture() {
         return profilePicture.get();
     }
 
-    public ObjectProperty<byte[]> profilePictureProperty() {
-        return profilePicture;
-    }
-
     public void setProfilePicture(byte[] profilePicture) {
         this.profilePicture.set(profilePicture);
     }
 
-    // endregion
+    public ObjectProperty<byte[]> profilePictureProperty() {
+        return profilePicture;
+    }
 
+    // endregion
 
     @Override
     public String toString() {

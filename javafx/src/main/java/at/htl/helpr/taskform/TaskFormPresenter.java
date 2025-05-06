@@ -12,11 +12,10 @@ import javafx.util.converter.NumberStringConverter;
 
 public class TaskFormPresenter implements Presenter {
 
-    private TaskFormView view;
+    private final TaskRepository repository = new TaskRepositoryImpl();
+    private final TaskFormView view;
     private Task model;
     private Scene scene;
-
-    private final TaskRepository repository = new TaskRepositoryImpl();
 
     public TaskFormPresenter(Task model, TaskFormView view) {
         this.model = model;
@@ -36,7 +35,8 @@ public class TaskFormPresenter implements Presenter {
         view.getEstimatedEffortSpinner().getValueFactory().valueProperty()
                 .bindBidirectional(model.effortProperty().asObject());
         model.locationProperty().bind(
-                view.getZipField().textProperty().concat(" ").concat(view.getCityField().textProperty())
+                view.getZipField().textProperty().concat(" ")
+                        .concat(view.getCityField().textProperty())
         );
         Bindings.bindBidirectional(view.getRewardField().textProperty(), model.rewardProperty(),
                 new NumberStringConverter());

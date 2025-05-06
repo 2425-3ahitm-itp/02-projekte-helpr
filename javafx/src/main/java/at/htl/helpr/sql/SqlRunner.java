@@ -2,14 +2,17 @@ package at.htl.helpr.sql;
 
 import at.htl.helpr.controller.Database;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringReader;
-import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Objects;
 import org.apache.ibatis.jdbc.ScriptRunner;
 
@@ -18,7 +21,7 @@ public class SqlRunner {
     private static final String SCHEMA_FILE_PATH = "/database/schema.sql";
     private static final String INSERTS_FILE_PATH = "/database/insert.sql";
 
-    public static void main(String[] args) {
+    public static void main(String... args) {
         runSchema();
         runInserts();
 
@@ -69,17 +72,28 @@ public class SqlRunner {
 
             stmt.setLong(2, userId);
 
+            System.out.println("Settings image for user " + userId + " to " + filePath);
+
             // binary image data from filePath
             byte[] imageData;
-            try (var inputStream = SqlRunner.class.getResourceAsStream(filePath)) {
-                assert inputStream != null;
-                imageData = inputStream.readAllBytes();
+
+            // read image at store/profile/filePath
+            try (var fis = new FileReader("store/profiles/" + filePath)) {
+                StringBuilder sb = new StringBuilder();
+                int ch;
+                while ((ch = fis.read()) != -1) {
+                    sb.append((char) ch);
+                }
+                imageData = sb.toString().getBytes();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
+
             stmt.setBytes(1, imageData);
 
             stmt.execute();
 
-        } catch (SQLException | IOException e) {
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
@@ -144,34 +158,61 @@ public class SqlRunner {
         runScript(SCHEMA_FILE_PATH);
     }
 
+    public static void dropEverything() {
+        String sql = """
+                DROP SCHEMA IF EXISTS helpr CASCADE;
+                CREATE SCHEMA helpr;
+                """;
+
+        runString(sql);
+    }
+
     public static void runInserts() {
         runScript(INSERTS_FILE_PATH);
 
-        var imagesArray = Arrays.asList(
-                "dana.jpg",
-                "john.jpg",
-                "rhonda.jpg",
-                "ricardo.jpg",
-                "joel.jpg"
-        );
+        List<String> profilesArray = new LinkedList<>();
 
-        for (int i = 1; i <= imagesArray.size(); i++) {
-            setImageForUser(i, "/img/profiles/" + imagesArray.get(i - 1));
+        File folder = new File("store/profiles");
+        File[] listOfFiles = folder.listFiles();
+
+        if (listOfFiles != null) {
+            for (File file : listOfFiles) {
+                if (file.isFile() && file.getName().endsWith(".jpg")) {
+                    try {
+                        String fileName = file.getCanonicalFile().getName();
+                        profilesArray.add(fileName);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
         }
 
-        var taskImagesPath = Paths.get(Objects.requireNonNull(
-                SqlRunner.class.getResource("/img/task_images/")).getPath());
+        for (int i = 1; i <= profilesArray.size(); i++) {
+            setImageForUser(i, profilesArray.get(i - 1));
+        }
 
-        String[] imagesList = new String[]{
-                "1_0_furniture.png",
-                "1_1_furniture.png",
-                "2_0_dog.png",
-                "2_1_dog.png",
-                "4_0_computer.png",
-                "5_0_lawn.png",
-                "5_1_lawn.png",
-                "5_2_lawn.png",
-        };
+        List<String> imagesList = new ArrayList<>();
+
+        // get all filenames in root/store/task_images
+        folder = new File("store/task_images");
+        listOfFiles = folder.listFiles();
+
+        System.out.println("--------------------------------------------------");
+        if (listOfFiles != null) {
+            for (File file : listOfFiles) {
+                if (file.isFile() && file.getName().endsWith(".png")) {
+                    try {
+                        System.out.println("Adding image " + file.getCanonicalFile().getName());
+                        imagesList.add(file.getCanonicalFile().getName());
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+        }
+
+        System.out.println("========================");
 
         for (String fileName : imagesList) {
 
@@ -179,10 +220,11 @@ public class SqlRunner {
             if (parts.length < 2) {
                 continue;
             }
+
             long taskId = Long.parseLong(parts[0]);
             int order = Integer.parseInt(parts[1]);
 
-            addImageForTaskWithOrder(taskId, order, "/img/task_images/" + fileName);
+            addImageForTaskWithOrder(taskId, order, fileName);
         }
 
     }

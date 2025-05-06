@@ -3,7 +3,6 @@ package at.htl.helpr.taskform.repository;
 import at.htl.helpr.controller.Database;
 import at.htl.helpr.taskform.model.Task;
 import at.htl.helpr.taskform.repository.filter.TaskQueryBuilder;
-import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,7 +11,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
 
 public class TaskRepositoryImpl implements TaskRepository {
 
@@ -275,6 +273,10 @@ public class TaskRepositoryImpl implements TaskRepository {
         List<Object> params = new ArrayList<>();
         sql = queryBuilder.buildQuery(sql, params);
 
+        if (params.isEmpty()) {
+            throw new RuntimeException("QueryBuilder with 0 params is not allowed!");
+        }
+
         try (Connection connection = Database.getConnection();
                 PreparedStatement stmt = connection.prepareStatement(sql)
         ) {
@@ -282,6 +284,8 @@ public class TaskRepositoryImpl implements TaskRepository {
             for (int i = 0; i < params.size(); i++) {
                 stmt.setObject(i + 1, params.get(i));
             }
+
+            System.out.println("QUERYING: '''" + stmt.toString() + "'''");
 
             return getTasksFromResultSet(stmt.executeQuery());
 

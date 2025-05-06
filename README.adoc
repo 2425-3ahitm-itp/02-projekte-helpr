@@ -32,7 +32,7 @@ Möglichkeit, ihre Fähigkeiten anzubieten und zusätzliches Einkommen zu erziel
 === Voraussetzungen
 
 - docker compose
-
+- Java 21
 
 === Starten der Datenbank
 
@@ -46,7 +46,22 @@ Möglichkeit, ihre Fähigkeiten anzubieten und zusätzliches Einkommen zu erziel
 [source,shell]
 ----
 cd javafx
-./mvnw quarkus:dev
+./mvnw clean package
+java -jar target/helpr-*-runner.jar
+----
+
+=== Troubleshooting
+
+[source,shell]
+----
+# Datenbank stoppen
+./postgres-stop.sh
+
+# Daten löschen
+./postgres-delete-volumes.sh
+
+# Datenbank starten
+./postgres-start.sh
 ----
 
 == Team
