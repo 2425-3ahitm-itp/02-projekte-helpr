@@ -10,7 +10,7 @@ description: All the documentation about the project
 <img src="https://img.shields.io/badge/Quarkus-3.18.1-4695eb?style=flat-rounded" alt="Quarkus 3.18.1">
 <img src="https://img.shields.io/badge/Go-1.23.6-00acd7?style=flat-rounded" alt="Go 1.23.6">
 <img src="https://img.shields.io/badge/PostgreSQL-17.2-336791?style=flat-rounded" alt="PostgreSQL 17.2">
-<img src="https://img.shields.io/badge/Blowfish-v2.83.0-009688?style=flat-rounded" alt="Blowfish Docs v2.83.0">
+<img src="https://img.shields.io/badge/Blowfish-v2.85.1-009688?style=flat-rounded" alt="Blowfish Docs v2.83.0">
 <img src="https://img.shields.io/badge/Docs-Hugo-ff4088?style=flat-rounded" alt="Hugo">
 <img src="https://img.shields.io/badge/Build-Docker%20Compose-2496ed?style=flat-rounded" alt="Docker Compose">
 {{< /shields >}}

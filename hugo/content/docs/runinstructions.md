@@ -7,20 +7,36 @@ date: 2025-03-02
 lastmod: 2025-03-03
 ---
 
-## Prerequisites
+## Starten des Programms
+
+### Voraussetzungen
 
 - docker compose
+- Java 21
 
-## Starting the Database
+### Starten der Datenbank
+
 ```shell
-cd javafx/src/main/docker
-docker compose up
+./postgres-start.sh
 ```
 
-## Starting the Application
+### Starten der Anwendung
 
 ```shell
 cd javafx
-./mvnw package
-./mvnw quarkus:run
+./mvnw clean package
+java -jar target/helpr-*-runner.jar
+```
+
+### Troubleshooting
+
+```shell
+# Datenbank stoppen
+./postgres-stop.sh
+
+# Daten löschen
+./postgres-delete-volumes.sh
+
+# Datenbank starten
+./postgres-start.sh
 ```
