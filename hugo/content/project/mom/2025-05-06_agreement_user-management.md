@@ -41,9 +41,3 @@ authors:
 | Helpr    | Funktion des User Login                 | 19.05.2025 |
 | Helpr    | Login in auf der Profilseite einbinden  | 19.05.2025 |
 
-
-
-
-## Anmerkung von Miriam
-
-* eigene neue Aufgaben suchen
