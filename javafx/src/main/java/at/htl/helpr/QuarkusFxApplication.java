@@ -8,7 +8,7 @@ import javafx.application.Application;
 public class QuarkusFxApplication implements QuarkusApplication {
 
     @Override
-    public int run(String... args) throws Exception {
+    public int run(String... args) {
         Application.launch(App.class, args);
         return 0;
     }

@@ -4,13 +4,18 @@ import at.htl.helpr.controller.Database;
 import at.htl.helpr.taskform.model.Task;
 import at.htl.helpr.taskform.repository.filter.TaskQueryBuilder;
 import java.net.URL;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
 public class TaskRepositoryImpl implements TaskRepository {
+
 
     @Override
     public void create(Task task) {
@@ -58,7 +63,7 @@ public class TaskRepositoryImpl implements TaskRepository {
                 """;
 
         try (Connection conn = Database.getConnection();
-                PreparedStatement statement = conn.prepareStatement(sql);
+                PreparedStatement statement = conn.prepareStatement(sql)
         ) {
             statement.setString(1, task.getTitle());
             statement.setString(2, task.getDescription());
@@ -85,7 +90,7 @@ public class TaskRepositoryImpl implements TaskRepository {
                 """;
 
         try (Connection connection = Database.getConnection();
-                PreparedStatement statement = connection.prepareStatement(sql);
+                PreparedStatement statement = connection.prepareStatement(sql)
         ) {
             statement.setLong(1, id);
 
@@ -164,16 +169,14 @@ public class TaskRepositoryImpl implements TaskRepository {
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
-                URL imgURL = TaskRepository.class.getResource(rs.getString("path"));
-                if (Objects.nonNull(imgURL)) {
-                    imagePathList.add(imgURL.getPath());
-                }
+                imagePathList.add(rs.getString("path"));
             }
 
             return imagePathList;
 
         } catch (SQLException e) {
-            throw new RuntimeException("Error while invoking getTaskImages() of tasks: " + e.getMessage(), e);
+            throw new RuntimeException(
+                    "Error while invoking getTaskImages() of tasks: " + e.getMessage(), e);
         }
     }
 
@@ -212,7 +215,7 @@ public class TaskRepositoryImpl implements TaskRepository {
                 """;
 
         try (Connection connection = Database.getConnection();
-                PreparedStatement stmt = connection.prepareStatement(sql);
+                PreparedStatement stmt = connection.prepareStatement(sql)
         ) {
 
             stmt.setString(1, search);
@@ -249,7 +252,7 @@ public class TaskRepositoryImpl implements TaskRepository {
     private List<Task> getTasksWithSqlAndUserID(long userId, String sql) {
         List<Task> taskList = new ArrayList<>();
         try (Connection connection = Database.getConnection();
-                PreparedStatement stmt = connection.prepareStatement(sql);
+                PreparedStatement stmt = connection.prepareStatement(sql)
         ) {
 
             stmt.setLong(1, userId);
@@ -272,16 +275,19 @@ public class TaskRepositoryImpl implements TaskRepository {
         List<Object> params = new ArrayList<>();
         sql = queryBuilder.buildQuery(sql, params);
 
+        if (params.isEmpty()) {
+            throw new RuntimeException("QueryBuilder with 0 params is not allowed!");
+        }
+
         try (Connection connection = Database.getConnection();
-                PreparedStatement stmt = connection.prepareStatement(sql);
+                PreparedStatement stmt = connection.prepareStatement(sql)
         ) {
 
-            System.out.println("params = " + params);
-
             for (int i = 0; i < params.size(); i++) {
-                System.out.println("paramsList.get(i) = " + params.get(i));
                 stmt.setObject(i + 1, params.get(i));
             }
+
+            System.out.println("QUERYING: '''" + stmt.toString() + "'''");
 
             return getTasksFromResultSet(stmt.executeQuery());
 

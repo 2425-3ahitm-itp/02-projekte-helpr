@@ -12,13 +12,12 @@ public class App extends Application {
     @Override
     public void start(Stage stage) {
 
-        SqlRunner.runSchema();
-        SqlRunner.runInserts();
+        SqlRunner.main();
 
         var view = new HomeView();
         var presenter = new HomePresenter(view);
 
-        var scene = new Scene(view, 750, 450);
+        var scene = new Scene(view, 920, 550);
 
         stage.setTitle("Helpr");
         stage.setScene(scene);

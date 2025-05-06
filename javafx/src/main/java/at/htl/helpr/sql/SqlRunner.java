@@ -1,60 +1,54 @@
 package at.htl.helpr.sql;
 
 import at.htl.helpr.controller.Database;
-import org.apache.ibatis.jdbc.ScriptRunner;
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.StringReader;
-import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Objects;
-
-import static java.nio.file.Files.readAllBytes;
+import org.apache.ibatis.jdbc.ScriptRunner;
 
 public class SqlRunner {
 
-    private static final String SCHEMA_FILE_PATH = Objects.requireNonNull(
-            SqlRunner.class.getResource("/database/schema.sql")
-    ).getPath();
+    private static final String SCHEMA_FILE_PATH = "/database/schema.sql";
+    private static final String INSERTS_FILE_PATH = "/database/insert.sql";
 
-    private static final String INSERTS_FILE_PATH = Objects.requireNonNull(
-            SqlRunner.class.getResource("/database/insert.sql")
-    ).getPath();
-
-    public static void main(String[] args) {
+    public static void main(String... args) {
         runSchema();
         runInserts();
+
 //        setImageForUser(1, Objects.requireNonNull(
 //                SqlRunner.class.getResource("/img/profiles/john.jpg")).getPath());
     }
 
     private static void runScript(String filePath) {
-        try (Connection conn = Database.getConnection()) {
+        try (Connection conn = Database.getConnection();
+                var reader = new BufferedReader(
+                        new InputStreamReader(Objects.requireNonNull(
+                                SqlRunner.class.getResourceAsStream(filePath))
+                        ))
+        ) {
 
             ScriptRunner scriptRunner = new ScriptRunner(conn);
             scriptRunner.setLogWriter(null);
 
-            BufferedReader reader = new BufferedReader(
-                    new FileReader(filePath)
-            );
-
             scriptRunner.runScript(reader);
 
-        } catch (FileNotFoundException | SQLException e) {
+        } catch (SQLException | IOException e) {
             throw new RuntimeException(e);
         }
-
     }
 
     public static void runString(String sql) {
         try (Connection conn = Database.getConnection()) {
-
-            // sql is the string containing the sql statements
 
             ScriptRunner scriptRunner = new ScriptRunner(conn);
             scriptRunner.setLogWriter(null);
@@ -78,24 +72,35 @@ public class SqlRunner {
 
             stmt.setLong(2, userId);
 
+            System.out.println("Settings image for user " + userId + " to " + filePath);
+
             // binary image data from filePath
             byte[] imageData;
-            try (var inputStream = SqlRunner.class.getResourceAsStream(filePath)) {
-                assert inputStream != null;
-                imageData = inputStream.readAllBytes();
+
+            // read image at store/profile/filePath
+            try (var fis = new FileReader("store/profiles/" + filePath)) {
+                StringBuilder sb = new StringBuilder();
+                int ch;
+                while ((ch = fis.read()) != -1) {
+                    sb.append((char) ch);
+                }
+                imageData = sb.toString().getBytes();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
+
             stmt.setBytes(1, imageData);
 
             stmt.execute();
 
-        } catch (SQLException | IOException e) {
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
     public static void addImageForTaskWithOrder(long taskId, int order, String imageFilePath) {
         String sql = """
-                INSERT INTO image
+                INSERT INTO helpr.image
                 (task_id, path, "order")
                 values (?, ?, ?)
                 """;
@@ -117,7 +122,7 @@ public class SqlRunner {
     public static void writeImageFromUser(long userId, String toWritePath) {
         String sql = """
                 SELECT u_user.profile_picture
-                from u_user
+                from helpr.u_user
                 WHERE user_id = ?
                 """;
 
@@ -153,57 +158,74 @@ public class SqlRunner {
         runScript(SCHEMA_FILE_PATH);
     }
 
+    public static void dropEverything() {
+        String sql = """
+                DROP SCHEMA IF EXISTS helpr CASCADE;
+                CREATE SCHEMA helpr;
+                """;
+
+        runString(sql);
+    }
+
     public static void runInserts() {
         runScript(INSERTS_FILE_PATH);
 
-        System.out.println("Inserting images");
+        List<String> profilesArray = new LinkedList<>();
 
-        var imagesArray = Arrays.asList(
-                "dana.jpg",
-                "john.jpg",
-                "rhonda.jpg",
-                "ricardo.jpg",
-                "joel.jpg"
-        );
+        File folder = new File("store/profiles");
+        File[] listOfFiles = folder.listFiles();
 
-        for (int i = 1; i <= imagesArray.size(); i++) {
-            System.out.println("adding image " + imagesArray.get(i - 1));
-//            setImageForUser(i, Objects.requireNonNull(
-//                    SqlRunner.class.getResource("/img/profiles/" + imagesArray.get(i - 1))).getPath());
-            setImageForUser(i, "/img/profiles/" + imagesArray.get(i - 1));
+        if (listOfFiles != null) {
+            for (File file : listOfFiles) {
+                if (file.isFile() && file.getName().endsWith(".jpg")) {
+                    try {
+                        String fileName = file.getCanonicalFile().getName();
+                        profilesArray.add(fileName);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
         }
 
-        // run for each automatically scanned file in /img/task_images/
+        for (int i = 1; i <= profilesArray.size(); i++) {
+            setImageForUser(i, profilesArray.get(i - 1));
+        }
 
-        var taskImagesPath = Paths.get(Objects.requireNonNull(
-                SqlRunner.class.getResource("/img/task_images/")).getPath());
+        List<String> imagesList = new ArrayList<>();
 
-        try {
-            var taskImages = java.nio.file.Files.list(taskImagesPath)
-                    .filter(path -> path.toString().endsWith(".png"))
-                    .toList();
+        // get all filenames in root/store/task_images
+        folder = new File("store/task_images");
+        listOfFiles = folder.listFiles();
 
-            for (java.nio.file.Path taskImage : taskImages) {
-                // filename: <task_id>_<order>_<blablabla>.png
-
-                var fileName = taskImage.getFileName().toString();
-                var parts = fileName.split("_");
-                if (parts.length < 2) {
-                    continue; // skip if filename is not in expected format
+        System.out.println("--------------------------------------------------");
+        if (listOfFiles != null) {
+            for (File file : listOfFiles) {
+                if (file.isFile() && file.getName().endsWith(".png")) {
+                    try {
+                        System.out.println("Adding image " + file.getCanonicalFile().getName());
+                        imagesList.add(file.getCanonicalFile().getName());
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
-                long taskId = Long.parseLong(parts[0]);
-                int order = Integer.parseInt(parts[1]);
+            }
+        }
 
-                System.out.println("adding image for task " + taskId + " with order " + order);
+        System.out.println("========================");;
 
-                // convert taskImages.get(i).toString to a relative path from the jar
-                // addImageForTaskWithOrder(taskId, order, taskImages.get(i).toString());
+        for (String fileName : imagesList) {
 
-                addImageForTaskWithOrder(taskId, order, "/img/task_images/" + fileName);
+            var parts = fileName.split("_");
+            if (parts.length < 2) {
+                continue;
             }
 
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+            long taskId = Long.parseLong(parts[0]);
+            int order = Integer.parseInt(parts[1]);
+
+            addImageForTaskWithOrder(taskId, order, fileName);
         }
+
     }
 }

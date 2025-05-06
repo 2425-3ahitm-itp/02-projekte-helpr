@@ -5,14 +5,16 @@ import at.htl.helpr.taskform.repository.TaskRepository;
 import at.htl.helpr.taskform.repository.TaskRepositoryImpl;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.*;
-import javafx.scene.layout.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
 public class ProfilView extends BorderPane {
 
-    private final TaskRepository repository = new TaskRepositoryImpl();
+    private final TaskRepositoryImpl repository = new TaskRepositoryImpl();
 
     private final TaskList createdTasks = new TaskList(true,
             () -> repository.findAllTasksByUser(1), "Keine Aufgaben erstellt");
@@ -30,7 +32,6 @@ public class ProfilView extends BorderPane {
     private final VBox mainContent;
     private final Label acceptedLabel;
     private final Label createdLabel;
-
 
 
     public ProfilView() {

@@ -8,17 +8,16 @@ import at.htl.helpr.taskform.repository.TaskRepositoryImpl;
 import javafx.beans.binding.Bindings;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.util.converter.IntegerStringConverter;
 import javafx.util.converter.NumberStringConverter;
 
 public class TaskFormPresenter {
 
-    private TaskFormView view;
-    private Task model;
+    private final TaskFormView view;
+    private final Task model;
 
     private final TaskRepository repository = new TaskRepositoryImpl();
 
-    public TaskFormPresenter( Task model, TaskFormView view) {
+    public TaskFormPresenter(Task model, TaskFormView view) {
         this.model = model;
         this.view = view;
 
@@ -36,15 +35,16 @@ public class TaskFormPresenter {
         view.getDescriptionArea().textProperty().bindBidirectional(model.descriptionProperty());
         view.getEstimatedEffortSpinner().getValueFactory().valueProperty()
                 .bindBidirectional(model.effortProperty().asObject());
-        model.locationProperty().bind(view.getZipField().textProperty().concat(" ").concat(view.getCityField().textProperty()));
-        Bindings.bindBidirectional(view.getRewardField().textProperty(), model.rewardProperty(), new NumberStringConverter());
+        model.locationProperty().bind(view.getZipField().textProperty().concat(" ")
+                .concat(view.getCityField().textProperty()));
+        Bindings.bindBidirectional(view.getRewardField().textProperty(), model.rewardProperty(),
+                new NumberStringConverter());
     }
 
     private void saveTask() {
 
         //Delete it when adding users
         model.setAuthorId(1);
-
 
         Task newTask = new Task(model);
         if (validateData()) {

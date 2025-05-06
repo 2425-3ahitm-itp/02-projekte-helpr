@@ -4,6 +4,6 @@ import java.util.List;
 
 public interface TaskFilter {
 
-    public void apply(StringBuilder query, List<Object> params);
+    void apply(StringBuilder query, List<Object> params);
 
 }

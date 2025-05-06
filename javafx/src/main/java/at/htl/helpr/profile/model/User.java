@@ -1,14 +1,11 @@
 package at.htl.helpr.profile.model;
 
-import javafx.beans.property.ListProperty;
 import javafx.beans.property.LongProperty;
 import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import javafx.collections.ObservableList;
 
 public class User {
 
@@ -17,7 +14,6 @@ public class User {
     private final StringProperty password = new SimpleStringProperty();
     private final StringProperty email = new SimpleStringProperty();
     private final ObjectProperty<byte[]> profilePicture = new SimpleObjectProperty<>();
-
 
     // region Constructors
 

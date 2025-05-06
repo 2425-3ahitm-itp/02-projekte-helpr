@@ -5,16 +5,20 @@ import java.util.List;
 
 public class TaskQueryBuilder {
 
+    private int paramsCount = 0;
+
     private final List<TaskFilter> filterList = new ArrayList<>();
 
 
     public TaskQueryBuilder addFilter(TaskFilter taskFilter) {
         this.filterList.add(taskFilter);
+        paramsCount++;
         return this;
     }
 
     /**
      * Builds a query string from the filters
+     *
      * @param initialQuery - the initial query to append the filters to at the end
      * @return the query string
      */
@@ -31,17 +35,11 @@ public class TaskQueryBuilder {
             }
         }
 
-        System.out.println("query = " + query);
-        System.out.println("query = " + query);
-        System.out.println("query = " + query);
-        System.out.println("query = " + query);
-        System.out.println("query = " + query);
-        System.out.println("query = " + query);
-        System.out.println("query = " + query);
-        System.out.println("query = " + query);
-        System.out.println("query = " + query);
-
         return query.toString();
+    }
+
+    public int getParamsCount() {
+        return paramsCount;
     }
 
 }

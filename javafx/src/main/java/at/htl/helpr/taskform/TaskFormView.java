@@ -174,7 +174,6 @@ public class TaskFormView extends VBox {
         imageSlider.setSpacing(15);
         imageSlider.setAlignment(Pos.CENTER);
 
-
         // TODO: Comment this to activate feature
         uploadButton.setDisable(true);
 
