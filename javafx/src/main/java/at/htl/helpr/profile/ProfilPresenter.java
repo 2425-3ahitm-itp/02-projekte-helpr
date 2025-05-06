@@ -31,7 +31,6 @@ public class ProfilPresenter implements Presenter {
         sceneManager.setScene(HomePresenter.class);
 
         currentStage.setTitle("Helpr");
-        currentStage.setScene(scene);
         currentStage.show();
     }
 
