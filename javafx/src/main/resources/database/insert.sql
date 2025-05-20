@@ -1,11 +1,11 @@
 -- insert users
-INSERT INTO helpr.u_user (username, email, password)
+INSERT INTO helpr.u_user (username, password)
 VALUES
-('johann_doe', 'johann@example.com', 'halloWelt1'),
-('jane_schmidt', 'jane@example.com', 'halloWelt2'),
-('michael_wilson', 'michael@example.com', 'halloWelt3'),
-('sarah_johannsen', 'sarah@example.com', 'halloWelt4'),
-('alex_braun', 'alex@example.com', 'halloWelt5');
+('johann_doe', 'halloWelt1'),
+('jane_schmidt', 'halloWelt2'),
+('michael_wilson', 'halloWelt3'),
+('sarah_johannsen', 'halloWelt4'),
+('alex_braun', 'halloWelt5');
 
 -- insert tasks
 INSERT INTO helpr.task (author_id, title, description, reward, effort, location, created_at)

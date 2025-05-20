@@ -12,7 +12,6 @@ public class User {
     private final LongProperty id = new SimpleLongProperty();
     private final StringProperty username = new SimpleStringProperty();
     private final StringProperty password = new SimpleStringProperty();
-    private final StringProperty email = new SimpleStringProperty();
     private final ObjectProperty<byte[]> profilePicture = new SimpleObjectProperty<>();
 
     // region Constructors
@@ -20,11 +19,10 @@ public class User {
     public User() {
     }
 
-    public User(long id, String username, String password, String email, byte[] profilePicture) {
+    public User(long id, String username, String password, byte[] profilePicture) {
         this.id.set(id);
         this.username.set(username);
         this.password.set(password);
-        this.email.set(email);
         this.profilePicture.set(profilePicture);
     }
 
@@ -34,7 +32,6 @@ public class User {
         this.id.set(user.getId());
         this.username.set(user.getUsername());
         this.password.set(user.getPassword());
-        this.email.set(user.getEmail());
         this.profilePicture.set(user.getProfilePicture());
     }
 
@@ -77,18 +74,6 @@ public class User {
         return password;
     }
 
-    public String getEmail() {
-        return email.get();
-    }
-
-    public void setEmail(String email) {
-        this.email.set(email);
-    }
-
-    public StringProperty emailProperty() {
-        return email;
-    }
-
     public byte[] getProfilePicture() {
         return profilePicture.get();
     }
@@ -109,7 +94,6 @@ public class User {
                 "id=" + id +
                 ", username=" + username +
                 ", password=" + password +
-                ", email=" + email +
                 ", profilePicture=" + profilePicture +
                 '}';
     }
