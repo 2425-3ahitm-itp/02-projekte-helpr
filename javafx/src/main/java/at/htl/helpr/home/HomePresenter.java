@@ -2,7 +2,8 @@ package at.htl.helpr.home;
 
 import at.htl.helpr.components.TaskList;
 import at.htl.helpr.profile.ProfilPresenter;
-import at.htl.helpr.profile.ProfilView;
+import at.htl.helpr.scenemanager.Presenter;
+import at.htl.helpr.scenemanager.SceneManager;
 import at.htl.helpr.taskform.repository.TaskRepository;
 import at.htl.helpr.taskform.repository.TaskRepositoryImpl;
 import at.htl.helpr.taskform.repository.filter.DateFromToFilter;
@@ -21,24 +22,25 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.util.converter.NumberStringConverter;
 
-public class HomePresenter {
+public class HomePresenter implements Presenter {
 
     private final HomeView view;
+    private final SceneManager sceneManager;
     private final TaskRepository repository = new TaskRepositoryImpl();
     private final TaskList taskList = new TaskList(false, repository::findAll,
             "Keine Aufgaben gefunden");
-    private TaskQueryBuilder taskQueryBuilder = new TaskQueryBuilder();
-
     private final IntegerProperty minPaymentProperty = new SimpleIntegerProperty();
     private final IntegerProperty maxPaymentProperty = new SimpleIntegerProperty();
     private final IntegerProperty postalCodeProperty = new SimpleIntegerProperty();
     private final IntegerProperty effortProperty = new SimpleIntegerProperty();
-
     private final ObjectProperty<LocalDate> fromDateProperty = new SimpleObjectProperty<>();
     private final ObjectProperty<LocalDate> toDateProperty = new SimpleObjectProperty<>();
+    private Scene scene;
+    private TaskQueryBuilder taskQueryBuilder = new TaskQueryBuilder();
 
-    public HomePresenter(HomeView view) {
+    public HomePresenter(HomeView view, SceneManager sceneManager) {
         this.view = view;
+        this.sceneManager = sceneManager;
         view.setCenter(taskList);
         attachEvents();
         bindings();
@@ -151,17 +153,31 @@ public class HomePresenter {
     private void openProfilView() {
         Stage currentStage = (Stage) getView().getProfilePicture().getScene().getWindow();
 
-        var view = new ProfilView();
-        var presenter = new ProfilPresenter(view);
+        sceneManager.setScene(ProfilPresenter.class);
 
-        var scene = new Scene(view, 750, 650);
-
-        currentStage.setTitle("Helpr Profil");
-        currentStage.setScene(scene);
+        currentStage.setTitle("Helpr-Profil");
         currentStage.show();
     }
 
     public HomeView getView() {
         return view;
+    }
+
+    @Override
+    public Scene getScene() {
+        if (scene == null) {
+            scene = new Scene(view, 1080, 648);
+        }
+        return scene;
+    }
+
+    @Override
+    public void onShow() {
+
+    }
+
+    @Override
+    public void onHide() {
+
     }
 }

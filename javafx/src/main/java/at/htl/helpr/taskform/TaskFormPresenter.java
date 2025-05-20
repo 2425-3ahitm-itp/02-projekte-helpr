@@ -1,33 +1,32 @@
 package at.htl.helpr.taskform;
 
 import at.htl.helpr.profile.ProfilPresenter;
-import at.htl.helpr.profile.ProfilView;
+import at.htl.helpr.scenemanager.Presenter;
+import at.htl.helpr.scenemanager.SceneManager;
 import at.htl.helpr.taskform.model.Task;
 import at.htl.helpr.taskform.repository.TaskRepository;
 import at.htl.helpr.taskform.repository.TaskRepositoryImpl;
 import javafx.beans.binding.Bindings;
 import javafx.scene.Scene;
-import javafx.stage.Stage;
 import javafx.util.converter.NumberStringConverter;
 
-public class TaskFormPresenter {
-
-    private final TaskFormView view;
-    private final Task model;
+public class TaskFormPresenter implements Presenter {
 
     private final TaskRepository repository = new TaskRepositoryImpl();
+    private final TaskFormView view;
+    private Task model;
+    private Scene scene;
 
     public TaskFormPresenter(Task model, TaskFormView view) {
         this.model = model;
         this.view = view;
-
         bindViewToModel();
         attachEvents();
     }
 
     private void attachEvents() {
         view.getCreateButton().setOnAction(e -> saveTask());
-        view.getCancelButton().setOnAction(e -> openProfilView());
+        view.getCancelButton().setOnAction(e -> goToProfilView());
     }
 
     private void bindViewToModel() {
@@ -35,71 +34,69 @@ public class TaskFormPresenter {
         view.getDescriptionArea().textProperty().bindBidirectional(model.descriptionProperty());
         view.getEstimatedEffortSpinner().getValueFactory().valueProperty()
                 .bindBidirectional(model.effortProperty().asObject());
-        model.locationProperty().bind(view.getZipField().textProperty().concat(" ")
-                .concat(view.getCityField().textProperty()));
+        model.locationProperty().bind(
+                view.getZipField().textProperty().concat(" ")
+                        .concat(view.getCityField().textProperty())
+        );
         Bindings.bindBidirectional(view.getRewardField().textProperty(), model.rewardProperty(),
                 new NumberStringConverter());
     }
 
+    private void unbindModelFromView() {
+        view.getTitleField().textProperty().unbindBidirectional(model.titleProperty());
+        view.getDescriptionArea().textProperty().unbindBidirectional(model.descriptionProperty());
+        view.getEstimatedEffortSpinner().getValueFactory().valueProperty()
+                .unbindBidirectional(model.effortProperty().asObject());
+        model.locationProperty().unbind();
+        Bindings.unbindBidirectional(view.getRewardField().textProperty(), model.rewardProperty());
+    }
+
+    private void resetFields() {
+        unbindModelFromView();
+        model = new Task(); // neues Model
+        bindViewToModel();
+
+        view.getTitleField().clear();
+        view.getDescriptionArea().clear();
+        view.getZipField().clear();
+        view.getCityField().clear();
+        view.getRewardField().clear();
+        view.getEstimatedEffortSpinner().getValueFactory().setValue(1);
+    }
+
     private void saveTask() {
+        model.setAuthorId(1); // Platzhalter bis User vorhanden
 
-        //Delete it when adding users
-        model.setAuthorId(1);
-
-        Task newTask = new Task(model);
         if (validateData()) {
-            getRepository().create(newTask);
+            repository.create(new Task(model));
+            goToProfilView();
         }
-
-        Stage currentStage = (Stage) getView().getTitleField().getScene().getWindow();
-
-        var view = new ProfilView();
-        var presenter = new ProfilPresenter(view);
-
-        var scene = new Scene(view, 750, 650);
-
-        currentStage.setTitle("Helpr Profil");
-        currentStage.setScene(scene);
-        currentStage.show();
-
     }
 
-    private void openProfilView() {
-        Stage currentStage = (Stage) getView().getTitleField().getScene().getWindow();
-
-        var view = new ProfilView();
-        var presenter = new ProfilPresenter(view);
-
-        var scene = new Scene(view, 750, 650);
-
-        currentStage.setTitle("Helpr Profil");
-        currentStage.setScene(scene);
-        currentStage.show();
+    private void goToProfilView() {
+        SceneManager.getInstance().setScene(ProfilPresenter.class);
     }
-
-    private void updateTask() {
-        repository.update(model);
-    }
-
-    private void deleteTask() {
-        repository.delete(model.getId());
-    }
-
 
     private boolean validateData() {
+        // TODO: Validierung implementieren
         return true;
     }
 
-
-    public TaskFormView getView() {
-        return view;
+    @Override
+    public Scene getScene() {
+        if (scene == null) {
+            scene = new Scene(view, 1080, 648);
+        }
+        return scene;
     }
 
-    public Task getModel() {
-        return model;
+    @Override
+    public void onShow() {
+        resetFields();
     }
 
-    public TaskRepository getRepository() {
-        return repository;
+    @Override
+    public void onHide() {
+        // keine Aktion nötig, optional: model auf null setzen
     }
 }

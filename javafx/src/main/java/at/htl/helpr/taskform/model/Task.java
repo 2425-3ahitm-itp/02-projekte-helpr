@@ -65,100 +65,99 @@ public class Task {
         return id.get();
     }
 
-    public LongProperty idProperty() {
-        return id;
-    }
-
     public void setId(long id) {
         this.id.set(id);
+    }
+
+    public LongProperty idProperty() {
+        return id;
     }
 
     public long getAuthorId() {
         return authorId.get();
     }
 
-    public LongProperty authorIdProperty() {
-        return authorId;
-    }
-
     public void setAuthorId(long authorId) {
         this.authorId.set(authorId);
+    }
+
+    public LongProperty authorIdProperty() {
+        return authorId;
     }
 
     public java.lang.String getTitle() {
         return title.get();
     }
 
-    public StringProperty titleProperty() {
-        return title;
-    }
-
     public void setTitle(java.lang.String title) {
         this.title.set(title);
+    }
+
+    public StringProperty titleProperty() {
+        return title;
     }
 
     public java.lang.String getDescription() {
         return description.get();
     }
 
-    public StringProperty descriptionProperty() {
-        return description;
-    }
-
     public void setDescription(java.lang.String description) {
         this.description.set(description);
+    }
+
+    public StringProperty descriptionProperty() {
+        return description;
     }
 
     public int getReward() {
         return reward.get();
     }
 
-    public IntegerProperty rewardProperty() {
-        return reward;
-    }
-
     public void setReward(int reward) {
         this.reward.set(reward);
+    }
+
+    public IntegerProperty rewardProperty() {
+        return reward;
     }
 
     public int getEffort() {
         return effort.get();
     }
 
-    public IntegerProperty effortProperty() {
-        return effort;
-    }
-
     public void setEffort(int effort) {
         this.effort.set(effort);
+    }
+
+    public IntegerProperty effortProperty() {
+        return effort;
     }
 
     public java.lang.String getLocation() {
         return location.get();
     }
 
-    public StringProperty locationProperty() {
-        return location;
-    }
-
     public void setLocation(java.lang.String location) {
         this.location.set(location);
+    }
+
+    public StringProperty locationProperty() {
+        return location;
     }
 
     public LocalDateTime getCreatedAt() {
         return createdAt.get();
     }
 
-    public ObjectProperty<LocalDateTime> createdAtProperty() {
-        return createdAt;
-    }
-
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt.set(createdAt);
     }
 
-    // endregion
+    public ObjectProperty<LocalDateTime> createdAtProperty() {
+        return createdAt;
+    }
 
+    // endregion
 
     @Override
     public java.lang.String toString() {
