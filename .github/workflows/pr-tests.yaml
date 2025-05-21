@@ -1,4 +1,4 @@
-name: test-java
+name: java-test
 
 on:
 #   push:
@@ -20,8 +20,8 @@ on:
 
 jobs:
   test:
+    name: Run Java Tests
     runs-on: ubuntu-24.04
-    if: github.event_name != 'push' || github.event.pull_request == null
     steps:
       - uses: actions/checkout@v4
         with:
