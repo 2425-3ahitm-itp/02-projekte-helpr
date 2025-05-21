@@ -5,10 +5,8 @@ import java.util.List;
 
 public class TaskQueryBuilder {
 
-    private int paramsCount = 0;
-
     private final List<TaskFilter> filterList = new ArrayList<>();
-
+    private int paramsCount = 0;
 
     public TaskQueryBuilder addFilter(TaskFilter taskFilter) {
         this.filterList.add(taskFilter);

@@ -29,13 +29,11 @@ import javafx.scene.text.FontWeight;
 public class TaskList extends ScrollPane {
 
     private final TaskRepositoryImpl taskRepository = new TaskRepositoryImpl();
-
-    private Supplier<List<Task>> taskSupplier;
     private final IntegerProperty columns = new SimpleIntegerProperty(4);
     private final boolean singleRow;
     private final String placeholderText;
-
     private final int CARD_GAP = 20;
+    private Supplier<List<Task>> taskSupplier;
 
     public TaskList(boolean singleRow, String placeholderText) {
         this.singleRow = singleRow;

@@ -212,7 +212,7 @@ public class SqlRunner {
             }
         }
 
-        System.out.println("========================");;
+        System.out.println("========================");
 
         for (String fileName : imagesList) {
 

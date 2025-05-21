@@ -3,7 +3,6 @@ package at.htl.helpr.taskform.repository;
 import at.htl.helpr.controller.Database;
 import at.htl.helpr.taskform.model.Task;
 import at.htl.helpr.taskform.repository.filter.TaskQueryBuilder;
-import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,7 +11,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
 
 public class TaskRepositoryImpl implements TaskRepository {
 

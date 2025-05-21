@@ -2,7 +2,7 @@ package at.htl.helpr.taskform.repository.filter;
 
 import java.util.List;
 
-public class SearchFilter implements TaskFilter{
+public class SearchFilter implements TaskFilter {
 
     private final String searchQuery;
 

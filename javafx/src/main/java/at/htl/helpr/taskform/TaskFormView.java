@@ -13,6 +13,7 @@ import javafx.scene.layout.VBox;
 
 public class TaskFormView extends VBox {
 
+    private final static String ERROR_PREFIX = "-";
     private final Label titleErrorLabel = new Label();
     private final TextField titleField = new TextField();
     private final Label zipErrorLabel = new Label();
@@ -26,19 +27,15 @@ public class TaskFormView extends VBox {
     private final Spinner<Integer> estimatedEffortSpinner = new Spinner<>();
     private final Button createButton = new Button("Erstellen");
     private final Button cancelButton = new Button("Abbrechen");
-
     private final VBox leftLayout = new VBox();
     private final VBox rightLayout = new VBox();
     private final HBox layoutform = new HBox();
-
     private final HBox imageBox = new HBox(10);
     private final Button prevButton = new Button("<");
     private final Button nextButton = new Button(">");
     private final HBox imageLayout = new HBox(10);
     private final Button uploadButton = new Button("Bild Hochladen");
     private final VBox imageSlider = new VBox();
-
-    private final static String ERROR_PREFIX = "-";
 
     public TaskFormView() {
 
