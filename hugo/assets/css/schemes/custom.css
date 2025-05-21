@@ -41,6 +41,6 @@
     --color-secondary-800: 6, 95, 70;
     --color-secondary-900: 6, 78, 59;
 
-
+    scrollbar-gutter: stable;
 }
 

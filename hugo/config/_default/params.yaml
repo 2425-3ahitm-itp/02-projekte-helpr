@@ -23,7 +23,7 @@ disableImageOptimization: false
 disableTextInHeader: false
 # backgroundImageWidth: 1200
 
-defaultBackgroundImage: "img/card/card-midnightblue-b68.jpg" # used as default for background images
+defaultBackgroundImage: img/card/turquoise-rust.webp # used as default for background images
 # defaultFeaturedImage: "IMAGE.jpg" # used as default for featured images in all articles
 
 highlightCurrentMenuArea: true
@@ -47,7 +47,7 @@ footer:
 
 homepage:
   layout: custom # valid options: page, profile, hero, card, background, custom
-  homepageImage: img/card/card-dodgerblue-b46.jpg # used in: hero, and card
+  homepageImage: img/card/turquoise-wood.webp # used in: hero, and card
   showRecent: true
   showRecentItems: 10
   showMoreLink: false
