@@ -31,9 +31,9 @@ Dort hin gelangt man indem man auf den **Sign Up** Schriftzug klickt.
 ![Startseite-nichtangemeldet](./Projekt_Wireframe_SignupSeite.jpg)
 
 Um zurück zur Login-Seite zu kommen wird das gleiche Prinzip verwendet.
-
 Auf beiden Seiten kommt man durch das Drücken des **Abbrechen** Button unter dem Login Formular,
 zurück zur Startseite.
+Unter jedem Input-Feld ist jeweils Platz für Errorhandling.
 
 
 
