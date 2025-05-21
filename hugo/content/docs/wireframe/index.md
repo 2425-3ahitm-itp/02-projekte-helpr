@@ -21,6 +21,22 @@ Falls der Benutzer noch nicht angemeldet ist, steht neben dem Profilbild nicht d
 sondern der Schriftzug **"Anmelden"**:
 ![Startseite-nichtangemeldet](./Projekt_Wireframe_Startseite-nichtangemeldet.jpg)
 
+## Log In & Sign Up
+Wenn man nicht angemeldet ist und auf der Startseite der Schriftzug **Anmelden** anstatt des Benutzernamen steht,
+kann man diesen anklicken um zur Login-Seite zu gelangen.
+![Startseite-nichtangemeldet](./Projekt_Wireframe_LoginSeite.jpg)
+
+Falls man noch keinen Account hat, kann man sich einen auf der SignUp-Seite erstellen.
+Dort hin gelangt man indem man auf den **Sign Up** Schriftzug klickt.
+![Startseite-nichtangemeldet](./Projekt_Wireframe_SignupSeite.jpg)
+
+Um zurück zur Login-Seite zu kommen wird das gleiche Prinzip verwendet.
+
+Auf beiden Seiten kommt man durch das Drücken des **Abbrechen** Button unter dem Login Formular,
+zurück zur Startseite.
+
+
+
 ## Profilseite
 Durch eine klick auf den Benutzernamen bzw. auf das Profilbild gelangt man zur Profilübersicht.
 Auf dieser sind die **angenommenen Aufgaben** und die eigens **erstellten Aufgaben**
