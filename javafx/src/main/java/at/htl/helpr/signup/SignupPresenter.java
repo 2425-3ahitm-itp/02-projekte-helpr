@@ -1,27 +1,28 @@
 package at.htl.helpr.signup;
 
 import at.htl.helpr.home.HomePresenter;
+import at.htl.helpr.login.LoginPresenter;
 import at.htl.helpr.scenemanager.Presenter;
 import at.htl.helpr.scenemanager.SceneManager;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class LoginPresenter implements Presenter {
+public class SignupPresenter implements Presenter {
 
-    private final LoginView view;
+    private final SignupView view;
     private final SceneManager sceneManager;
     private Scene scene;
 
-    public LoginPresenter(LoginView view, SceneManager sceneManager) {
+    public SignupPresenter(SignupView view, SceneManager sceneManager) {
         this.view = view;
         this.sceneManager = sceneManager;
         attachEvents();
     }
 
     private void attachEvents() {
-        view.getLoginButton().setOnAction(event -> handleLogin());
+        view.getSignUpButton().setOnAction(event -> handleLogin());
         view.getCancelButton().setOnAction(event -> handleCancel());
-        view.getSignUpLink().setOnAction(event -> openSignUpView());
+        view.getLoginLink().setOnAction(event -> openSignUpView());
     }
 
     private void handleLogin() {
@@ -46,20 +47,16 @@ public class LoginPresenter implements Presenter {
     }
 
     private void handleCancel() {
-        // App schließen oder zur Startseite zurück
-        Stage currentStage = (Stage) view.getScene().getWindow();
-        currentStage.close();
+        sceneManager.setScene(HomePresenter.class);
+
     }
 
     private void openSignUpView() {
-        // Navigiere zur Registrierung (sofern vorhanden)
-        // Beispiel:
-        // sceneManager.setScene(SignUpPresenter.class);
+        sceneManager.setScene(LoginPresenter.class);
 
-        System.out.println("Sign-up View öffnen (noch nicht implementiert)");
     }
 
-    public LoginView getView() {
+    public SignupView getView() {
         return view;
     }
 

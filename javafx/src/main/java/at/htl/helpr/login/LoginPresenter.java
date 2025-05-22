@@ -3,6 +3,7 @@ package at.htl.helpr.login;
 import at.htl.helpr.home.HomePresenter;
 import at.htl.helpr.scenemanager.Presenter;
 import at.htl.helpr.scenemanager.SceneManager;
+import at.htl.helpr.signup.SignupPresenter;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -46,17 +47,11 @@ public class LoginPresenter implements Presenter {
     }
 
     private void handleCancel() {
-        // App schließen oder zur Startseite zurück
-        Stage currentStage = (Stage) view.getScene().getWindow();
-        currentStage.close();
+        sceneManager.setScene(HomePresenter.class);
     }
 
     private void openSignUpView() {
-        // Navigiere zur Registrierung (sofern vorhanden)
-        // Beispiel:
-        // sceneManager.setScene(SignUpPresenter.class);
-
-        System.out.println("Sign-up View öffnen (noch nicht implementiert)");
+        sceneManager.setScene(SignupPresenter.class);
     }
 
     public LoginView getView() {
