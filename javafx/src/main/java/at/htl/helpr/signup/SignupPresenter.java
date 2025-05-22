@@ -29,8 +29,30 @@ public class SignupPresenter implements Presenter {
         String username = view.getUsernameField().getText();
         String password = view.getPasswordField().getText();
 
-        if (username.isBlank() || password.isBlank()) {
-            // In echter App: Rückmeldung anzeigen
+        getView().getUsernameErrorBox().setVisible(false);
+        getView().getUsernameErrorBox().setManaged(false);
+        getView().getPasswordErrorBox().setVisible(false);
+        getView().getPasswordErrorBox().setManaged(false);
+        getView().getOverallErrorBox().setVisible(false);
+        getView().getOverallErrorBox().setManaged(false);
+
+        if (!username.isBlank() && !password.isBlank()) {
+            if ((username.matches(".*[^a-zA-Z0-9].*")) || (password.length() < 8)) {
+                if (username.matches(".*[^a-zA-Z0-9].*")) {
+                    getView().getUsernameErrorBox().setVisible(true);
+                    getView().getUsernameErrorBox().setManaged(true);
+                    System.out.println("Invalid username");
+                }
+                if (password.length() < 8) {
+                    getView().getPasswordErrorBox().setVisible(true);
+                    getView().getPasswordErrorBox().setManaged(true);
+                    System.out.println("Invalid password");
+                }
+                return;
+            }
+        } else {
+            getView().getOverallErrorBox().setVisible(true);
+            getView().getOverallErrorBox().setManaged(true);
             System.out.println("Benutzername oder Passwort leer.");
             return;
         }
