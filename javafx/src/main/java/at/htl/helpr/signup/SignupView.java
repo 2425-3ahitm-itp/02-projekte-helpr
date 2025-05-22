@@ -133,28 +133,12 @@ public class SignupView extends BorderPane {
         return cancelButton;
     }
 
-    public VBox getSignUpBox() {
-        return signUpBox;
-    }
-
-    public Label getTitleLabel() {
-        return titleLabel;
-    }
-
     public HBox getUsernameErrorBox() {
         return usernameErrorBox;
     }
 
     public HBox getPasswordErrorBox() {
         return passwordErrorBox;
-    }
-
-    public HBox getLoginBox() {
-        return loginBox;
-    }
-
-    public Label getAlreadyAccountLabel() {
-        return alreadyAccountLabel;
     }
 
     public HBox getOverallErrorBox() {
