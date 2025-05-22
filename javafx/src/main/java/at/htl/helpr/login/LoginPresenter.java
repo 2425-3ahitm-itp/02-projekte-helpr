@@ -17,6 +17,7 @@ public class LoginPresenter implements Presenter {
         this.view = view;
         this.sceneManager = sceneManager;
         attachEvents();
+        deleteOldErrorHandling();
     }
 
     private void attachEvents() {
@@ -25,19 +26,47 @@ public class LoginPresenter implements Presenter {
         view.getSignUpLink().setOnAction(event -> openSignUpView());
     }
 
+    private void deleteOldErrorHandling() {
+        getView().getUsernameErrorBox().setVisible(false);
+        getView().getUsernameErrorBox().setManaged(false);
+        getView().getPasswordErrorBox().setVisible(false);
+        getView().getPasswordErrorBox().setManaged(false);
+        getView().getOverallErrorBox().setVisible(false);
+        getView().getOverallErrorBox().setManaged(false);
+    }
+
     private void handleLogin() {
         String username = view.getUsernameField().getText();
         String password = view.getPasswordField().getText();
 
-        if (username.isBlank() || password.isBlank()) {
-            // In echter App: Rückmeldung anzeigen
+        deleteOldErrorHandling();
+
+        if (!username.isBlank() && !password.isBlank()) {
+            //TODO: Authentifizierungs-Check.
+
+
+            //TODO: Fehlermeldungen ausgeben
+            /*if (password = false || username = false) {
+                if (username = false) {
+                    getView().getUsernameErrorBox().setVisible(true);
+                    getView().getUsernameErrorBox().setManaged(true);
+                    System.out.println("Invalid username");
+                }
+                if (password = false) {
+                    getView().getPasswordErrorBox().setVisible(true);
+                    getView().getPasswordErrorBox().setManaged(true);
+                    System.out.println("Invalid password");
+                }
+                return;
+
+            }*/
+
+        } else {
+            getView().getOverallErrorBox().setVisible(true);
+            getView().getOverallErrorBox().setManaged(true);
             System.out.println("Benutzername oder Passwort leer.");
             return;
         }
-
-        // Hier wäre ein echter Authentifizierungs-Check.
-        // Zum Beispiel:
-        // if (authService.authenticate(username, password)) { ... }
 
         // Weiterleitung zur HomeView (nach erfolgreichem Login)
         Stage currentStage = (Stage) view.getScene().getWindow();

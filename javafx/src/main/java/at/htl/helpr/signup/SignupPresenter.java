@@ -25,16 +25,20 @@ public class SignupPresenter implements Presenter {
         view.getLoginLink().setOnAction(event -> openSignUpView());
     }
 
-    private void handleLogin() {
-        String username = view.getUsernameField().getText();
-        String password = view.getPasswordField().getText();
-
+    private void deleteOldErrorHandling() {
         getView().getUsernameErrorBox().setVisible(false);
         getView().getUsernameErrorBox().setManaged(false);
         getView().getPasswordErrorBox().setVisible(false);
         getView().getPasswordErrorBox().setManaged(false);
         getView().getOverallErrorBox().setVisible(false);
         getView().getOverallErrorBox().setManaged(false);
+    }
+
+    private void handleLogin() {
+        String username = view.getUsernameField().getText();
+        String password = view.getPasswordField().getText();
+
+        deleteOldErrorHandling();
 
         if (!username.isBlank() && !password.isBlank()) {
             if ((username.matches(".*[^a-zA-Z0-9].*")) || (password.length() < 8)) {
@@ -95,6 +99,7 @@ public class SignupPresenter implements Presenter {
         // z.B. Felder zurücksetzen beim Öffnen
         view.getUsernameField().clear();
         view.getPasswordField().clear();
+
     }
 
     @Override
