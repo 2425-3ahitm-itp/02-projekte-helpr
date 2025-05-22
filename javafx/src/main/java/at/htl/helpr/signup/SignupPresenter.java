@@ -61,13 +61,12 @@ public class SignupPresenter implements Presenter {
             return;
         }
 
-        // Hier wäre ein echter Authentifizierungs-Check.
-        // Zum Beispiel:
-        // if (authService.authenticate(username, password)) { ... }
+        //TODO: Neuen User ertellen.
+
 
         // Weiterleitung zur HomeView (nach erfolgreichem Login)
         Stage currentStage = (Stage) view.getScene().getWindow();
-        sceneManager.setScene(HomePresenter.class);
+        sceneManager.setScene(LoginPresenter.class);
         currentStage.setTitle("Helpr-Startseite");
         currentStage.show();
     }
