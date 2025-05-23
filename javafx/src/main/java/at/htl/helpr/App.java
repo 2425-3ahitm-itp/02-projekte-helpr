@@ -2,9 +2,13 @@ package at.htl.helpr;
 
 import at.htl.helpr.home.HomePresenter;
 import at.htl.helpr.home.HomeView;
+import at.htl.helpr.login.LoginPresenter;
+import at.htl.helpr.login.LoginView;
 import at.htl.helpr.profile.ProfilPresenter;
 import at.htl.helpr.profile.ProfilView;
 import at.htl.helpr.scenemanager.SceneManager;
+import at.htl.helpr.signup.SignupPresenter;
+import at.htl.helpr.signup.SignupView;
 import at.htl.helpr.sql.SqlRunner;
 import at.htl.helpr.taskform.TaskFormPresenter;
 import at.htl.helpr.taskform.TaskFormView;
@@ -48,5 +52,13 @@ public class App extends Application {
         var taskFormView = new TaskFormView();
         var taskFormPresenter = new TaskFormPresenter(new Task(), taskFormView);
         sceneManager.addPresenter(TaskFormPresenter.class, taskFormPresenter);
+
+        var loginView = new LoginView();
+        var loginPresenter = new LoginPresenter(loginView, sceneManager);
+        sceneManager.addPresenter(LoginPresenter.class, loginPresenter);
+
+        var signupView = new SignupView();
+        var signupPresenter = new SignupPresenter(signupView, sceneManager);
+        sceneManager.addPresenter(SignupPresenter.class, signupPresenter);
     }
 }
