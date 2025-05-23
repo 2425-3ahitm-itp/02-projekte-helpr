@@ -27,7 +27,7 @@ public class LoginView extends BorderPane {
     public LoginView() {
         setPadding(new Insets(10));
 
-        // Login Panel (Center)
+        // Login Panel
         loginBox = new VBox(10);
         loginBox.setPadding(new Insets(20));
         loginBox.setAlignment(Pos.CENTER_LEFT);
@@ -80,7 +80,7 @@ public class LoginView extends BorderPane {
 
 
 
-        // Cancel Button (Bottom)
+        // Cancel Button
         cancelButton = new Button("Abbrechen");
         cancelButton.setMaxWidth(300);
         cancelButton.setStyle("-fx-border-style: dashed; -fx-border-color: black; -fx-background-color: transparent;");
@@ -92,7 +92,7 @@ public class LoginView extends BorderPane {
         setCenter(layoutHelp);
     }
 
-    // Getter für Controller
+    // Getter
     public TextField getUsernameField() {
         return usernameField;
     }

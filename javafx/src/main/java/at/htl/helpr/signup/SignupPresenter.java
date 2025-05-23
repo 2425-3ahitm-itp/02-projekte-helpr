@@ -64,8 +64,10 @@ public class SignupPresenter implements Presenter {
         //TODO: Neuen User ertellen.
 
 
-        // Weiterleitung zur HomeView (nach erfolgreichem Login)
-        sceneManager.setScene(LoginPresenter.class);
+        //TODO: Den neu erstellten User einloggen.
+
+        // Weiterleitung zur HomeView (nach erfolgreichem Sign up und Login)
+        sceneManager.setScene(HomePresenter.class);
     }
 
     private void handleCancel() {
@@ -92,7 +94,7 @@ public class SignupPresenter implements Presenter {
 
     @Override
     public void onShow() {
-        // z.B. Felder zurücksetzen beim Öffnen
+        // Felder zurücksetzen beim Öffnen
         view.getUsernameField().clear();
         view.getPasswordField().clear();
 
@@ -100,6 +102,5 @@ public class SignupPresenter implements Presenter {
 
     @Override
     public void onHide() {
-        // z.B. Ressourcen freigeben oder Events deregistrieren
     }
 }

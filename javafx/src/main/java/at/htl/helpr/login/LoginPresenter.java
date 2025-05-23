@@ -27,10 +27,6 @@ public class LoginPresenter implements Presenter {
     }
 
     private void deleteOldErrorHandling() {
-        getView().getUsernameErrorBox().setVisible(false);
-        getView().getUsernameErrorBox().setManaged(false);
-        getView().getPasswordErrorBox().setVisible(false);
-        getView().getPasswordErrorBox().setManaged(false);
         getView().getOverallErrorBox().setVisible(false);
         getView().getOverallErrorBox().setManaged(false);
     }
@@ -89,13 +85,12 @@ public class LoginPresenter implements Presenter {
 
     @Override
     public void onShow() {
-        // z.B. Felder zurücksetzen beim Öffnen
+        // Felder zurücksetzen beim Öffnen
         view.getUsernameField().clear();
         view.getPasswordField().clear();
     }
 
     @Override
     public void onHide() {
-        // z.B. Ressourcen freigeben oder Events deregistrieren
     }
 }

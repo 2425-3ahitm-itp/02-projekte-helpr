@@ -34,7 +34,7 @@ public class SignupView extends BorderPane {
     public SignupView() {
         setPadding(new Insets(10));
 
-        // Login Panel (Center)
+        // Login Panel
         signUpBox = new VBox(10);
         signUpBox.setPadding(new Insets(20));
         signUpBox.setAlignment(Pos.CENTER_LEFT);
@@ -104,7 +104,7 @@ public class SignupView extends BorderPane {
         );
 
 
-        // Cancel Button (Bottom)
+        // Cancel Button
         cancelButton = new Button("Abbrechen");
         cancelButton.setMaxWidth(300);
         cancelButton.setStyle("-fx-border-style: dashed; -fx-border-color: black; -fx-background-color: transparent;");
@@ -116,7 +116,7 @@ public class SignupView extends BorderPane {
         setCenter(layoutHelp);
     }
 
-    // Getter für Controller
+    // Getter
     public TextField getUsernameField() {
         return usernameField;
     }
