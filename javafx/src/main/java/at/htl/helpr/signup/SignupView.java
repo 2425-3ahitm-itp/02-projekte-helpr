@@ -29,6 +29,7 @@ public class SignupView extends BorderPane {
     private final Label alreadyAccountLabel;
     private final Hyperlink loginLink;
     private final Button cancelButton;
+    private final VBox layoutHelp;
 
     public SignupView() {
         setPadding(new Insets(10));
@@ -39,7 +40,7 @@ public class SignupView extends BorderPane {
         signUpBox.setAlignment(Pos.CENTER_LEFT);
         signUpBox.setStyle("-fx-border-color: black; -fx-background-color: white;");
         signUpBox.setMaxWidth(300);
-        signUpBox.setMaxHeight(400);
+        signUpBox.setMinHeight(400);
 
         VBox titleLableBox = new VBox(Double.MAX_VALUE);
         titleLableBox.setAlignment(Pos.CENTER);
@@ -102,14 +103,17 @@ public class SignupView extends BorderPane {
                 loginBox
         );
 
-        setCenter(signUpBox);
 
         // Cancel Button (Bottom)
         cancelButton = new Button("Abbrechen");
         cancelButton.setMaxWidth(300);
         cancelButton.setStyle("-fx-border-style: dashed; -fx-border-color: black; -fx-background-color: transparent;");
         BorderPane.setAlignment(cancelButton, Pos.CENTER);
-        setBottom(cancelButton);
+
+        layoutHelp = new VBox(20);
+        layoutHelp.setAlignment(Pos.CENTER);
+        layoutHelp.getChildren().addAll(signUpBox, cancelButton);
+        setCenter(layoutHelp);
     }
 
     // Getter für Controller
