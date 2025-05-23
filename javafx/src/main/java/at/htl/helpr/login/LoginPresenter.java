@@ -69,10 +69,8 @@ public class LoginPresenter implements Presenter {
         }
 
         // Weiterleitung zur HomeView (nach erfolgreichem Login)
-        Stage currentStage = (Stage) view.getScene().getWindow();
         sceneManager.setScene(HomePresenter.class);
-        currentStage.setTitle("Helpr-Startseite");
-        currentStage.show();
+
     }
 
     private void handleCancel() {
