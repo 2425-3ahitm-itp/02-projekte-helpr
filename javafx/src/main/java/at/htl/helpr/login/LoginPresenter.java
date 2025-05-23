@@ -47,21 +47,15 @@ public class LoginPresenter implements Presenter {
 
             //TODO: Fehlermeldungen ausgeben
             /*if (password = false || username = false) {
-                if (username = false) {
-                    getView().getUsernameErrorBox().setVisible(true);
-                    getView().getUsernameErrorBox().setManaged(true);
-                    System.out.println("Invalid username");
-                }
-                if (password = false) {
-                    getView().getPasswordErrorBox().setVisible(true);
-                    getView().getPasswordErrorBox().setManaged(true);
-                    System.out.println("Invalid password");
-                }
+                getView().getOverallErrorLabel().setText("Nutzername oder Passwort falsch.");
+                getView().getOverallErrorBox().setVisible(true);
+                getView().getOverallErrorBox().setManaged(true);
                 return;
 
             }*/
 
         } else {
+            getView().getOverallErrorLabel().setText("Eingabe ungültig. Beide Felder müssen ausgefüllt werden.");
             getView().getOverallErrorBox().setVisible(true);
             getView().getOverallErrorBox().setManaged(true);
             System.out.println("Benutzername oder Passwort leer.");
