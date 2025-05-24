@@ -17,7 +17,8 @@ public class TaskQueryBuilder {
     /**
      * Builds a query string from the filters
      *
-     * @param initialQuery - the initial query to append the filters to at the end
+     * @param initialQuery
+     *            - the initial query to append the filters to at the end
      * @return the query string
      */
     public String buildQuery(String initialQuery, List<Object> params) {

@@ -8,7 +8,8 @@ public interface UserRepository {
 
     User findByUsernameAndPassword(String username, String password);
 
-    User registerWithUsernameAndPassword(String username, String password) throws UserAlreadyExistsException;
+    User registerWithUsernameAndPassword(String username, String password)
+            throws UserAlreadyExistsException;
 
     void update(User entity);
 

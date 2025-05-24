@@ -7,14 +7,16 @@ import at.htl.helpr.usermanager.repository.exceptions.LoginFailedException;
 import at.htl.helpr.usermanager.repository.exceptions.UserAlreadyExistsException;
 
 /**
- * The UserManager class is responsible for managing user authentication and session state within
- * the application. It follows the Singleton pattern to ensure a single instance is used throughout
- * the system.
+ * The UserManager class is responsible for managing user authentication and
+ * session state within the application. It follows the Singleton pattern to
+ * ensure a single instance is used throughout the system.
  * <p>
- * This class provides functionality for: - registering new users - logging users in and out -
- * tracking the currently logged-in user - validating login credentials
+ * This class provides functionality for: - registering new users - logging
+ * users in and out - tracking the currently logged-in user - validating login
+ * credentials
  * <p>
- * The UserManager interacts with a UserRepository to persist and retrieve user data.
+ * The UserManager interacts with a UserRepository to persist and retrieve user
+ * data.
  *
  * @see UserRepository
  */
@@ -60,10 +62,13 @@ public class UserManager {
     /**
      * Attempts to log in a user with the provided username and password
      *
-     * @param username the username of the user trying to log in
-     * @param password the corresponding password
+     * @param username
+     *            the username of the user trying to log in
+     * @param password
+     *            the corresponding password
      * @return the logged-in User object
-     * @throws Exception if the username or the password are invalid
+     * @throws Exception
+     *             if the username or the password are invalid
      */
     public User login(String username, String password) throws LoginFailedException {
 
@@ -79,10 +84,13 @@ public class UserManager {
     /**
      * registers a new user with the provided username and password
      *
-     * @param username the desired username for the new user
-     * @param password the desired password for the new user
+     * @param username
+     *            the desired username for the new user
+     * @param password
+     *            the desired password for the new user
      * @return the User object
-     * @throws UserAlreadyExistsException if a user with the same username already exists
+     * @throws UserAlreadyExistsException
+     *             if a user with the same username already exists
      */
 
     public User register(String username, String password) throws UserAlreadyExistsException {

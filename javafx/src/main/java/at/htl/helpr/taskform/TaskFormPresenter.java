@@ -35,10 +35,8 @@ public class TaskFormPresenter implements Presenter {
         view.getDescriptionArea().textProperty().bindBidirectional(model.descriptionProperty());
         view.getEstimatedEffortSpinner().getValueFactory().valueProperty()
                 .bindBidirectional(model.effortProperty().asObject());
-        model.locationProperty().bind(
-                view.getZipField().textProperty().concat(" ")
-                        .concat(view.getCityField().textProperty())
-        );
+        model.locationProperty().bind(view.getZipField().textProperty().concat(" ")
+                .concat(view.getCityField().textProperty()));
         Bindings.bindBidirectional(view.getRewardField().textProperty(), model.rewardProperty(),
                 new NumberStringConverter());
     }

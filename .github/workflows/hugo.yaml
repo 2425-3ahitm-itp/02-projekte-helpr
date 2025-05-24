@@ -7,6 +7,10 @@ on:
     paths:
       - hugo/**
   workflow_dispatch:
+  workflow_run:
+    workflows: ["deploy-helpr"]
+    types:
+      - completed
 
 permissions:
   contents: read
