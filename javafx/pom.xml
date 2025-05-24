@@ -105,6 +105,8 @@
                         <eclipse>
                             <file>${project.basedir}/eclipse-formatter.xml</file>
                         </eclipse>
+                        <importOrder/>
+                        <removeUnusedImports/>
                     </java>
                 </configuration>
             </plugin>

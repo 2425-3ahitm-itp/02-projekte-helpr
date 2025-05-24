@@ -1,21 +1,16 @@
 package at.htl.helpr.usermanager;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
+
 import at.htl.helpr.sql.SqlRunner;
 import at.htl.helpr.usermanager.model.User;
-import at.htl.helpr.usermanager.repository.UserRepository;
 import at.htl.helpr.usermanager.repository.UserRepositoryImpl;
 import at.htl.helpr.usermanager.repository.exceptions.LoginFailedException;
 import at.htl.helpr.usermanager.repository.exceptions.UserAlreadyExistsException;
-import io.quarkus.elytron.security.common.BcryptUtil;
 import io.quarkus.test.junit.QuarkusTest;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @QuarkusTest
 class UserManagerTest {
