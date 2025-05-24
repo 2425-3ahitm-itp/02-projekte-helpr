@@ -1,6 +1,5 @@
 package at.htl.helpr.controller;
 
-
 import io.agroal.api.AgroalDataSource;
 import io.quarkus.arc.Arc;
 import java.sql.Connection;
@@ -21,6 +20,5 @@ public class Database {
             throw new RuntimeException(e);
         }
     }
-
 
 }

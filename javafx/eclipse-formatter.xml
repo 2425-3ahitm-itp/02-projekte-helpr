@@ -77,8 +77,25 @@
         <setting id="org.eclipse.jdt.core.formatter.alignment_for_binary_expression" value="16"/>
         <setting id="org.eclipse.jdt.core.formatter.wrap_before_binary_operator" value="true"/>
 
-        <!-- IMPORT ORGANIZATION (matches ImportOrder, AvoidStarImport) -->
-        <!-- These are handled by Eclipse's organize imports feature, not the formatter -->
+        <!-- IMPORT ORGANIZATION SETTINGS -->
+        <!-- Import grouping and ordering (standard Java order) -->
+        <setting id="org.eclipse.jdt.ui.importorder" value="java;javax;org;com"/>
+
+        <!-- Prevent wildcard imports - set threshold very high -->
+        <setting id="org.eclipse.jdt.ui.ondemandthreshold" value="99"/>
+        <setting id="org.eclipse.jdt.ui.staticondemandthreshold" value="99"/>
+
+        <!-- Remove unused imports automatically -->
+        <setting id="org.eclipse.jdt.ui.cleanupprofiles" value="true"/>
+        <setting id="org.eclipse.jdt.ui.cleanup.remove_unused_imports" value="true"/>
+
+        <!-- Organize imports settings -->
+        <setting id="org.eclipse.jdt.ui.organize_imports.importorder" value="java;javax;org;com;"/>
+        <setting id="org.eclipse.jdt.ui.organize_imports.staticorder" value="java;javax;org;com;"/>
+
+        <!-- Additional import optimization settings -->
+        <setting id="org.eclipse.jdt.core.formatter.blank_lines_between_import_groups" value="1"/>
+        <setting id="org.eclipse.jdt.core.formatter.insert_space_after_comma_in_multiple_field_declarations" value="insert"/>
 
         <!-- GENERAL FORMATTING -->
         <!-- Maximum line length -->

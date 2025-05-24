@@ -1,11 +1,6 @@
 package at.htl.helpr.usermanager.model;
 
-import javafx.beans.property.LongProperty;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleLongProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 
 public class User {
 
@@ -90,11 +85,7 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", username=" + username +
-                ", password=" + password +
-                ", profilePicture=" + profilePicture +
-                '}';
+        return "User{" + "id=" + id + ", username=" + username + ", password=" + password
+                + ", profilePicture=" + profilePicture + '}';
     }
 }

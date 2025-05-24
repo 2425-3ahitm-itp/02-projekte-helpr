@@ -25,7 +25,6 @@ public class ProfilView extends BorderPane {
             () -> repository.findAllTasksAppliedByUser(UserManager.getInstance().getUser().getId()),
             "Keine Aufgaben angenommen");
 
-
     private final VBox sidebar;
     private final Circle profileCircle;
     private final Label usernameLabel;
@@ -35,7 +34,6 @@ public class ProfilView extends BorderPane {
     private final VBox mainContent;
     private final Label acceptedLabel;
     private final Label createdLabel;
-
 
     public ProfilView() {
         setPadding(new Insets(10));
@@ -66,28 +64,26 @@ public class ProfilView extends BorderPane {
         homeButton.setMaxWidth(Double.MAX_VALUE);
         homeButton.setStyle("-fx-background-color: #cce5ff; -fx-border-color: #99c2ff;");
 
-        sidebar.getChildren()
-                .addAll(profileCircle, usernameLabel, newTaskButton, logoutButton,
-                        homeButton);
+        sidebar.getChildren().addAll(profileCircle, usernameLabel, newTaskButton, logoutButton,
+                homeButton);
 
         // Aufgabenbereiche
         mainContent = new VBox(20);
         mainContent.setPadding(new Insets(15));
 
         acceptedLabel = new Label("Angenommene Aufgaben");
-        acceptedLabel.setStyle(
-                "-fx-background-color: #cce5ff; -fx-padding: 5px; -fx-font-size: 14px;");
+        acceptedLabel
+                .setStyle("-fx-background-color: #cce5ff; -fx-padding: 5px; -fx-font-size: 14px;");
 
         createdLabel = new Label("Erstellte Aufgaben");
-        createdLabel.setStyle(
-                "-fx-background-color: #cce5ff; -fx-padding: 5px; -fx-font-size: 14px;");
-        //        appliedTasks.setMinHeight(150);
-//        appliedTasks.setPrefHeight(150);
-//        createdTasks.setMinHeight(150);
-//        createdTasks.setPrefHeight(150);
+        createdLabel
+                .setStyle("-fx-background-color: #cce5ff; -fx-padding: 5px; -fx-font-size: 14px;");
+        // appliedTasks.setMinHeight(150);
+        // appliedTasks.setPrefHeight(150);
+        // createdTasks.setMinHeight(150);
+        // createdTasks.setPrefHeight(150);
 
-        mainContent.getChildren().addAll(acceptedLabel, appliedTasks, createdLabel,
-                createdTasks);
+        mainContent.getChildren().addAll(acceptedLabel, appliedTasks, createdLabel, createdTasks);
 
         // Hauptlayout setzen
         setLeft(sidebar);

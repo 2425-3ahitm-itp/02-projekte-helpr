@@ -3,14 +3,13 @@ package at.htl.helpr.login;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
-import javafx.scene.layout.*;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class LoginView extends BorderPane {
 
-    private static final Logger log = LoggerFactory.getLogger(LoginView.class);
     private final VBox loginBox;
     private final Label titleLabel;
     private final TextField usernameField;
@@ -70,20 +69,14 @@ public class LoginView extends BorderPane {
         VBox.setMargin(loginButton, new Insets(10, 0, 0, 0));
         VBox.setMargin(signUpBox, new Insets(5, 0, 0, 0));
 
-        loginBox.getChildren().addAll(
-                titleLableBox,
-                usernameLabel, usernameField,
-                passwordLabel, passwordField,
-                loginButton, overallErrorBox,
-                signUpBox
-        );
-
-
+        loginBox.getChildren().addAll(titleLableBox, usernameLabel, usernameField, passwordLabel,
+                passwordField, loginButton, overallErrorBox, signUpBox);
 
         // Cancel Button
         cancelButton = new Button("Abbrechen");
         cancelButton.setMaxWidth(300);
-        cancelButton.setStyle("-fx-border-style: dashed; -fx-border-color: black; -fx-background-color: transparent;");
+        cancelButton.setStyle("-fx-border-style: dashed; -fx-border-color: black;"
+                + "-fx-background-color: transparent;");
         BorderPane.setAlignment(cancelButton, Pos.CENTER);
 
         layoutHelp = new VBox(20);

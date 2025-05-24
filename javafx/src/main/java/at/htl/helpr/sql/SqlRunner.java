@@ -25,17 +25,14 @@ public class SqlRunner {
         runSchema();
         runInserts();
 
-//        setImageForUser(1, Objects.requireNonNull(
-//                SqlRunner.class.getResource("/img/profiles/john.jpg")).getPath());
+        // setImageForUser(1, Objects.requireNonNull(
+        // SqlRunner.class.getResource("/img/profiles/john.jpg")).getPath());
     }
 
     private static void runScript(String filePath) {
         try (Connection conn = Database.getConnection();
-                var reader = new BufferedReader(
-                        new InputStreamReader(Objects.requireNonNull(
-                                SqlRunner.class.getResourceAsStream(filePath))
-                        ))
-        ) {
+                var reader = new BufferedReader(new InputStreamReader(
+                        Objects.requireNonNull(SqlRunner.class.getResourceAsStream(filePath))))) {
 
             ScriptRunner scriptRunner = new ScriptRunner(conn);
             scriptRunner.setLogWriter(null);
@@ -67,8 +64,7 @@ public class SqlRunner {
                 WHERE user_id = ?
                 """;
 
-        try (Connection conn = Database.getConnection();
-                var stmt = conn.prepareStatement(sql)) {
+        try (Connection conn = Database.getConnection(); var stmt = conn.prepareStatement(sql)) {
 
             stmt.setLong(2, userId);
 
@@ -105,8 +101,7 @@ public class SqlRunner {
                 values (?, ?, ?)
                 """;
 
-        try (Connection conn = Database.getConnection();
-                var stmt = conn.prepareStatement(sql)) {
+        try (Connection conn = Database.getConnection(); var stmt = conn.prepareStatement(sql)) {
 
             stmt.setLong(1, taskId);
             stmt.setInt(3, order);
@@ -126,8 +121,7 @@ public class SqlRunner {
                 WHERE user_id = ?
                 """;
 
-        try (Connection conn = Database.getConnection();
-                var stmt = conn.prepareStatement(sql)) {
+        try (Connection conn = Database.getConnection(); var stmt = conn.prepareStatement(sql)) {
 
             stmt.setLong(1, userId);
 
@@ -143,7 +137,6 @@ public class SqlRunner {
                     }
                 }
 
-
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
@@ -152,7 +145,6 @@ public class SqlRunner {
             throw new RuntimeException(e);
         }
     }
-
 
     public static void runSchema() {
         runScript(SCHEMA_FILE_PATH);

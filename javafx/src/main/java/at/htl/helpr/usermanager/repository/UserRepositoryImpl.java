@@ -4,7 +4,9 @@ import at.htl.helpr.controller.Database;
 import at.htl.helpr.usermanager.model.User;
 import at.htl.helpr.usermanager.repository.exceptions.UserAlreadyExistsException;
 import io.quarkus.elytron.security.common.BcryptUtil;
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,8 +15,10 @@ public class UserRepositoryImpl implements UserRepository {
     /**
      * Finds a user by username and password.
      *
-     * @param username the username of the user
-     * @param password the password of the user
+     * @param username
+     *            the username of the user
+     * @param password
+     *            the password of the user
      * @return the user if found, null otherwise
      */
     @Override
@@ -92,7 +96,6 @@ public class UserRepositoryImpl implements UserRepository {
 
         return null;
     }
-
 
     @Override
     public void update(User entity) {

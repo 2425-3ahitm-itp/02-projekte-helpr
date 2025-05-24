@@ -11,12 +11,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class SignupView extends BorderPane {
 
-    private static final Logger log = LoggerFactory.getLogger(SignupView.class);
     private final VBox signUpBox;
     private final Label titleLabel;
     private final TextField usernameField;
@@ -57,7 +54,8 @@ public class SignupView extends BorderPane {
         usernameErrorBox.setAlignment(Pos.CENTER);
         usernameErrorBox.setVisible(false);
         usernameErrorBox.setManaged(false);
-        usernameErrorLabel = new Label("Nutzername ist ungültig. Erlaubt sind nur Buchstaben und Zahlen.");
+        usernameErrorLabel = new Label(
+                "Nutzername ist ungültig. Erlaubt sind nur Buchstaben und Zahlen.");
         usernameErrorLabel.setWrapText(true);
         usernameErrorLabel.setStyle("-fx-text-fill: red;");
         usernameErrorBox.getChildren().addAll(usernameErrorLabel);
@@ -69,7 +67,8 @@ public class SignupView extends BorderPane {
         passwordErrorBox.setAlignment(Pos.CENTER);
         passwordErrorBox.setVisible(false);
         passwordErrorBox.setManaged(false);
-        Label passwordErrorLabel = new Label("Passwort ist zu kurz. Mindestens 8 Zeichen erforderlich.");
+        Label passwordErrorLabel = new Label(
+                "Passwort ist zu kurz. Mindestens 8 Zeichen erforderlich.");
         passwordErrorLabel.setWrapText(true);
         passwordErrorLabel.setStyle("-fx-text-fill: red;");
         passwordErrorBox.getChildren().addAll(passwordErrorLabel);
@@ -82,7 +81,8 @@ public class SignupView extends BorderPane {
         overallErrorBox.setAlignment(Pos.CENTER);
         overallErrorBox.setVisible(false);
         overallErrorBox.setManaged(false);
-        Label overallErrorLabel = new Label("Eingabe ungültig. Beide Felder müssen ausgefüllt werden.");
+        Label overallErrorLabel = new Label(
+                "Eingabe ungültig. Beide Felder müssen ausgefüllt werden.");
         overallErrorLabel.setWrapText(true);
         overallErrorLabel.setStyle("-fx-text-fill: red;");
         overallErrorBox.getChildren().addAll(overallErrorLabel);
@@ -96,19 +96,15 @@ public class SignupView extends BorderPane {
         VBox.setMargin(signUpButton, new Insets(10, 0, 0, 0));
         VBox.setMargin(loginBox, new Insets(5, 0, 0, 0));
 
-        signUpBox.getChildren().addAll(
-                titleLableBox,
-                usernameLabel, usernameField, usernameErrorBox,
-                passwordLabel, passwordField, passwordErrorBox,
-                signUpButton, overallErrorBox,
-                loginBox
-        );
-
+        signUpBox.getChildren().addAll(titleLableBox, usernameLabel, usernameField,
+                usernameErrorBox, passwordLabel, passwordField, passwordErrorBox, signUpButton,
+                overallErrorBox, loginBox);
 
         // Cancel Button
         cancelButton = new Button("Abbrechen");
         cancelButton.setMaxWidth(300);
-        cancelButton.setStyle("-fx-border-style: dashed; -fx-border-color: black; -fx-background-color: transparent;");
+        cancelButton.setStyle("-fx-border-style: dashed; -fx-border-color:"
+                + "black; -fx-background-color: transparent;");
         BorderPane.setAlignment(cancelButton, Pos.CENTER);
 
         layoutHelp = new VBox(20);

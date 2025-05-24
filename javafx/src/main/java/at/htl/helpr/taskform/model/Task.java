@@ -21,21 +21,13 @@ public class Task {
     private final StringProperty location = new SimpleStringProperty();
     private final ObjectProperty<LocalDateTime> createdAt = new SimpleObjectProperty<>();
 
-    //Constructor
+    // Constructor
 
     public Task() {
     }
 
-    public Task(
-            long id,
-            long authorId,
-            String title,
-            String description,
-            int reward,
-            int effort,
-            String location,
-            LocalDateTime createdAt
-    ) {
+    public Task(long id, long authorId, String title, String description, int reward, int effort,
+            String location, LocalDateTime createdAt) {
         this.id.set(id);
         this.authorId.set(authorId);
         this.title.set(title);
@@ -46,7 +38,7 @@ public class Task {
         this.createdAt.set(createdAt);
     }
 
-    //Copy-Constructor
+    // Copy-Constructor
 
     public Task(Task task) {
         this.id.set(task.getId());
@@ -161,15 +153,8 @@ public class Task {
 
     @Override
     public java.lang.String toString() {
-        return "Task{" +
-                "id=" + id +
-                ", authorId=" + authorId +
-                ", title=" + title +
-                ", description=" + description +
-                ", reward=" + reward +
-                ", effort=" + effort +
-                ", location=" + location +
-                ", createdAt=" + createdAt +
-                '}';
+        return "Task{" + "id=" + id + ", authorId=" + authorId + ", title=" + title
+                + ", description=" + description + ", reward=" + reward + ", effort=" + effort
+                + ", location=" + location + ", createdAt=" + createdAt + '}';
     }
 }
