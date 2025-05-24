@@ -7,30 +7,28 @@ import at.htl.helpr.usermanager.repository.exceptions.LoginFailedException;
 import at.htl.helpr.usermanager.repository.exceptions.UserAlreadyExistsException;
 
 /**
- * The UserManager class is responsible for managing user authentication and session state
- *  within the application. It follows the Singleton pattern to ensure a single instance is
- *  used throughout the system.
- *
- * This class provides functionality for:
- * - registering new users
- * - logging users in and out
- * - tracking the currently logged-in user
- * - validating login credentials
- *
+ * The UserManager class is responsible for managing user authentication and session state within
+ * the application. It follows the Singleton pattern to ensure a single instance is used throughout
+ * the system.
+ * <p>
+ * This class provides functionality for: - registering new users - logging users in and out -
+ * tracking the currently logged-in user - validating login credentials
+ * <p>
  * The UserManager interacts with a UserRepository to persist and retrieve user data.
  *
  * @see UserRepository
  */
 public class UserManager {
 
-    private static UserManager instance;
+    private static UserManager instance = new UserManager();
     private User currentUser = null;
-    private UserRepositoryImpl userRepo;
+    private final UserRepositoryImpl userRepo = new UserRepositoryImpl();
 
     /**
      * Private constructor to initialize the UserManager.
      */
-    private UserManager() {}
+    private UserManager() {
+    }
 
     /**
      * Returns the singleton instance of the UserManager.
@@ -38,9 +36,6 @@ public class UserManager {
      * @return The UserManager instance.
      */
     public static UserManager getInstance() {
-        if (instance == null) {
-            instance = new UserManager();
-        }
         return instance;
     }
 
@@ -55,13 +50,11 @@ public class UserManager {
 
     /**
      * gets the currently logged-in user, if the user is not logged-in then null
+     *
      * @return User or null
      */
     public User getUser() {
-        if (isLoggedIn()) {
-            return currentUser;
-        }
-        return null;
+        return currentUser;
     }
 
     /**
