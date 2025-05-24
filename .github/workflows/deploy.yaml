@@ -20,7 +20,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-           fetch-depth: 0
+          fetch-depth: 0
 
       - uses: actions/setup-java@v4
         with:
@@ -76,14 +76,42 @@ jobs:
         run: |
           cd javafx
           mvn --batch-mode --update-snapshots deploy
-
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Add Code Coverage Badge
+        uses: cicirello/jacoco-badge-generator@v2
+        with:
+          jacoco-csv-file: javafx/target/site/jacoco/jacoco.csv
+          badges-directory: hugo/static/badges/${{ env.VERSION }}/
+          generate-coverage-badge: false
+          generate-branches-badge: true
+          branches-badge-filename: coverage.svg
+          branches-label: coverage
+          generate-summary: true
+          intervals: 60 45 20
+          colors: green yellow orange red
+          on-missing-report: quiet
+          generate-workflow-summary: true
+
+      - name: Update latest Badge
+        run: |
+          set -e
+          cd hugo/static/badges
+          mkdir -p latest
+          rm -fr latest/*
+          ls -lah
+          cp $VERSION/* latest/
+
+      - name: Add and Commit Badge
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: 🎖️add coverage badges"
+          file_pattern: hugo/static/badges/**
 
       - name: Generate SHA1 and MD5
         run: |
           cd javafx/target
-
           md5sum helpr-*-runner.jar | awk '{print $1}' > helpr-${{ env.POM_VERSION }}-runner.jar.md5
           sha1sum helpr-*-runner.jar | awk '{print $1}' > helpr-${{ env.POM_VERSION }}-runner.jar.sha1
 
