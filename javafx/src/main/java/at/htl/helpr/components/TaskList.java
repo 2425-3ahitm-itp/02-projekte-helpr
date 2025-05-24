@@ -9,6 +9,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Locale;
 import java.util.function.Supplier;
+import at.htl.helpr.util.I18n;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.geometry.Insets;
@@ -157,7 +158,7 @@ public class TaskList extends ScrollPane {
                 "#99FF99", "#CCFF99", "#FFFF99", "#FFCC99", "#FF9999"
         };
 
-        Label effortLabel = new Label("Aufwand: " + task.getEffort());
+        Label effortLabel = I18n.get().bind(new Label(), "tasklist.effort", task.getEffort());
 
         // set bg color of effortlabel to the effort color
         int effortIndex = Math.min(task.getEffort(), effortColors.length - 1);
