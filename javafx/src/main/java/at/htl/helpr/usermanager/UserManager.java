@@ -2,6 +2,8 @@ package at.htl.helpr.usermanager;
 
 import at.htl.helpr.usermanager.model.User;
 import at.htl.helpr.usermanager.repository.UserRepository;
+import at.htl.helpr.usermanager.repository.UserRepositoryImpl;
+import at.htl.helpr.usermanager.repository.exceptions.LoginFailedException;
 import at.htl.helpr.usermanager.repository.exceptions.UserAlreadyExistsException;
 
 /**
@@ -23,7 +25,7 @@ public class UserManager {
 
     private static UserManager instance;
     private User currentUser = null;
-    private UserRepository userRepo;
+    private UserRepositoryImpl userRepo;
 
     /**
      * Private constructor to initialize the UserManager.
@@ -51,6 +53,10 @@ public class UserManager {
         return currentUser != null;
     }
 
+    /**
+     * gets the currently logged-in user, if the user is not logged-in then null
+     * @return User or null
+     */
     public User getUser() {
         if (isLoggedIn()) {
             return currentUser;
@@ -66,17 +72,13 @@ public class UserManager {
      * @return the logged-in User object
      * @throws Exception if the username or the password are invalid
      */
-    public User login(String username, String password) throws Exception {
+    public User login(String username, String password) throws LoginFailedException {
 
-        if (!username.matches(currentUser.getUsername())) {
-            throw new Exception("Username is incorrect");
+        currentUser = userRepo.findByUsernameAndPassword(username, password);
+
+        if (currentUser == null) {
+            throw new LoginFailedException(username);
         }
-
-        if (!password.matches(currentUser.getPassword())) {
-            throw new Exception("Password is incorrect");
-        }
-
-        userRepo.findByUsernameAndPassword(username, password);
 
         return currentUser;
     }
@@ -92,11 +94,7 @@ public class UserManager {
 
     public User register(String username, String password) throws UserAlreadyExistsException {
 
-        if (!username.matches(currentUser.getUsername())) {
-            throw new UserAlreadyExistsException("User does already exist");
-        }
-
-        userRepo.registerWithUsernameAndPassword(username, password);
+        currentUser = userRepo.registerWithUsernameAndPassword(username, password);
 
         return currentUser;
     }
