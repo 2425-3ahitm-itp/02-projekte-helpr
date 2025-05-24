@@ -1,7 +1,7 @@
-package at.htl.helpr.profile.repository;
+package at.htl.helpr.usermanager.repository;
 
-import at.htl.helpr.profile.model.User;
-import at.htl.helpr.profile.repository.exceptions.UserAlreadyExistsException;
+import at.htl.helpr.usermanager.model.User;
+import at.htl.helpr.usermanager.repository.exceptions.UserAlreadyExistsException;
 import java.util.List;
 
 public interface UserRepository {

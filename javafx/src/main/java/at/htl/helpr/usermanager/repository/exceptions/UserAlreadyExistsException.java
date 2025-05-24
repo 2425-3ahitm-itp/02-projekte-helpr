@@ -1,4 +1,4 @@
-package at.htl.helpr.profile.repository.exceptions;
+package at.htl.helpr.usermanager.repository.exceptions;
 
 public class UserAlreadyExistsException extends Exception {
 
