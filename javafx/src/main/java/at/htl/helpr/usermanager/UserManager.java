@@ -1,11 +1,14 @@
 package at.htl.helpr.usermanager;
 
 import at.htl.helpr.usermanager.model.User;
+import at.htl.helpr.usermanager.repository.UserRepository;
+import at.htl.helpr.usermanager.repository.exceptions.UserAlreadyExistsException;
 
 public class UserManager {
 
     private static UserManager instance;
     private User currentUser = null;
+    private UserRepository userRepo;
 
     private UserManager() {}
 
@@ -25,6 +28,21 @@ public class UserManager {
             return currentUser;
         }
         return null;
+    }
+
+    public User login(String username, String password) throws Exception {
+
+        if (!username.matches(currentUser.getUsername())) {
+            throw new Exception("Username is incorrect");
+        }
+
+        if (!password.matches(currentUser.getPassword())) {
+            throw new Exception("Password is incorrect");
+        }
+
+        userRepo.findByUsernameAndPassword(username, password);
+
+        return currentUser;
     }
 
 }
