@@ -37,6 +37,7 @@ public class UserRepositoryImplTest {
         user2 = userRepository.registerWithUsernameAndPassword("tomas2", "pw2");
     }
 
+
     @Test
     void updateProfilePicture() {
         byte[] testImage = {1, 2, 3, 4, 5};
@@ -74,13 +75,13 @@ public class UserRepositoryImplTest {
 
         long userId = user1.getId();
 
-        User beforeDelete = userRepository.findById(userId);
-        assertThat(beforeDelete).isNotNull();
+        User beforeDelete = userRepository.findById( userId );
+        assertThat( beforeDelete ).isNotNull();
 
-        userRepository.delete(userId);
+        userRepository.delete( userId );
 
-        User afterDelete = userRepository.findById(userId);
-        assertThat(afterDelete).isNull();
+        User afterDelete = userRepository.findById( userId );
+        assertThat( afterDelete ).isNull();
     }
 
     @Test
@@ -151,5 +152,44 @@ public class UserRepositoryImplTest {
         assertThat(loggedInUser).isNotNull();
         assertThat(loggedInUser.getUsername()).isEqualTo(username);
     }
+
+    @Test
+    void registerUserWithUsernameAndPassword() throws UserAlreadyExistsException {
+        String username = "tommy";
+        String password = "mysecurepassword";
+
+        User registeredUser = userRepository.registerWithUsernameAndPassword( username, password );
+
+        assertThat( registeredUser ).isNotNull();
+        assertThat( registeredUser.getUsername() ).isEqualTo( username );
+
+        User foundUser = userRepository.findById( registeredUser.getId() );
+        assertThat( foundUser ).isNotNull();
+        assertThat( foundUser.getUsername() ).isEqualTo( username );
+    }
+
+    @Test
+    void registerUserWithExistingUsername() {
+        String username = user1.getUsername();
+        String password = "newpassword";
+
+
+        assertThatThrownBy(
+                () -> userRepository.registerWithUsernameAndPassword( username, password )
+        ).isInstanceOf( UserAlreadyExistsException.class )
+                .hasMessageContaining( "User with username <" + username + "> already exists!" );
+    }
+
+    @Test
+    void loginWithUsernameAndPassword() {
+        String username = user1.getUsername();
+        String password = "somepassword";
+
+        User loggedInUser = userRepository.findByUsernameAndPassword( username, password );
+
+        assertThat( loggedInUser ).isNotNull();
+        assertThat( loggedInUser.getUsername() ).isEqualTo( username );
+    }
+
 
 }

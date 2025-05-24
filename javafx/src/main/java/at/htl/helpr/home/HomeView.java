@@ -52,8 +52,10 @@ public class HomeView extends BorderPane {
         setPadding(new Insets(10));
 
         // styling toggle button
-        getStylesheets().add(getClass().getResource("homeToggleButtonStyle.css").toExternalForm());
-        getStylesheets().add(getClass().getResource("homeDatePickerStyle.css").toExternalForm());
+        getStylesheets().add(getClass().getResource("homeToggleButtonStyle.css")
+                .toExternalForm());
+        getStylesheets().add(getClass().getResource("homeDatePickerStyle.css")
+                .toExternalForm());
 
         // --- Sidebar (Links) ---
         VBox sidebar = new VBox(15);
