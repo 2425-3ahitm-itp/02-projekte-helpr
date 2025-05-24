@@ -1,16 +1,15 @@
 package at.htl.helpr.taskform.repository;
 
-import at.htl.helpr.usermanager.repository.UserRepositoryImpl;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import at.htl.helpr.sql.SqlRunner;
 import at.htl.helpr.taskform.model.Task;
 import at.htl.helpr.taskform.repository.filter.PaymentMinMaxFilter;
 import at.htl.helpr.taskform.repository.filter.TaskQueryBuilder;
+import at.htl.helpr.usermanager.repository.UserRepositoryImpl;
 import io.quarkus.test.junit.QuarkusTest;
-import org.junit.jupiter.api.*;
-
 import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.jupiter.api.*;
 
 @QuarkusTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)

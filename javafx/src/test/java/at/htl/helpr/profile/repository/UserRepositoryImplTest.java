@@ -1,18 +1,17 @@
 package at.htl.helpr.profile.repository;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
+import at.htl.helpr.sql.SqlRunner;
 import at.htl.helpr.usermanager.model.User;
 import at.htl.helpr.usermanager.repository.UserRepositoryImpl;
 import at.htl.helpr.usermanager.repository.exceptions.UserAlreadyExistsException;
-import at.htl.helpr.sql.SqlRunner;
 import io.quarkus.elytron.security.common.BcryptUtil;
 import io.quarkus.test.junit.QuarkusTest;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @QuarkusTest
 public class UserRepositoryImplTest {
