@@ -46,7 +46,7 @@ public class UserManager {
     }
 
     public User register(String username, String password) throws UserAlreadyExistsException {
-        
+
         if (!username.matches(currentUser.getUsername())) {
             throw new UserAlreadyExistsException("User does already exist");
         }
@@ -54,6 +54,10 @@ public class UserManager {
         userRepo.registerWithUsernameAndPassword(username, password);
 
         return currentUser;
+    }
+
+    void logout() {
+        currentUser = null;
     }
 
 }
