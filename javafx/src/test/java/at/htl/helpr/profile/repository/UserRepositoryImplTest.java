@@ -1,7 +1,8 @@
 package at.htl.helpr.profile.repository;
 
-import at.htl.helpr.profile.model.User;
-import at.htl.helpr.profile.repository.exceptions.UserAlreadyExistsException;
+import at.htl.helpr.usermanager.model.User;
+import at.htl.helpr.usermanager.repository.UserRepositoryImpl;
+import at.htl.helpr.usermanager.repository.exceptions.UserAlreadyExistsException;
 import at.htl.helpr.sql.SqlRunner;
 import io.quarkus.elytron.security.common.BcryptUtil;
 import io.quarkus.test.junit.QuarkusTest;
