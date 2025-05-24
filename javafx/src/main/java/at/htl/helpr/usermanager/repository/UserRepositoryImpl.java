@@ -13,8 +13,10 @@ public class UserRepositoryImpl implements UserRepository {
     /**
      * Finds a user by username and password.
      *
-     * @param username the username of the user
-     * @param password the password of the user
+     * @param username
+     *            the username of the user
+     * @param password
+     *            the password of the user
      * @return the user if found, null otherwise
      */
     @Override
@@ -92,7 +94,6 @@ public class UserRepositoryImpl implements UserRepository {
 
         return null;
     }
-
 
     @Override
     public void update(User entity) {

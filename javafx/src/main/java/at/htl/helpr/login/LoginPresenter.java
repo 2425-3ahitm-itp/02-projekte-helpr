@@ -7,7 +7,6 @@ import at.htl.helpr.signup.SignupPresenter;
 import at.htl.helpr.usermanager.UserManager;
 import at.htl.helpr.usermanager.repository.exceptions.LoginFailedException;
 import javafx.scene.Scene;
-import javafx.stage.Stage;
 
 public class LoginPresenter implements Presenter {
 
@@ -40,7 +39,7 @@ public class LoginPresenter implements Presenter {
         deleteOldErrorHandling();
 
         if (!username.isBlank() && !password.isBlank()) {
-            //TODO: Authentifizierungs-Check.
+            // TODO: Authentifizierungs-Check.
 
             try {
                 UserManager.getInstance().login(username, password);
@@ -52,7 +51,8 @@ public class LoginPresenter implements Presenter {
             }
 
         } else {
-            getView().getOverallErrorLabel().setText("Eingabe ungültig. Beide Felder müssen ausgefüllt werden.");
+            getView().getOverallErrorLabel()
+                    .setText("Eingabe ungültig. Beide Felder müssen ausgefüllt werden.");
             getView().getOverallErrorBox().setVisible(true);
             getView().getOverallErrorBox().setManaged(true);
             System.out.println("Benutzername oder Passwort leer.");

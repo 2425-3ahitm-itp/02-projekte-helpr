@@ -10,7 +10,6 @@ public class EffortFilter implements TaskFilter {
         this.effort = effort;
     }
 
-
     @Override
     public void apply(StringBuilder query, List<Object> params) {
         query.append("effort = ? ");

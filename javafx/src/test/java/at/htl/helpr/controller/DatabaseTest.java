@@ -17,20 +17,20 @@ class DatabaseTest {
 
     @Test
     void getConnectionNotNull() {
-        assertDoesNotThrow( () -> {
+        assertDoesNotThrow(() -> {
             Connection connection = Database.getConnection();
-            assertNotNull( connection );
+            assertNotNull(connection);
             connection.close();
-        } );
+        });
     }
 
     @Test
     void getConnectionIsValid() {
-        assertDoesNotThrow( () -> {
+        assertDoesNotThrow(() -> {
             Connection connection = Database.getConnection();
-            assertNotNull( connection );
-            assertTrue( connection.isValid( 2 ) ); // 2 seconds timeout
+            assertNotNull(connection);
+            assertTrue(connection.isValid(2)); // 2 seconds timeout
             connection.close();
-        } );
+        });
     }
 }

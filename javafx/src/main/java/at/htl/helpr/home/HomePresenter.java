@@ -54,8 +54,7 @@ public class HomePresenter implements Presenter {
         getView().getSearchButton().setOnAction(mouseEvent -> updateCardsBySearch());
         getView().getFilterButton().setOnAction(mouseEvent -> updateCardsBySearch());
         getView().getLoginButton().setOnAction(
-                actionEvent -> SceneManager.getInstance().setScene(LoginPresenter.class)
-        );
+                actionEvent -> SceneManager.getInstance().setScene(LoginPresenter.class));
     }
 
     private void bindings() {
@@ -79,12 +78,11 @@ public class HomePresenter implements Presenter {
                 maxPaymentProperty, new NumberStringConverter());
         Bindings.bindBidirectional(getView().getPostalCodeField().textProperty(),
                 postalCodeProperty, new NumberStringConverter());
-        Bindings.bindBidirectional(getView().getEffortField().textProperty(),
-                effortProperty, new NumberStringConverter());
+        Bindings.bindBidirectional(getView().getEffortField().textProperty(), effortProperty,
+                new NumberStringConverter());
 
         getView().getFromDateField().valueProperty().bindBidirectional(fromDateProperty);
         getView().getToDateField().valueProperty().bindBidirectional(toDateProperty);
-
 
     }
 
@@ -99,23 +97,21 @@ public class HomePresenter implements Presenter {
         if (getView().getEffortToggle().isSelected()) {
             if (getView().getEffortField().getText() != null) {
 
-                taskQueryBuilder.addFilter(
-                        new EffortFilter(effortProperty.get()));
+                taskQueryBuilder.addFilter(new EffortFilter(effortProperty.get()));
             }
         }
     }
 
     private void handlePlzFilter() {
         if (getView().getPostalToggle().isSelected()) {
-            taskQueryBuilder.addFilter(
-                    new LocationFilter(postalCodeProperty.get() + " %"));
+            taskQueryBuilder.addFilter(new LocationFilter(postalCodeProperty.get() + " %"));
         }
     }
 
     private void handleCityFilter() {
         if (getView().getCityToggle().isSelected()) {
-            taskQueryBuilder.addFilter(
-                    new LocationFilter("% " + getView().getCityField().getText()));
+            taskQueryBuilder
+                    .addFilter(new LocationFilter("% " + getView().getCityField().getText()));
         }
     }
 
@@ -125,7 +121,6 @@ public class HomePresenter implements Presenter {
                     new DateFromToFilter(fromDateProperty.get(), toDateProperty.get().plusDays(1)));
         }
     }
-
 
     private void updateCardsBySearch() {
         String searchQuery = getView().getSearchField().getText();

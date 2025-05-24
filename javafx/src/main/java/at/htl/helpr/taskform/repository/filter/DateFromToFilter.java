@@ -8,7 +8,6 @@ public class DateFromToFilter implements TaskFilter {
     private final LocalDate fromDate;
     private final LocalDate toDate;
 
-
     public DateFromToFilter(LocalDate fromDate, LocalDate toDate) {
         this.fromDate = fromDate;
         this.toDate = toDate;
