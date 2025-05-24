@@ -117,7 +117,7 @@ public class TaskList extends ScrollPane {
                 flowPane.setPrefWrapLength(Double.MAX_VALUE);
                 flowPane.setOrientation(Orientation.HORIZONTAL);
                 flowPane.setMinWidth(tasks.size() * 200 + 20 * tasks.size());
-                this.setMinHeight(250);
+                this.setMinHeight(275);
 
                 this.setHbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
                 this.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);

@@ -4,6 +4,8 @@ import at.htl.helpr.home.HomePresenter;
 import at.htl.helpr.scenemanager.Presenter;
 import at.htl.helpr.scenemanager.SceneManager;
 import at.htl.helpr.signup.SignupPresenter;
+import at.htl.helpr.usermanager.UserManager;
+import at.htl.helpr.usermanager.repository.exceptions.LoginFailedException;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -40,15 +42,14 @@ public class LoginPresenter implements Presenter {
         if (!username.isBlank() && !password.isBlank()) {
             //TODO: Authentifizierungs-Check.
 
-
-            //TODO: Fehlermeldungen ausgeben
-            /*if (password = false || username = false) {
-                getView().getOverallErrorLabel().setText("Nutzername oder Passwort falsch.");
+            try {
+                UserManager.getInstance().login(username, password);
+            } catch (LoginFailedException e) {
+                getView().getOverallErrorLabel().setText("Nutzername oder Passwort falsch!");
                 getView().getOverallErrorBox().setVisible(true);
                 getView().getOverallErrorBox().setManaged(true);
                 return;
-
-            }*/
+            }
 
         } else {
             getView().getOverallErrorLabel().setText("Eingabe ungültig. Beide Felder müssen ausgefüllt werden.");

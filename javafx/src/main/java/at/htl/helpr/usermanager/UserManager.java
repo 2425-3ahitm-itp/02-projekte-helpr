@@ -95,7 +95,7 @@ public class UserManager {
     /**
      * Logs out the currently logged-in user
      */
-    void logout() {
+    public void logout() {
         currentUser = null;
     }
 

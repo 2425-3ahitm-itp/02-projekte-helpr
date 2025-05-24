@@ -4,6 +4,8 @@ import at.htl.helpr.home.HomePresenter;
 import at.htl.helpr.login.LoginPresenter;
 import at.htl.helpr.scenemanager.Presenter;
 import at.htl.helpr.scenemanager.SceneManager;
+import at.htl.helpr.usermanager.UserManager;
+import at.htl.helpr.usermanager.repository.exceptions.UserAlreadyExistsException;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -45,6 +47,8 @@ public class SignupPresenter implements Presenter {
                 if (username.matches(".*[^a-zA-Z0-9].*")) {
                     getView().getUsernameErrorBox().setVisible(true);
                     getView().getUsernameErrorBox().setManaged(true);
+                    getView().getUsernameErrorLabel()
+                            .setText("Nutzername ist ungültig. Erlaubt sind nur Buchstaben und Zahlen.");
                     System.out.println("Invalid username");
                 }
                 if (password.length() < 8) {
@@ -62,7 +66,13 @@ public class SignupPresenter implements Presenter {
         }
 
         //TODO: Neuen User ertellen.
-
+        try {
+            UserManager.getInstance().register(username, password);
+        } catch (UserAlreadyExistsException e) {
+            getView().getUsernameErrorLabel()
+                    .setText("Ein Nutzer mit diesem Namen existiert bereits!");
+            return;
+        }
 
         //TODO: Den neu erstellten User einloggen.
 
