@@ -30,6 +30,7 @@ public class SignupView extends BorderPane {
     private final Hyperlink loginLink;
     private final Button cancelButton;
     private final VBox layoutHelp;
+    private final Label usernameErrorLabel;
 
     public SignupView() {
         setPadding(new Insets(10));
@@ -56,7 +57,7 @@ public class SignupView extends BorderPane {
         usernameErrorBox.setAlignment(Pos.CENTER);
         usernameErrorBox.setVisible(false);
         usernameErrorBox.setManaged(false);
-        Label usernameErrorLabel = new Label("Nutzername ist ungültig. Erlaubt sind nur Buchstaben und Zahlen.");
+        usernameErrorLabel = new Label("Nutzername ist ungültig. Erlaubt sind nur Buchstaben und Zahlen.");
         usernameErrorLabel.setWrapText(true);
         usernameErrorLabel.setStyle("-fx-text-fill: red;");
         usernameErrorBox.getChildren().addAll(usernameErrorLabel);
@@ -147,5 +148,9 @@ public class SignupView extends BorderPane {
 
     public HBox getOverallErrorBox() {
         return overallErrorBox;
+    }
+
+    public Label getUsernameErrorLabel() {
+        return usernameErrorLabel;
     }
 }

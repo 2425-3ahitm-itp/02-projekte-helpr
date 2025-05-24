@@ -1,11 +1,12 @@
 -- insert users
 INSERT INTO helpr.u_user (username, password)
 VALUES
-('johann_doe', 'halloWelt1'),
-('jane_schmidt', 'halloWelt2'),
-('michael_wilson', 'halloWelt3'),
-('sarah_johannsen', 'halloWelt4'),
-('alex_braun', 'halloWelt5');
+('jakki', '$2a$12$Jk6ZXhV9jcIrCBxnKRs.3OwUNFzdjzaHXgqSP9EQdgPqxlam8i3bq'),
+('johann_doe', '$2a$12$d4ChXyFGmow5ghkste8Y.u.sAEZiJmUs2V6DIckOVv784oOVovB1W'),
+('jane_schmidt', '$2a$12$sqEkC799gnP3lUwJeVYJaePw4k7zM/AgqirazBxQqz1CgEFmtw9BG'),
+('michael_wilson', '$2a$12$TBmyRIfKthWR2JMWhubXSOHa1.d3QqtevpNA0nidVs8Y1wCHl.AmK'),
+('sarah_johannsen', '$2a$12$TBmyRIfKthWR2JMWhubXSOHa1.d3QqtevpNA0nidVs8Y1wCHl.AmK'),
+('alex_braun', '$2a$12$fxePAjuMzhqQkPbbAciAPOeqp1jr3X8fNGeJuV9l1QXtV0aMxS3Ne');
 
 -- insert tasks
 INSERT INTO helpr.task (author_id, title, description, reward, effort, location, created_at)

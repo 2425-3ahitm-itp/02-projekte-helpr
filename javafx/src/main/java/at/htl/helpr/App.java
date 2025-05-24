@@ -13,6 +13,8 @@ import at.htl.helpr.sql.SqlRunner;
 import at.htl.helpr.taskform.TaskFormPresenter;
 import at.htl.helpr.taskform.TaskFormView;
 import at.htl.helpr.taskform.model.Task;
+import at.htl.helpr.usermanager.UserManager;
+import at.htl.helpr.usermanager.repository.exceptions.LoginFailedException;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -29,6 +31,12 @@ public class App extends Application {
 
         SceneManager.initialize(stage);
         SceneManager sceneManager = SceneManager.getInstance();
+
+        try {
+            UserManager.getInstance().login("jakki", "123");
+        } catch (LoginFailedException e) {
+            throw new RuntimeException(e);
+        }
 
         // Presenter registrieren
         addAllPresenters(sceneManager);
