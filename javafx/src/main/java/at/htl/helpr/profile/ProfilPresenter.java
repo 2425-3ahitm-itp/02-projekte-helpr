@@ -4,6 +4,7 @@ import at.htl.helpr.home.HomePresenter;
 import at.htl.helpr.scenemanager.Presenter;
 import at.htl.helpr.scenemanager.SceneManager;
 import at.htl.helpr.taskform.TaskFormPresenter;
+import at.htl.helpr.util.I18n;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -17,12 +18,17 @@ public class ProfilPresenter implements Presenter {
         this.view = view;
         this.sceneManager = sceneManager;
         attachEvents();
+        applyTranslations();
     }
 
     private void attachEvents() {
-
         view.getNewTaskButton().setOnAction(e -> openTaskView());
         view.getHomeButton().setOnAction(e -> openHomeView());
+    }
+
+    private void applyTranslations() {
+        I18n.get().bind(view.getNewTaskButton(), "profile.buttons.create-new-task");
+        I18n.get().bind(view.getHomeButton(), "profile.buttons.navigate-home");
     }
 
     private void openHomeView() {
@@ -30,7 +36,7 @@ public class ProfilPresenter implements Presenter {
 
         sceneManager.setScene(HomePresenter.class);
 
-        currentStage.setTitle("Helpr");
+        currentStage.setTitle(I18n.get().rawTranslate("application.window-title.default"));
         currentStage.show();
     }
 
@@ -39,7 +45,7 @@ public class ProfilPresenter implements Presenter {
 
         sceneManager.setScene(TaskFormPresenter.class);
 
-        currentStage.setTitle("Helpr-Aufgabe erstellen");
+        currentStage.setTitle(I18n.get().rawTranslate("task.creation.window-title"));
         currentStage.show();
     }
 
@@ -56,12 +62,8 @@ public class ProfilPresenter implements Presenter {
     }
 
     @Override
-    public void onShow() {
-
-    }
+    public void onShow() {}
 
     @Override
-    public void onHide() {
-
-    }
+    public void onHide() {}
 }

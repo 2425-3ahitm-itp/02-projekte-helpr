@@ -1,5 +1,6 @@
 package at.htl.helpr.home;
 
+import at.htl.helpr.util.I18n;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -59,12 +60,16 @@ public class HomeView extends BorderPane {
         sidebar.setPrefWidth(200);
         sidebar.setStyle("-fx-background-color: #f8f8f8; -fx-border-color: #d3d3d3;");
 
-// Filter Anwenden Button
-        filterButton = createStyledButton("Filter Anwenden", true);
+        // Filter Anwenden Button
+        filterButton = I18n.get().bind(new Button(), "filters.apply");
+        filterButton.setMaxWidth(Double.MAX_VALUE);
+        filterButton.setStyle(
+                "-fx-background-color: #cce5ff; -fx-border-color: #99c2ff; -fx-font-size: 14px;");
 
-// Bezahlung Filter
+        // Bezahlung Filter
         paymentBox = new HBox(5);
-        Label paymentLabel = new Label("Bezahlung:");
+
+        Label paymentLabel = I18n.get().bind(new Label(), "filters.payment");
         paymentToggle = createStyledToggleButton();
         Region paymentSpacer = new Region();
         HBox.setHgrow(paymentSpacer, Priority.ALWAYS);
@@ -81,9 +86,10 @@ public class HomeView extends BorderPane {
 
         paymentBox.getChildren().addAll(minPaymentField, maxPaymentField);
 
-// Aufwand Filter
+        // Aufwand Filter
         effortBox = new HBox(5);
-        Label effortLabel = new Label("Aufwand:");
+        Label effortLabel = I18n.get().bind(new Label(), "filters.effort");
+        //        Label effortLabel = new Label();
         effortToggle = createStyledToggleButton();
         Region effortSpacer = new Region();
         HBox.setHgrow(effortSpacer, Priority.ALWAYS);
@@ -94,9 +100,9 @@ public class HomeView extends BorderPane {
 
         effortBox.getChildren().addAll(effortField);
 
-// PLZ Filter
+        // PLZ Filter
         postalCodeBox = new HBox(5);
-        Label postalCodeLabel = new Label("PLZ:");
+        Label postalCodeLabel = I18n.get().bind(new Label(), "filters.postalCode");
         postalToggle = createStyledToggleButton();
         Region postalSpacer = new Region();
         HBox.setHgrow(postalSpacer, Priority.ALWAYS);
@@ -107,9 +113,9 @@ public class HomeView extends BorderPane {
 
         postalCodeBox.getChildren().addAll(postalCodeField);
 
-// Ort Filter
+        // Ort Filter
         cityBox = new HBox(5);
-        Label cityLabel = new Label("Ort:");
+        Label cityLabel = I18n.get().bind(new Label(), "filters.city");
         cityToggle = createStyledToggleButton();
         Region citySpacer = new Region();
         HBox.setHgrow(citySpacer, Priority.ALWAYS);
@@ -120,9 +126,9 @@ public class HomeView extends BorderPane {
 
         cityBox.getChildren().addAll(cityField);
 
-// Erstelldatum Filter
+        // Erstelldatum Filter
         dateBox = new HBox(5);
-        Label creationDateLabel = new Label("Erstelldatum:");
+        Label creationDateLabel = I18n.get().bind(new Label(), "filters.date");
         dateToggle = createStyledToggleButton();
         Region dateSpacer = new Region();
         HBox.setHgrow(dateSpacer, Priority.ALWAYS);
@@ -140,7 +146,7 @@ public class HomeView extends BorderPane {
 
         dateBox.getChildren().addAll(dateFields);
 
-// --- Sidebar zusammensetzen
+        // --- Sidebar zusammensetzen
         sidebar.getChildren().addAll(
                 filterButton,
                 paymentLabelBox, paymentBox,
@@ -172,11 +178,11 @@ public class HomeView extends BorderPane {
         profileBox.setAlignment(Pos.CENTER_LEFT);
 
         searchField = new TextField();
-        searchField.setPromptText("Suche...");
+        searchField.promptTextProperty().bind(I18n.get().translate("filters.searchPrompt"));
         searchField.setPrefWidth(400);
         searchField.setStyle("-fx-font-size: 14px;");
 
-        searchButton = new Button("Suchen");
+        searchButton = I18n.get().bind(new Button(), "filters.search");
         searchButton.setStyle("-fx-background-color: #cce5ff; "
                 + "-fx-border-color: #99c2ff; -fx-font-size: 14px;");
 
@@ -189,12 +195,12 @@ public class HomeView extends BorderPane {
         cardGrid.setVgap(20);
 
         // Taskliste
-//        TaskList taskList = new TaskList(false);
+        //        TaskList taskList = new TaskList(false);
 
         // Layout setzen
         setLeft(sidebar);
         setTop(searchBar);
-//        setCenter(cardGrid);
+        //        setCenter(cardGrid);
     }
 
     private void designToggleButton() {
@@ -215,17 +221,6 @@ public class HomeView extends BorderPane {
 
 
     }
-
-
-    private Button createStyledButton(String text, boolean highlighted) {
-        Button button = new Button(text);
-        button.setMaxWidth(Double.MAX_VALUE);
-        button.setStyle(highlighted ?
-                "-fx-background-color: #cce5ff; -fx-border-color: #99c2ff; -fx-font-size: 14px;" :
-                "-fx-background-color: transparent; -fx-border-color: black; -fx-border-style: dashed; -fx-font-size: 14px;");
-        return button;
-    }
-
 
     private ToggleButton createStyledToggleButton() {
         ToggleButton toggle = new ToggleButton();

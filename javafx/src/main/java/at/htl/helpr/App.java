@@ -9,8 +9,10 @@ import at.htl.helpr.sql.SqlRunner;
 import at.htl.helpr.taskform.TaskFormPresenter;
 import at.htl.helpr.taskform.TaskFormView;
 import at.htl.helpr.taskform.model.Task;
+import at.htl.helpr.util.I18n;
 import javafx.application.Application;
 import javafx.stage.Stage;
+import java.util.Locale;
 
 public class App extends Application {
 
