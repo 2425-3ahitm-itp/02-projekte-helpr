@@ -1,145 +1,160 @@
 package at.htl.helpr.profile.repository;
 
-import at.htl.helpr.profile.model.User;
+import at.htl.helpr.usermanager.model.User;
+import at.htl.helpr.usermanager.repository.UserRepositoryImpl;
+import at.htl.helpr.usermanager.repository.exceptions.UserAlreadyExistsException;
 import at.htl.helpr.sql.SqlRunner;
+import io.quarkus.elytron.security.common.BcryptUtil;
 import io.quarkus.test.junit.QuarkusTest;
-import jakarta.inject.Inject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import at.htl.helpr.Utils;
 
 import java.util.List;
 
-import static at.htl.helpr.Utils.get100CharsString;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @QuarkusTest
 public class UserRepositoryImplTest {
 
     UserRepositoryImpl userRepository = new UserRepositoryImpl();
 
+    User user1;
+    User user2;
+
     @BeforeEach
-    void setUp() {
+    void setUp() throws UserAlreadyExistsException {
         SqlRunner.runSchema();
         SqlRunner.runInserts();
+        setupUsers();
     }
 
-    @Test
-    void create() {
-        User user = new User();
-        user.setUsername("testuser");
-        user.setEmail("test@example.com");
-        user.setPassword(get100CharsString( 'c' ));
+    // insert test users before all tests
 
-        userRepository.create(user);
-
-        User retrievedUser = userRepository.findById(user.getId());
-        assertThat(retrievedUser).isNotNull();
-        assertThat(retrievedUser.getUsername()).isEqualTo(user.getUsername());
-        assertThat(retrievedUser.getEmail()).isEqualTo(user.getEmail());
-        assertThat(retrievedUser.getPassword()).isEqualTo(user.getPassword());
-        assertThat(retrievedUser.getProfilePicture()).isNull();
+    void setupUsers() throws UserAlreadyExistsException {
+        // fill user1 and user2
+        user1 = userRepository.registerWithUsernameAndPassword( "tomas", "somepassword" );
+        user2 = userRepository.registerWithUsernameAndPassword( "tomas2", "pw2" );
     }
 
+
     @Test
-    void createWithProfilePicture() {
-        User user = new User();
-        user.setUsername("userwithpic");
-        user.setEmail("pic@example.com");
-        user.setPassword("securepass");
-        byte[] testImage = {1, 2, 3, 4, 5};
-        user.setProfilePicture(testImage);
+    void updateProfilePicture() {
+        byte[] testImage = { 1, 2, 3, 4, 5 };
+        user1.setProfilePicture( testImage );
 
-        userRepository.create(user);
+        userRepository.update( user1 );
 
-        User retrievedUser = userRepository.findById(user.getId());
-        assertThat(retrievedUser).isNotNull();
-        assertThat(retrievedUser.getProfilePicture()).isEqualTo(testImage);
+        User retrievedUser = userRepository.findById( user1.getId() );
+        assertThat( retrievedUser ).isNotNull();
+        assertThat( retrievedUser.getProfilePicture() ).isEqualTo( testImage );
     }
 
     @Test
     void update() {
-        User user = new User();
-        user.setUsername("updateuser");
-        user.setEmail("update@example.com");
-        user.setPassword(get100CharsString( 'h' ));
 
-        userRepository.create(user);
-        long userId = user.getId();
+        long userId = user1.getId();
 
-        user.setUsername("updatedname");
-        user.setEmail("newemail@example.com");
-        final var newPassword = get100CharsString( 'g' );
-        user.setPassword(newPassword);
-        byte[] profilePic = {10, 20, 30};
-        user.setProfilePicture(profilePic);
+        user1.setUsername( "updatedname" );
+        final var newPassword = "completelynewpassword";
+        user1.setPassword( newPassword );
+        byte[] profilePic = { 10, 20, 30 };
+        user1.setProfilePicture( profilePic );
 
-        userRepository.update(user);
+        userRepository.update( user1 );
 
-        User updatedUser = userRepository.findById(userId);
-        assertThat(updatedUser).isNotNull();
-        assertThat(updatedUser.getUsername()).isEqualTo("updatedname");
-        assertThat(updatedUser.getEmail()).isEqualTo("newemail@example.com");
-        assertThat(updatedUser.getPassword()).isEqualTo(newPassword);
-        assertThat(updatedUser.getProfilePicture()).isEqualTo(profilePic);
+        User updatedUser = userRepository.findById( userId );
+        assertThat( updatedUser ).isNotNull();
+        assertThat( updatedUser.getUsername() ).isEqualTo( "updatedname" );
+        assertThat( BcryptUtil.matches( newPassword, updatedUser.getPassword() ) ).isTrue();
+        assertThat( updatedUser.getProfilePicture() ).isEqualTo( profilePic );
     }
 
     @Test
     void delete() {
-        User user = new User();
-        user.setUsername("deleteuser");
-        user.setEmail("delete@example.com");
-        user.setPassword(get100CharsString( 'a' ));
 
-        userRepository.create(user);
-        Long userId = user.getId();
+        long userId = user1.getId();
 
-        User beforeDelete = userRepository.findById(userId);
-        assertThat(beforeDelete).isNotNull();
+        User beforeDelete = userRepository.findById( userId );
+        assertThat( beforeDelete ).isNotNull();
 
-        userRepository.delete(userId);
+        userRepository.delete( userId );
 
-        User afterDelete = userRepository.findById(userId);
-        assertThat(afterDelete).isNull();
+        User afterDelete = userRepository.findById( userId );
+        assertThat( afterDelete ).isNull();
     }
 
     @Test
-    void findAll() {
+    void findAll() throws UserAlreadyExistsException {
         List<User> initialUsers = userRepository.findAll();
         int initialCount = initialUsers.size();
 
-        User user1 = new User();
-        user1.setUsername("findalluser1");
-        user1.setEmail("findall1@example.com");
-        user1.setPassword(get100CharsString( 'a' ));
-        userRepository.create(user1);
-
-        User user2 = new User();
-        user2.setUsername("findalluser2");
-        user2.setEmail("findall2@example.com");
-        user2.setPassword(get100CharsString( 'b' ));
-        userRepository.create(user2);
+        userRepository.registerWithUsernameAndPassword( "newuser1", "password1" );
+        userRepository.registerWithUsernameAndPassword( "newuser2", "password2" );
 
         List<User> allUsers = userRepository.findAll();
-        assertThat(allUsers).hasSize(initialCount + 2);
-        assertThat(allUsers).extracting(User::getUsername)
-                .contains("findalluser1", "findalluser2");
+        assertThat( allUsers ).hasSize( initialCount + 2 );
+        assertThat( allUsers ).extracting( User::getUsername )
+                .contains( "tomas", "tomas2" );
     }
 
     @Test
     void findById() {
-        List<User> users = userRepository.findAll();
-        assertThat(users).isNotEmpty();
-
-        User existingUser = users.getFirst();
-        Long existingId = existingUser.getId();
-        User foundUser = userRepository.findById(existingId);
-        assertThat(foundUser).isNotNull();
-        assertThat(foundUser.getId()).isEqualTo(existingId);
-        assertThat(foundUser.getUsername()).isEqualTo(existingUser.getUsername());
-
-        User nonExistent = userRepository.findById(999999L);
-        assertThat(nonExistent).isNull();
+        User foundUser = userRepository.findById( user1.getId() );
+        assertThat( foundUser ).isNotNull();
+        assertThat( foundUser.getUsername() ).isEqualTo( user1.getUsername() );
     }
+
+    @Test
+    void findByUsername() {
+        User foundUser = userRepository.findByUsername( user1.getUsername() );
+        assertThat( foundUser ).isNotNull();
+        assertThat( foundUser.getUsername() ).isEqualTo( user1.getUsername() );
+    }
+
+    @Test
+    void findByIdNotFound() {
+        User foundUser = userRepository.findById( 9999 );
+        assertThat( foundUser ).isNull();
+    }
+
+    @Test
+    void registerUserWithUsernameAndPassword() throws UserAlreadyExistsException {
+        String username = "tommy";
+        String password = "mysecurepassword";
+
+        User registeredUser = userRepository.registerWithUsernameAndPassword( username, password );
+
+        assertThat( registeredUser ).isNotNull();
+        assertThat( registeredUser.getUsername() ).isEqualTo( username );
+
+        User foundUser = userRepository.findById( registeredUser.getId() );
+        assertThat( foundUser ).isNotNull();
+        assertThat( foundUser.getUsername() ).isEqualTo( username );
+    }
+
+    @Test
+    void registerUserWithExistingUsername() {
+        String username = user1.getUsername();
+        String password = "newpassword";
+
+
+        assertThatThrownBy(
+                () -> userRepository.registerWithUsernameAndPassword( username, password )
+        ).isInstanceOf( UserAlreadyExistsException.class )
+                .hasMessageContaining( "User with username <" + username + "> already exists!" );
+    }
+
+    @Test
+    void loginWithUsernameAndPassword() {
+        String username = user1.getUsername();
+        String password = "somepassword";
+
+        User loggedInUser = userRepository.findByUsernameAndPassword( username, password );
+
+        assertThat( loggedInUser ).isNotNull();
+        assertThat( loggedInUser.getUsername() ).isEqualTo( username );
+    }
+
 
 }

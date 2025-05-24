@@ -6,7 +6,9 @@ public interface Presenter {
 
     Scene getScene();
 
-    void onShow();
+    default void onShow() {
+    }
 
-    void onHide();
+    default void onHide() {
+    }
 }

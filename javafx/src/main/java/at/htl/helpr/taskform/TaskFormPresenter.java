@@ -6,6 +6,7 @@ import at.htl.helpr.scenemanager.SceneManager;
 import at.htl.helpr.taskform.model.Task;
 import at.htl.helpr.taskform.repository.TaskRepository;
 import at.htl.helpr.taskform.repository.TaskRepositoryImpl;
+import at.htl.helpr.usermanager.UserManager;
 import javafx.beans.binding.Bindings;
 import javafx.scene.Scene;
 import javafx.util.converter.NumberStringConverter;
@@ -65,7 +66,7 @@ public class TaskFormPresenter implements Presenter {
     }
 
     private void saveTask() {
-        model.setAuthorId(1); // Platzhalter bis User vorhanden
+        model.setAuthorId(UserManager.getInstance().getUser().getId());
 
         if (validateData()) {
             repository.create(new Task(model));
@@ -92,11 +93,7 @@ public class TaskFormPresenter implements Presenter {
 
     @Override
     public void onShow() {
+        // reset all fields
         resetFields();
-    }
-
-    @Override
-    public void onHide() {
-        // keine Aktion nötig, optional: model auf null setzen
     }
 }

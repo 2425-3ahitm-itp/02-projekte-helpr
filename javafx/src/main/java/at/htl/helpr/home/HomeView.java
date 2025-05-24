@@ -45,13 +45,17 @@ public class HomeView extends BorderPane {
     private final TextField searchField;
     private final Circle profilePicture;
     private final Label usernameLabel;
+    private final Button loginButton;
+    private final HBox profileBoxUserSection;
 
     public HomeView() {
         setPadding(new Insets(10));
 
         // styling toggle button
-        getStylesheets().add(getClass().getResource("homeToggleButtonStyle.css").toExternalForm());
-        getStylesheets().add(getClass().getResource("homeDatePickerStyle.css").toExternalForm());
+        getStylesheets().add(getClass().getResource("homeToggleButtonStyle.css")
+                .toExternalForm());
+        getStylesheets().add(getClass().getResource("homeDatePickerStyle.css")
+                .toExternalForm());
 
         // --- Sidebar (Links) ---
         VBox sidebar = new VBox(15);
@@ -157,6 +161,14 @@ public class HomeView extends BorderPane {
         searchBar.setPadding(new Insets(10));
         searchBar.setAlignment(Pos.CENTER_LEFT);
 
+        HBox profileBox = new HBox();
+        loginButton = new Button("Login");
+
+        profileBoxUserSection = new HBox(8);
+
+        loginButton.setStyle("-fx-background-color: #cce5ff; "
+                + "-fx-border-color: #99c2ff; -fx-font-size: 14px;");
+
         // Profilbild (Kreisförmig)
         profilePicture = new Circle(20);
         profilePicture.setFill(Color.LIGHTGRAY);
@@ -167,9 +179,13 @@ public class HomeView extends BorderPane {
         usernameLabel = new Label("Username");
         usernameLabel.setFont(new Font(14));
 
+        profileBoxUserSection.getChildren().addAll(profilePicture, usernameLabel);
+
+        profileBox.getChildren().addAll(profileBoxUserSection, loginButton);
+
         // Container für Profilbild + Username
-        HBox profileBox = new HBox(8, profilePicture, usernameLabel);
         profileBox.setAlignment(Pos.CENTER_LEFT);
+        profileBoxUserSection.setAlignment(Pos.CENTER_LEFT);
 
         searchField = new TextField();
         searchField.setPromptText("Suche...");
@@ -329,5 +345,13 @@ public class HomeView extends BorderPane {
 
     public ToggleButton getDateToggle() {
         return dateToggle;
+    }
+
+    public Button getLoginButton() {
+        return loginButton;
+    }
+
+    public HBox getProfileBoxUserSection() {
+        return profileBoxUserSection;
     }
 }

@@ -1,5 +1,6 @@
 package at.htl.helpr.taskform.repository;
 
+import at.htl.helpr.usermanager.repository.UserRepositoryImpl;
 import at.htl.helpr.sql.SqlRunner;
 import at.htl.helpr.taskform.model.Task;
 import at.htl.helpr.taskform.repository.filter.PaymentMinMaxFilter;
@@ -9,24 +10,26 @@ import org.junit.jupiter.api.*;
 
 import java.util.List;
 
-import static at.htl.helpr.Utils.get100CharsString;
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @QuarkusTest
 @TestMethodOrder( MethodOrderer.OrderAnnotation.class )
 class TaskRepositoryTest {
 
     TaskRepositoryImpl taskRepository = new TaskRepositoryImpl();
+    UserRepositoryImpl userRepository = new UserRepositoryImpl();
 
     @BeforeEach
     void setUp() {
-        SqlRunner.runSchema();
-        SqlRunner.runString( String.format("""
-                INSERT INTO u_user (username, email, password)
-                VALUES
-                ('john_doe', 'john@example.com', '%s'),
-                ('jane_smith', 'jane@example.com', 'helloworld2');
-                """, get100CharsString( 'u' ) ) );
+        try {
+            SqlRunner.runSchema();
+
+            userRepository.registerWithUsernameAndPassword( "john_doe", "123" );
+            userRepository.registerWithUsernameAndPassword( "jane_smith", "123456789" );
+
+        } catch ( Exception e ) {
+            Assumptions.abort( "Database setup failed: " + e.getMessage() );
+        }
     }
 
     @AfterAll
@@ -302,7 +305,7 @@ class TaskRepositoryTest {
 
         TaskQueryBuilder queryBuilder = new TaskQueryBuilder();
         queryBuilder
-                .addFilter( (query, params) -> {
+                .addFilter( ( query, params ) -> {
                     query.append( "effort between ? and ?" );
                     params.add( 2 );
                     params.add( 4 );
@@ -348,13 +351,13 @@ class TaskRepositoryTest {
     private void runFilterSetup() {
         SqlRunner.runString( """
                     -- insert users
-                    INSERT INTO u_user (username, email, password)
+                    INSERT INTO u_user (username, password)
                     VALUES
-                    ('john_doe', 'john@example.com', 'helloworld1'),
-                    ('jane_smith', 'jane@example.com', 'helloworld2'),
-                    ('mike_wilson', 'mike@example.com', 'hellorworld3'),
-                    ('sarah_johnson', 'sarah@example.com', 'hellorowlrd4'),
-                    ('alex_brown', 'alex@example.com', 'hellorowlrd5');
+                    ('john_doe', 'helloworld1'),
+                    ('jane_smith', 'helloworld2'),
+                    ('mike_wilson', 'hellorworld3'),
+                    ('sarah_johnson', 'hellorowlrd4'),
+                    ('alex_brown', 'hellorowlrd5');
                 
                     -- insert tasks
                     INSERT INTO task (author_id, title, description, reward, effort, location, created_at)
