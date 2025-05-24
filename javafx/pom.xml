@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>at.htlleonding</groupId>
     <artifactId>helpr</artifactId>
-    <version>2025.4.27</version>
+    <version>2025.5.24</version>
 
     <properties>
         <compiler-plugin.version>3.13.0</compiler-plugin.version>
