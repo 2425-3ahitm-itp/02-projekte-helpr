@@ -1,8 +1,8 @@
-package at.htl.helpr.profile.repository;
+package at.htl.helpr.usermanager.repository;
 
 import at.htl.helpr.controller.Database;
-import at.htl.helpr.profile.model.User;
-import at.htl.helpr.profile.repository.exceptions.UserAlreadyExistsException;
+import at.htl.helpr.usermanager.model.User;
+import at.htl.helpr.usermanager.repository.exceptions.UserAlreadyExistsException;
 import io.quarkus.elytron.security.common.BcryptUtil;
 import java.sql.*;
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package at.htl.helpr.profile.model;
+package at.htl.helpr.usermanager.model;
 
 import javafx.beans.property.LongProperty;
 import javafx.beans.property.ObjectProperty;

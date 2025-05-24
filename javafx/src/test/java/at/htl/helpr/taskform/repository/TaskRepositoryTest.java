@@ -1,7 +1,6 @@
 package at.htl.helpr.taskform.repository;
 
-import at.htl.helpr.profile.repository.UserRepository;
-import at.htl.helpr.profile.repository.UserRepositoryImpl;
+import at.htl.helpr.usermanager.repository.UserRepositoryImpl;
 import at.htl.helpr.sql.SqlRunner;
 import at.htl.helpr.taskform.model.Task;
 import at.htl.helpr.taskform.repository.filter.PaymentMinMaxFilter;
