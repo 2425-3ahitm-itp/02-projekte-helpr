@@ -75,7 +75,7 @@ jobs:
       - name: Publish package
         run: |
           cd javafx
-          mvn --batch-mode --update-snapshots deploy
+          mvn --batch-mode --update-snapshots deploy jacoco:report
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
