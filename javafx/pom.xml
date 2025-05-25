@@ -76,7 +76,6 @@
             <artifactId>ibatis-core</artifactId>
             <version>${ibatis.version}</version>
         </dependency>
-
     </dependencies>
 
     <build>
