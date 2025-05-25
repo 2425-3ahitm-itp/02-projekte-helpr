@@ -13,6 +13,7 @@ import javafx.scene.layout.VBox;
 
 public class TaskFormView extends VBox {
 
+    private final static String ERROR_PREFIX = "-";
     private final Label titleErrorLabel = new Label();
     private final TextField titleField = new TextField();
     private final Label zipErrorLabel = new Label();
@@ -26,11 +27,9 @@ public class TaskFormView extends VBox {
     private final Spinner<Integer> estimatedEffortSpinner = new Spinner<>();
     private final Button createButton = new Button("Erstellen");
     private final Button cancelButton = new Button("Abbrechen");
-
     private final VBox leftLayout = new VBox();
     private final VBox rightLayout = new VBox();
     private final HBox layoutform = new HBox();
-
     private final HBox imageBox = new HBox(10);
     private final Button prevButton = new Button("<");
     private final Button nextButton = new Button(">");
@@ -38,13 +37,9 @@ public class TaskFormView extends VBox {
     private final Button uploadButton = new Button("Bild Hochladen");
     private final VBox imageSlider = new VBox();
 
-    private final static String ERROR_PREFIX = "-";
-
     public TaskFormView() {
 
-        estimatedEffortSpinner.setValueFactory(
-                new IntegerSpinnerValueFactory(1, 10, 1, 1)
-        );
+        estimatedEffortSpinner.setValueFactory(new IntegerSpinnerValueFactory(1, 10, 1, 1));
 
         this.setupLayout();
     }
@@ -130,19 +125,12 @@ public class TaskFormView extends VBox {
         setupImageSlider();
 
         // left layout
-        leftLayout.getChildren().addAll(
-                titleBox, titleField,
-                descriptionBox, descriptionArea,
-                imageSlider
-        );
+        leftLayout.getChildren().addAll(titleBox, titleField, descriptionBox, descriptionArea,
+                imageSlider);
 
         // right layout
-        rightLayout.getChildren().addAll(
-                locationBox,
-                rewardBox, rewardField,
-                difficultyBox,
-                buttonBox
-        );
+        rightLayout.getChildren().addAll(locationBox, rewardBox, rewardField, difficultyBox,
+                buttonBox);
 
         // form layout
         layoutform.getChildren().addAll(leftLayout, rightLayout);
@@ -220,7 +208,7 @@ public class TaskFormView extends VBox {
         rewardErrorLabel.textProperty().set(String.format("%s %s", ERROR_PREFIX, message));
     }
 
-    //region Getter
+    // region Getter
     public Label getTitleErrorLabel() {
         return titleErrorLabel;
     }
@@ -284,5 +272,5 @@ public class TaskFormView extends VBox {
     public Label getCityErrorLabel() {
         return cityErrorLabel;
     }
-    //endregion
+    // endregion
 }

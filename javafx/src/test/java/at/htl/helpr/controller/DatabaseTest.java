@@ -1,12 +1,11 @@
 package at.htl.helpr.controller;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import io.quarkus.test.junit.QuarkusTest;
+import java.sql.Connection;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.sql.Connection;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @QuarkusTest
 class DatabaseTest {
@@ -17,20 +16,20 @@ class DatabaseTest {
 
     @Test
     void getConnectionNotNull() {
-        assertDoesNotThrow( () -> {
+        assertDoesNotThrow(() -> {
             Connection connection = Database.getConnection();
-            assertNotNull( connection );
+            assertNotNull(connection);
             connection.close();
-        } );
+        });
     }
 
     @Test
     void getConnectionIsValid() {
-        assertDoesNotThrow( () -> {
+        assertDoesNotThrow(() -> {
             Connection connection = Database.getConnection();
-            assertNotNull( connection );
-            assertTrue( connection.isValid( 2 ) ); // 2 seconds timeout
+            assertNotNull(connection);
+            assertTrue(connection.isValid(2)); // 2 seconds timeout
             connection.close();
-        } );
+        });
     }
 }

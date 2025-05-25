@@ -1,19 +1,22 @@
 package at.htl.helpr.profile;
 
 import at.htl.helpr.home.HomePresenter;
-import at.htl.helpr.home.HomeView;
+import at.htl.helpr.scenemanager.Presenter;
+import at.htl.helpr.scenemanager.SceneManager;
 import at.htl.helpr.taskform.TaskFormPresenter;
-import at.htl.helpr.taskform.TaskFormView;
-import at.htl.helpr.taskform.model.Task;
+import at.htl.helpr.usermanager.UserManager;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class ProfilPresenter {
+public class ProfilPresenter implements Presenter {
 
     private final ProfilView view;
+    private final SceneManager sceneManager;
+    private Scene scene;
 
-    public ProfilPresenter(ProfilView view) {
+    public ProfilPresenter(ProfilView view, SceneManager sceneManager) {
         this.view = view;
+        this.sceneManager = sceneManager;
         attachEvents();
     }
 
@@ -21,37 +24,47 @@ public class ProfilPresenter {
 
         view.getNewTaskButton().setOnAction(e -> openTaskView());
         view.getHomeButton().setOnAction(e -> openHomeView());
+        view.getLogoutButton().setOnAction(e -> {
+            UserManager.getInstance().logout();
+            SceneManager.getInstance().setScene(HomePresenter.class);
+        });
     }
 
     private void openHomeView() {
         Stage currentStage = (Stage) getView().getProfileCircle().getScene().getWindow();
 
-        var view = new HomeView();
-        var presenter = new HomePresenter(view);
-
-        var scene = new Scene(view, 920, 550);
+        sceneManager.setScene(HomePresenter.class);
 
         currentStage.setTitle("Helpr");
-        currentStage.setScene(scene);
         currentStage.show();
     }
 
     private void openTaskView() {
         Stage currentStage = (Stage) getView().getProfileCircle().getScene().getWindow();
 
-        var view = new TaskFormView();
-        var task = new Task();
-        var presenter = new TaskFormPresenter(task, view);
+        sceneManager.setScene(TaskFormPresenter.class);
 
-        var scene = new Scene(view, 750, 650);
-
-        currentStage.setTitle("Helpr Aufgabe erstellen");
-        currentStage.setScene(scene);
+        currentStage.setTitle("Helpr-Aufgabe erstellen");
         currentStage.show();
     }
 
     public ProfilView getView() {
         return view;
+    }
+
+    @Override
+    public Scene getScene() {
+        if (scene == null) {
+            scene = new Scene(view, 1080, 750);
+        }
+        return scene;
+    }
+
+    @Override
+    public void onShow() {
+        view.getUsernameLabel().setText(UserManager.getInstance().getUser().getUsername());
+        view.getCreatedTasks().rerender();
+        view.getAppliedTasks().rerender();
     }
 
 }

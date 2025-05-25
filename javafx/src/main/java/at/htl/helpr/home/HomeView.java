@@ -45,6 +45,8 @@ public class HomeView extends BorderPane {
     private final TextField searchField;
     private final Circle profilePicture;
     private final Label usernameLabel;
+    private final Button loginButton;
+    private final HBox profileBoxUserSection;
 
     public HomeView() {
         setPadding(new Insets(10));
@@ -53,17 +55,16 @@ public class HomeView extends BorderPane {
         getStylesheets().add(getClass().getResource("homeToggleButtonStyle.css").toExternalForm());
         getStylesheets().add(getClass().getResource("homeDatePickerStyle.css").toExternalForm());
 
-
         // --- Sidebar (Links) ---
         VBox sidebar = new VBox(15);
         sidebar.setPadding(new Insets(15));
         sidebar.setPrefWidth(200);
         sidebar.setStyle("-fx-background-color: #f8f8f8; -fx-border-color: #d3d3d3;");
 
-// Filter Anwenden Button
+        // Filter Anwenden Button
         filterButton = createStyledButton("Filter Anwenden", true);
 
-// Bezahlung Filter
+        // Bezahlung Filter
         paymentBox = new HBox(5);
         Label paymentLabel = new Label("Bezahlung:");
         paymentToggle = createStyledToggleButton();
@@ -82,7 +83,7 @@ public class HomeView extends BorderPane {
 
         paymentBox.getChildren().addAll(minPaymentField, maxPaymentField);
 
-// Aufwand Filter
+        // Aufwand Filter
         effortBox = new HBox(5);
         Label effortLabel = new Label("Aufwand:");
         effortToggle = createStyledToggleButton();
@@ -95,7 +96,7 @@ public class HomeView extends BorderPane {
 
         effortBox.getChildren().addAll(effortField);
 
-// PLZ Filter
+        // PLZ Filter
         postalCodeBox = new HBox(5);
         Label postalCodeLabel = new Label("PLZ:");
         postalToggle = createStyledToggleButton();
@@ -108,7 +109,7 @@ public class HomeView extends BorderPane {
 
         postalCodeBox.getChildren().addAll(postalCodeField);
 
-// Ort Filter
+        // Ort Filter
         cityBox = new HBox(5);
         Label cityLabel = new Label("Ort:");
         cityToggle = createStyledToggleButton();
@@ -121,7 +122,7 @@ public class HomeView extends BorderPane {
 
         cityBox.getChildren().addAll(cityField);
 
-// Erstelldatum Filter
+        // Erstelldatum Filter
         dateBox = new HBox(5);
         Label creationDateLabel = new Label("Erstelldatum:");
         dateToggle = createStyledToggleButton();
@@ -141,16 +142,10 @@ public class HomeView extends BorderPane {
 
         dateBox.getChildren().addAll(dateFields);
 
-// --- Sidebar zusammensetzen
-        sidebar.getChildren().addAll(
-                filterButton,
-                paymentLabelBox, paymentBox,
-                effortLabelBox, effortBox,
-                postalCodeLabelBox, postalCodeBox,
-                cityLabelBox, cityBox,
-                creationDateLabelBox, dateBox
-        );
-
+        // --- Sidebar zusammensetzen
+        sidebar.getChildren().addAll(filterButton, paymentLabelBox, paymentBox, effortLabelBox,
+                effortBox, postalCodeLabelBox, postalCodeBox, cityLabelBox, cityBox,
+                creationDateLabelBox, dateBox);
 
         designToggleButton();
 
@@ -158,6 +153,14 @@ public class HomeView extends BorderPane {
         HBox searchBar = new HBox(15);
         searchBar.setPadding(new Insets(10));
         searchBar.setAlignment(Pos.CENTER_LEFT);
+
+        HBox profileBox = new HBox();
+        loginButton = new Button("Login");
+
+        profileBoxUserSection = new HBox(8);
+
+        loginButton.setStyle("-fx-background-color: #cce5ff; "
+                + "-fx-border-color: #99c2ff; -fx-font-size: 14px;");
 
         // Profilbild (Kreisförmig)
         profilePicture = new Circle(20);
@@ -169,9 +172,13 @@ public class HomeView extends BorderPane {
         usernameLabel = new Label("Username");
         usernameLabel.setFont(new Font(14));
 
+        profileBoxUserSection.getChildren().addAll(profilePicture, usernameLabel);
+
+        profileBox.getChildren().addAll(profileBoxUserSection, loginButton);
+
         // Container für Profilbild + Username
-        HBox profileBox = new HBox(8, profilePicture, usernameLabel);
         profileBox.setAlignment(Pos.CENTER_LEFT);
+        profileBoxUserSection.setAlignment(Pos.CENTER_LEFT);
 
         searchField = new TextField();
         searchField.setPromptText("Suche...");
@@ -191,12 +198,12 @@ public class HomeView extends BorderPane {
         cardGrid.setVgap(20);
 
         // Taskliste
-//        TaskList taskList = new TaskList(false);
+        // TaskList taskList = new TaskList(false);
 
         // Layout setzen
         setLeft(sidebar);
         setTop(searchBar);
-//        setCenter(cardGrid);
+        // setCenter(cardGrid);
     }
 
     private void designToggleButton() {
@@ -215,19 +222,17 @@ public class HomeView extends BorderPane {
         paymentToggle.setGraphic(new Region());
         paymentToggle.getGraphic().getStyleClass().add("thumb");
 
-
     }
-
 
     private Button createStyledButton(String text, boolean highlighted) {
         Button button = new Button(text);
         button.setMaxWidth(Double.MAX_VALUE);
-        button.setStyle(highlighted ?
-                "-fx-background-color: #cce5ff; -fx-border-color: #99c2ff; -fx-font-size: 14px;" :
-                "-fx-background-color: transparent; -fx-border-color: black; -fx-border-style: dashed; -fx-font-size: 14px;");
+        button.setStyle(highlighted
+                ? "-fx-background-color: #cce5ff; -fx-border-color: #99c2ff; -fx-font-size: 14px;"
+                : "-fx-background-color: transparent; -fx-border-color: black;"
+                        + "-fx-border-style: dashed; -fx-font-size: 14px;");
         return button;
     }
-
 
     private ToggleButton createStyledToggleButton() {
         ToggleButton toggle = new ToggleButton();
@@ -235,7 +240,6 @@ public class HomeView extends BorderPane {
         toggle.getStyleClass().add("switch-toggle");
         return toggle;
     }
-
 
     public GridPane getCardGrid() {
         return cardGrid;
@@ -331,5 +335,13 @@ public class HomeView extends BorderPane {
 
     public ToggleButton getDateToggle() {
         return dateToggle;
+    }
+
+    public Button getLoginButton() {
+        return loginButton;
+    }
+
+    public HBox getProfileBoxUserSection() {
+        return profileBoxUserSection;
     }
 }

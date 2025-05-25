@@ -3,7 +3,6 @@ package at.htl.helpr.taskform.repository;
 import at.htl.helpr.controller.Database;
 import at.htl.helpr.taskform.model.Task;
 import at.htl.helpr.taskform.repository.filter.TaskQueryBuilder;
-import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,10 +11,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
 
 public class TaskRepositoryImpl implements TaskRepository {
-
 
     @Override
     public void create(Task task) {
@@ -24,8 +21,7 @@ public class TaskRepositoryImpl implements TaskRepository {
                 VALUES (?,?,?,?,?,?)
                 """;
 
-        try (
-                Connection conn = Database.getConnection();
+        try (Connection conn = Database.getConnection();
                 PreparedStatement statement = conn.prepareStatement(sql,
                         Statement.RETURN_GENERATED_KEYS)) {
 
@@ -44,9 +40,8 @@ public class TaskRepositoryImpl implements TaskRepository {
                 if (keys.next()) {
                     task.setId(keys.getLong(1));
                 } else {
-                    throw new SQLException(
-                            String.format("Insert into TASK failed, no ID obtained for %s",
-                                    task.getTitle()));
+                    throw new SQLException(String.format(
+                            "Insert into TASK failed, no ID obtained for %s", task.getTitle()));
                 }
             }
 
@@ -63,8 +58,7 @@ public class TaskRepositoryImpl implements TaskRepository {
                 """;
 
         try (Connection conn = Database.getConnection();
-                PreparedStatement statement = conn.prepareStatement(sql)
-        ) {
+                PreparedStatement statement = conn.prepareStatement(sql)) {
             statement.setString(1, task.getTitle());
             statement.setString(2, task.getDescription());
             statement.setInt(3, task.getReward());
@@ -90,8 +84,7 @@ public class TaskRepositoryImpl implements TaskRepository {
                 """;
 
         try (Connection connection = Database.getConnection();
-                PreparedStatement statement = connection.prepareStatement(sql)
-        ) {
+                PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setLong(1, id);
 
             if (statement.executeUpdate() == 0) {
@@ -114,8 +107,7 @@ public class TaskRepositoryImpl implements TaskRepository {
 
         try (Connection connection = Database.getConnection();
                 PreparedStatement stmt = connection.prepareStatement(sql);
-                ResultSet rs = stmt.executeQuery()
-        ) {
+                ResultSet rs = stmt.executeQuery()) {
             return getTasksFromResultSet(stmt.executeQuery());
 
         } catch (SQLException e) {
@@ -129,21 +121,15 @@ public class TaskRepositoryImpl implements TaskRepository {
         String sql = "SELECT * FROM task WHERE task_id=?";
 
         try (Connection conn = Database.getConnection();
-                PreparedStatement stmt = conn.prepareStatement(sql)
-        ) {
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setLong(1, id);
             try (ResultSet result = stmt.executeQuery()) {
                 if (result.next()) {
-                    return new Task(
-                            result.getLong("task_id"),
-                            result.getLong("author_id"),
-                            result.getString("title"),
-                            result.getString("description"),
-                            result.getInt("reward"),
-                            result.getInt("effort"),
+                    return new Task(result.getLong("task_id"), result.getLong("author_id"),
+                            result.getString("title"), result.getString("description"),
+                            result.getInt("reward"), result.getInt("effort"),
                             result.getString("location"),
-                            result.getTimestamp("created_at").toLocalDateTime()
-                    );
+                            result.getTimestamp("created_at").toLocalDateTime());
                 }
             }
         } catch (SQLException e) {
@@ -163,8 +149,7 @@ public class TaskRepositoryImpl implements TaskRepository {
                 """;
 
         try (Connection connection = Database.getConnection();
-                PreparedStatement stmt = connection.prepareStatement(sql)
-        ) {
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setLong(1, taskId);
             ResultSet rs = stmt.executeQuery();
 
@@ -192,7 +177,6 @@ public class TaskRepositoryImpl implements TaskRepository {
         return getTasksWithSqlAndUserID(userId, sql);
     }
 
-
     @Override
     public List<Task> findAllTasksAppliedByUser(long userId) {
 
@@ -215,8 +199,7 @@ public class TaskRepositoryImpl implements TaskRepository {
                 """;
 
         try (Connection connection = Database.getConnection();
-                PreparedStatement stmt = connection.prepareStatement(sql)
-        ) {
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
 
             stmt.setString(1, search);
 
@@ -232,28 +215,20 @@ public class TaskRepositoryImpl implements TaskRepository {
         List<Task> taskList = new ArrayList<>();
 
         while (rs.next()) {
-            Task task = new Task(
-                    rs.getLong("task_id"),
-                    rs.getLong("author_id"),
-                    rs.getString("title"),
-                    rs.getString("description"),
-                    rs.getInt("reward"),
-                    rs.getInt("effort"),
-                    rs.getString("location"),
-                    rs.getTimestamp("created_at").toLocalDateTime()
-            );
+            Task task = new Task(rs.getLong("task_id"), rs.getLong("author_id"),
+                    rs.getString("title"), rs.getString("description"), rs.getInt("reward"),
+                    rs.getInt("effort"), rs.getString("location"),
+                    rs.getTimestamp("created_at").toLocalDateTime());
             taskList.add(task);
         }
 
         return taskList;
     }
 
-
     private List<Task> getTasksWithSqlAndUserID(long userId, String sql) {
         List<Task> taskList = new ArrayList<>();
         try (Connection connection = Database.getConnection();
-                PreparedStatement stmt = connection.prepareStatement(sql)
-        ) {
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
 
             stmt.setLong(1, userId);
 
@@ -261,8 +236,7 @@ public class TaskRepositoryImpl implements TaskRepository {
 
         } catch (SQLException e) {
             throw new RuntimeException(
-                    "Error while invoking findAllTasksByUser() of tasks: " + e.getMessage(),
-                    e);
+                    "Error while invoking findAllTasksByUser() of tasks: " + e.getMessage(), e);
         }
     }
 
@@ -280,14 +254,11 @@ public class TaskRepositoryImpl implements TaskRepository {
         }
 
         try (Connection connection = Database.getConnection();
-                PreparedStatement stmt = connection.prepareStatement(sql)
-        ) {
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
 
             for (int i = 0; i < params.size(); i++) {
                 stmt.setObject(i + 1, params.get(i));
             }
-
-            System.out.println("QUERYING: '''" + stmt.toString() + "'''");
 
             return getTasksFromResultSet(stmt.executeQuery());
 

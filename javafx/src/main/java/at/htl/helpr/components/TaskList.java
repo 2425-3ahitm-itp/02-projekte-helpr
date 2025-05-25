@@ -29,13 +29,11 @@ import javafx.scene.text.FontWeight;
 public class TaskList extends ScrollPane {
 
     private final TaskRepositoryImpl taskRepository = new TaskRepositoryImpl();
-
-    private Supplier<List<Task>> taskSupplier;
     private final IntegerProperty columns = new SimpleIntegerProperty(4);
     private final boolean singleRow;
     private final String placeholderText;
-
-    private final int CARD_GAP = 20;
+    private static final int CARD_GAP = 20;
+    private Supplier<List<Task>> taskSupplier;
 
     public TaskList(boolean singleRow, String placeholderText) {
         this.singleRow = singleRow;
@@ -97,7 +95,7 @@ public class TaskList extends ScrollPane {
 
         if (tasks.isEmpty()) {
             Label placeholderLabel = new Label(placeholderText);
-//            placeholderLabel.setFont(Font.font("System", FontWeight.BOLD, 16));
+            // placeholderLabel.setFont(Font.font("System", FontWeight.BOLD, 16));
             StackPane placeholderPane = new StackPane(placeholderLabel);
             placeholderPane.setPrefSize(this.getWidth(), this.getHeight());
             flowPane.getChildren().add(placeholderPane);
@@ -119,7 +117,7 @@ public class TaskList extends ScrollPane {
                 flowPane.setPrefWrapLength(Double.MAX_VALUE);
                 flowPane.setOrientation(Orientation.HORIZONTAL);
                 flowPane.setMinWidth(tasks.size() * 200 + 20 * tasks.size());
-                this.setMinHeight(250);
+                this.setMinHeight(275);
 
                 this.setHbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
                 this.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
@@ -143,8 +141,8 @@ public class TaskList extends ScrollPane {
         titleLabel.setFont(Font.font("", FontWeight.BOLD, 14));
         Label locationLabel = new Label(task.getLocation());
         Locale.setDefault(Locale.GERMAN);
-        Label dateLable = new Label(task.getCreatedAt().format(
-                DateTimeFormatter.ofPattern("dd. MMMM yyyy")));
+        Label dateLable = new Label(
+                task.getCreatedAt().format(DateTimeFormatter.ofPattern("dd. MMMM yyyy")));
 
         // Price and Effort at the bottom in a HBox
         HBox bottomSection = new HBox();
@@ -155,9 +153,7 @@ public class TaskList extends ScrollPane {
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
 
-        String[] effortColors = new String[]{
-                "#99FF99", "#CCFF99", "#FFFF99", "#FFCC99", "#FF9999"
-        };
+        String[] effortColors = new String[]{"#99FF99", "#CCFF99", "#FFFF99", "#FFCC99", "#FF9999"};
 
         Label effortLabel = new Label("Aufwand: " + task.getEffort());
 
@@ -196,16 +192,16 @@ public class TaskList extends ScrollPane {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-//        } else {
-//            // Empty image placeholder with dotted border
-//            Pane imagePlaceholder = new Pane();
-//            imagePlaceholder.setPrefHeight(100);
-//            imagePlaceholder.setPrefWidth(150); // Adjusted width
-//            imagePlaceholder.setStyle(
-//                    "-fx-border-color: black; -fx-border-style: dotted; -fx-border-width: 2;");
-//            VBox.setMargin(imagePlaceholder, new Insets(10, 0, 10, 0));
-//            card.getChildren().add(imagePlaceholder);
-//        }
+        // } else {
+        // // Empty image placeholder with dotted border
+        // Pane imagePlaceholder = new Pane();
+        // imagePlaceholder.setPrefHeight(100);
+        // imagePlaceholder.setPrefWidth(150); // Adjusted width
+        // imagePlaceholder.setStyle(
+        // "-fx-border-color: black; -fx-border-style: dotted; -fx-border-width: 2;");
+        // VBox.setMargin(imagePlaceholder, new Insets(10, 0, 10, 0));
+        // card.getChildren().add(imagePlaceholder);
+        // }
 
         card.getChildren().add(bottomSection);
 
