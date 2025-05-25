@@ -71,7 +71,6 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.apache.ibatis/ibatis-core -->
         <dependency>
             <groupId>org.apache.ibatis</groupId>
             <artifactId>ibatis-core</artifactId>
