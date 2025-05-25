@@ -95,13 +95,15 @@ jobs:
           generate-workflow-summary: true
 
       - name: Update latest Badge
+        continue-on-error: true
         run: |
           set -e
+          mkdir -p hugo/static/badges
           cd hugo/static/badges
           mkdir -p latest
           rm -fr latest/*
           ls -lah
-          cp $VERSION/* latest/
+          cp $VERSION/* latest/ || true
 
       - name: Add and Commit Badge
         uses: stefanzweifel/git-auto-commit-action@v5
