@@ -66,19 +66,54 @@ jobs:
           services: |
             postgres
 
-      - name: Create Tag
-        uses: piszmog/create-tag@v1
-        with:
-          version: ${{ env.VERSION }}
-          message: ${{ github.event.inputs.message }}
-          token: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Publish package
         run: |
           cd javafx
           mvn --batch-mode --update-snapshots deploy jacoco:report
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Generate SHA1 and MD5
+        run: |
+          cd javafx/target
+          md5sum helpr-*-runner.jar | awk '{print $1}' > helpr-${{ env.POM_VERSION }}-runner.jar.md5
+          sha1sum helpr-*-runner.jar | awk '{print $1}' > helpr-${{ env.POM_VERSION }}-runner.jar.sha1
+
+      - name: Generating Release
+        run: |
+          second_recent_tag=$(git describe --tags --abbrev=0)
+
+          echo "HEAD"
+          echo "$second_recent_tag"
+
+          echo "$(git log -1 --pretty=%B | tail -n +3)
+          " > RELEASE.txt
+
+          git log "$second_recent_tag"..HEAD --oneline --pretty="%an;%h;%at;%s" | \
+          tee logfile.txt | ./scripts/rg.sh >> RELEASE.txt
+
+          cat logfile.txt
+
+          echo "GENERATED RELEASE:"
+          cat RELEASE.txt
+
+      - name: Create Tag
+        uses: piszmog/create-tag@v1
+        with:
+          version: ${{ env.VERSION }}
+          message: ${{ github.event.inputs.message }}
+          token: ${{ secrets.BYPASS_BRANCH_PROTECTION_TOKEN }}
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            javafx/target/helpr-*-runner.jar
+            javafx/target/helpr-*-runner.jar.md5
+            javafx/target/helpr-*-runner.jar.sha1
+          body_path: RELEASE.txt
+          tag_name: ${{ env.VERSION }}
+          name: Helpr ${{ env.VERSION }}
 
       - name: Add Code Coverage Badge
         uses: cicirello/jacoco-badge-generator@v2
@@ -111,39 +146,3 @@ jobs:
         with:
           commit_message: "chore: 🎖️add coverage badges"
           file_pattern: hugo/static/badges/**
-
-      - name: Generate SHA1 and MD5
-        run: |
-          cd javafx/target
-          md5sum helpr-*-runner.jar | awk '{print $1}' > helpr-${{ env.POM_VERSION }}-runner.jar.md5
-          sha1sum helpr-*-runner.jar | awk '{print $1}' > helpr-${{ env.POM_VERSION }}-runner.jar.sha1
-
-      - name: Generating Release
-        run: |
-          most_recent_tag=$(git describe --tags --abbrev=0)
-          second_recent_tag=$(git for-each-ref --sort=-taggerdate --format '%(tag)' refs/tags | sed -n 2p)
-
-          echo "$(git log -1 --pretty=%B | tail -n +3)
-          " > RELEASE.txt
-
-          git log $(
-            git for-each-ref --sort=-taggerdate --format '%(tag)' refs/tags | sed -n 2p
-          )..$(
-            git describe --tags --abbrev=0
-          ) --oneline --pretty="%an;%h;%s" | tee logfile.txt | ./scripts/release-generator.sh >> RELEASE.txt
-
-          cat logfile.txt
-
-          echo "GENERATED RELEASE:"
-          cat RELEASE.txt
-
-      - name: Create Release
-        uses: softprops/action-gh-release@v2
-        with:
-          files: |
-            javafx/target/helpr-*-runner.jar
-            javafx/target/helpr-*-runner.jar.md5
-            javafx/target/helpr-*-runner.jar.sha1
-          body_path: RELEASE.txt
-          tag_name: ${{ env.VERSION }}
-          name: Helpr ${{ env.VERSION }}
