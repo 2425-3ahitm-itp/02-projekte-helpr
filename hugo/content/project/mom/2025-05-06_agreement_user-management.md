@@ -9,13 +9,12 @@ authors:
 
 ## Teilnehmende
 
-| anwesend     |
-|--------------|
-| Jakob        |
-| Thomas Stütz |
-| Miriam       |
-| Simone       |
-| Marlies      |
+| anwesend    |
+|-------------|
+| Jakob       |
+| Thomas Stütz|
+| Simone      |
+| Marlies     |
 
 ## Ort und Zeit
 
