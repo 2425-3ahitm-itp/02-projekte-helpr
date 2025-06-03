@@ -12,6 +12,39 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.control.Control;
 
+/**
+ * Handles translations for the application. Use I18n.get() to access it anywhere.
+ * <p>
+ * Resource files go in src/main/resources/i18n/:
+ * <ul>
+ *   <li>translation.properties (default)</li>
+ *   <li>translation_de.properties (German)</li>
+ * </ul>
+ * <p>
+ * Basic usage:
+ * <pre>{@code
+ * // Bind a control - text updates automatically when locale changes
+ * Button saveBtn = I18n.get().bind(new Button(), "button.save");
+ *
+ * // With parameters
+ * Label welcome = I18n.get().bind(new Label(), "welcome.message", userName);
+ *
+ * // Change language
+ * I18n.get().setLocale(Locale.GERMAN);
+ *
+ * // Get translation as String (doesn't auto-update)
+ * String msg = I18n.get().rawTranslate("error.invalid.input");
+ * }</pre>
+ * Example translation.properties
+ * <pre>{@code
+ * button.save=Save
+ * welcome.message=Welcome, {0}!
+ * error.invalid.input=Invalid input, please try again.
+ * }</pre>
+ * <p>
+ * Template format:
+ * <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/text/MessageFormat.html">here</a>
+ */
 public class I18n {
 
     private static final I18n INSTANCE = new I18n();
@@ -49,7 +82,11 @@ public class I18n {
     }
 
     /**
-     * Binds the given JavaFX {@link Control} to the translation for the specified key.
+     * Binds a control's text to a translation key. Text updates when locale changes.
+     *
+     * @param control the control to bind (Button, Label, etc.)
+     * @param key translation key from properties file
+     * @return the control for chaining
      */
     public <T extends Control> T bind(T control, String key) {
         try {
@@ -65,7 +102,16 @@ public class I18n {
     }
 
     /**
-     * Binds the given JavaFX {@link Control} to the translation with parameters.
+     * Binds a control's text to a translation with parameters. Text updates when locale changes.
+     * Use {0}, {1}, etc. in your translation string for parameters.
+     *
+     * @param control the control to bind
+     * @param key translation key with parameter placeholders
+     * @param params parameters to substitute
+     * @return the control for chaining
+     *
+     * @Note  see <a href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/text/MessageFormat.html">here</a>
+     * for formatting spec
      */
     public <T extends Control> T bind(T control, String key, Object... params) {
         try {
@@ -80,16 +126,34 @@ public class I18n {
         return control;
     }
 
+    /**
+     * Binds a StringProperty to a translation key. Updates when locale changes.
+     *
+     * @param property the property to bind
+     * @param key translation key
+     */
     public void bind(StringProperty property, String key) {
         property.bind(translate(key));
     }
 
+    /**
+     * Binds a StringProperty to a translation with parameters. Updates when locale changes.
+     *
+     * @param property the property to bind
+     * @param key translation key with parameter placeholders
+     * @param params parameters to substitute
+     */
     public void bind(StringProperty property, String key, Object... params) {
         property.bind(translate(key, params));
     }
 
     /**
-     * Returns a StringProperty that automatically updates with the translation for the given key.
+     * Returns a StringProperty that updates when locale changes.
+     * Use this when you need to bind the same translation to multiple places or
+     * the control doesn't have "textProperty".
+     *
+     * @param key translation key
+     * @return StringProperty that updates automatically
      */
     public StringProperty translate(String key) {
         return observers.computeIfAbsent(
@@ -99,7 +163,13 @@ public class I18n {
     }
 
     /**
-     * Returns a StringProperty that automatically updates with the parameterized translation.
+     * Returns a StringProperty with parameters that updates when locale changes.
+     * Use this when you need to bind the same translation to multiple places or
+     * the control doesn't have "textProperty".
+     *
+     * @param key translation key with parameter placeholders
+     * @param params parameters to substitute
+     * @return StringProperty that updates automatically
      */
     public StringProperty translate(String key, Object... params) {
         String cacheKey = key + ":" + java.util.Arrays.toString(params);
@@ -110,7 +180,11 @@ public class I18n {
     }
 
     /**
-     * Gets the raw translation without parameters.
+     * Gets translation as a String. Does not update when locale changes.
+     * Use for one-time translations like error messages or alerts.
+     *
+     * @param key translation key
+     * @return translated string, or "!key!" if not found
      */
     public String rawTranslate(String key) {
         try {
@@ -124,7 +198,13 @@ public class I18n {
         }
     }
 
-
+    /**
+     * Gets translation with parameters as a String. Does not update when locale changes.
+     *
+     * @param key translation key with parameter placeholders
+     * @param params parameters to substitute
+     * @return formatted translated string
+     */
     public String rawTranslate(String key, Object... params) {
         String pattern = rawTranslate(key);
         if (params.length == 0) {
@@ -157,6 +237,7 @@ public class I18n {
      * Internal class to handle parameterized string properties that update when locale changes.
      */
     private class ParameterizedStringProperty extends SimpleStringProperty {
+
         private final String key;
         private final Object[] params;
 

@@ -17,7 +17,6 @@ import at.htl.helpr.usermanager.UserManager;
 import at.htl.helpr.usermanager.repository.exceptions.LoginFailedException;
 import javafx.application.Application;
 import javafx.stage.Stage;
-import java.util.Locale;
 
 public class App extends Application {
 
