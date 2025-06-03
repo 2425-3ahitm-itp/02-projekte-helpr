@@ -6,6 +6,7 @@ import at.htl.helpr.scenemanager.SceneManager;
 import at.htl.helpr.taskform.model.Task;
 import at.htl.helpr.taskform.repository.TaskRepository;
 import at.htl.helpr.taskform.repository.TaskRepositoryImpl;
+import at.htl.helpr.usermanager.UserManager;
 import javafx.beans.binding.Bindings;
 import javafx.scene.Scene;
 import javafx.util.converter.NumberStringConverter;
@@ -34,10 +35,8 @@ public class TaskFormPresenter implements Presenter {
         view.getDescriptionArea().textProperty().bindBidirectional(model.descriptionProperty());
         view.getEstimatedEffortSpinner().getValueFactory().valueProperty()
                 .bindBidirectional(model.effortProperty().asObject());
-        model.locationProperty().bind(
-                view.getZipField().textProperty().concat(" ")
-                        .concat(view.getCityField().textProperty())
-        );
+        model.locationProperty().bind(view.getZipField().textProperty().concat(" ")
+                .concat(view.getCityField().textProperty()));
         Bindings.bindBidirectional(view.getRewardField().textProperty(), model.rewardProperty(),
                 new NumberStringConverter());
     }
@@ -65,7 +64,7 @@ public class TaskFormPresenter implements Presenter {
     }
 
     private void saveTask() {
-        model.setAuthorId(1); // Platzhalter bis User vorhanden
+        model.setAuthorId(UserManager.getInstance().getUser().getId());
 
         if (validateData()) {
             repository.create(new Task(model));
@@ -92,11 +91,7 @@ public class TaskFormPresenter implements Presenter {
 
     @Override
     public void onShow() {
+        // reset all fields
         resetFields();
-    }
-
-    @Override
-    public void onHide() {
-        // keine Aktion nötig, optional: model auf null setzen
     }
 }

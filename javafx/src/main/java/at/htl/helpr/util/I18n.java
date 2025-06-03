@@ -124,9 +124,7 @@ public class I18n {
         }
     }
 
-    /**
-     * Gets the formatted translation with parameters using MessageFormat.
-     */
+
     public String rawTranslate(String key, Object... params) {
         String pattern = rawTranslate(key);
         if (params.length == 0) {
@@ -143,11 +141,9 @@ public class I18n {
     }
 
     private void notifyObservers() {
-        System.out.println("Bundle: " + bundle.getLocale().toString());
 
         // Update simple observers
         for (var entry : observers.entrySet()) {
-            System.out.println("Update: " + entry.getKey());
             entry.getValue().setValue(rawTranslate(entry.getKey()));
         }
 
@@ -166,7 +162,7 @@ public class I18n {
 
         public ParameterizedStringProperty(String key, Object[] params) {
             this.key = key;
-            this.params = params.clone(); // Defensive copy
+            this.params = params.clone();
             updateValue();
         }
 

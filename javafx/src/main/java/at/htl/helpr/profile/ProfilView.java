@@ -3,6 +3,7 @@ package at.htl.helpr.profile;
 import at.htl.helpr.components.TaskList;
 import at.htl.helpr.taskform.repository.TaskRepository;
 import at.htl.helpr.taskform.repository.TaskRepositoryImpl;
+import at.htl.helpr.usermanager.UserManager;
 import at.htl.helpr.util.I18n;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -18,18 +19,18 @@ public class ProfilView extends BorderPane {
     private final TaskRepositoryImpl repository = new TaskRepositoryImpl();
 
     private final TaskList createdTasks = new TaskList(true,
-            () -> repository.findAllTasksByUser(1),
-            I18n.get().rawTranslate("profile.task-list.no-created-tasks"));
+            () -> repository.findAllTasksByUser(UserManager.getInstance().getUser().getId()),
+            "Keine Aufgaben erstellt");
 
     private final TaskList appliedTasks = new TaskList(true,
-            () -> repository.findAllTasksAppliedByUser(1),
-            I18n.get().rawTranslate("profile.task-list.no-applied-tasks"));
+            () -> repository.findAllTasksAppliedByUser(UserManager.getInstance().getUser().getId()),
+            "Keine Aufgaben angenommen");
 
     private final VBox sidebar;
     private final Circle profileCircle;
     private final Label usernameLabel;
     private final Button newTaskButton;
-    private final Button loginButton;
+    private final Button logoutButton;
     private final Button homeButton;
     private final VBox mainContent;
     private final Label acceptedLabel;
@@ -50,34 +51,37 @@ public class ProfilView extends BorderPane {
 
         usernameLabel = new Label();
         usernameLabel.setStyle("-fx-font-size: 14px;");
-        usernameLabel.textProperty().bind(I18n.get().translate("profile.labels.username-placeholder"));
 
         newTaskButton = new Button();
         newTaskButton.setMaxWidth(Double.MAX_VALUE);
         I18n.get().bind(newTaskButton, "profile.buttons.create-new-task");
 
-        loginButton = new Button();
-        loginButton.setMaxWidth(Double.MAX_VALUE);
-        loginButton.setStyle("-fx-border-color: black; -fx-border-style: dashed;");
-        I18n.get().bind(loginButton, "profile.buttons.logout");
+        logoutButton = new Button("Abmelden");
+        logoutButton.setMaxWidth(Double.MAX_VALUE);
+        logoutButton.setStyle("-fx-border-color: black; -fx-border-style: dashed;");
 
         homeButton = new Button();
         homeButton.setMaxWidth(Double.MAX_VALUE);
         homeButton.setStyle("-fx-background-color: #cce5ff; -fx-border-color: #99c2ff;");
         I18n.get().bind(homeButton, "profile.buttons.navigate-home");
 
-        sidebar.getChildren().addAll(profileCircle, usernameLabel, newTaskButton, loginButton, homeButton);
+        sidebar.getChildren().addAll(profileCircle, usernameLabel, newTaskButton, logoutButton,
+                homeButton);
 
         mainContent = new VBox(20);
         mainContent.setPadding(new Insets(15));
 
-        acceptedLabel = new Label();
-        acceptedLabel.setStyle("-fx-background-color: #cce5ff; -fx-padding: 5px; -fx-font-size: 14px;");
-        acceptedLabel.textProperty().bind(I18n.get().translate("profile.sections.applied-tasks"));
+        acceptedLabel = new Label("Angenommene Aufgaben");
+        acceptedLabel
+                .setStyle("-fx-background-color: #cce5ff; -fx-padding: 5px; -fx-font-size: 14px;");
 
-        createdLabel = new Label();
-        createdLabel.setStyle("-fx-background-color: #cce5ff; -fx-padding: 5px; -fx-font-size: 14px;");
-        createdLabel.textProperty().bind(I18n.get().translate("profile.sections.created-tasks"));
+        createdLabel = new Label("Erstellte Aufgaben");
+        createdLabel
+                .setStyle("-fx-background-color: #cce5ff; -fx-padding: 5px; -fx-font-size: 14px;");
+        // appliedTasks.setMinHeight(150);
+        // appliedTasks.setPrefHeight(150);
+        // createdTasks.setMinHeight(150);
+        // createdTasks.setPrefHeight(150);
 
         mainContent.getChildren().addAll(acceptedLabel, appliedTasks, createdLabel, createdTasks);
 
@@ -113,8 +117,8 @@ public class ProfilView extends BorderPane {
         return newTaskButton;
     }
 
-    public Button getLoginButton() {
-        return loginButton;
+    public Button getLogoutButton() {
+        return logoutButton;
     }
 
     public Button getHomeButton() {

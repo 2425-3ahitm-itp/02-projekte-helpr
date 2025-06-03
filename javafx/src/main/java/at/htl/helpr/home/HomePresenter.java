@@ -1,6 +1,7 @@
 package at.htl.helpr.home;
 
 import at.htl.helpr.components.TaskList;
+import at.htl.helpr.login.LoginPresenter;
 import at.htl.helpr.profile.ProfilPresenter;
 import at.htl.helpr.scenemanager.Presenter;
 import at.htl.helpr.scenemanager.SceneManager;
@@ -12,6 +13,7 @@ import at.htl.helpr.taskform.repository.filter.LocationFilter;
 import at.htl.helpr.taskform.repository.filter.PaymentMinMaxFilter;
 import at.htl.helpr.taskform.repository.filter.SearchFilter;
 import at.htl.helpr.taskform.repository.filter.TaskQueryBuilder;
+import at.htl.helpr.usermanager.UserManager;
 import java.time.LocalDate;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.IntegerProperty;
@@ -51,6 +53,8 @@ public class HomePresenter implements Presenter {
         getView().getUsernameLabel().setOnMouseClicked(mouseEvent -> openProfilView());
         getView().getSearchButton().setOnAction(mouseEvent -> updateCardsBySearch());
         getView().getFilterButton().setOnAction(mouseEvent -> updateCardsBySearch());
+        getView().getLoginButton().setOnAction(
+                actionEvent -> SceneManager.getInstance().setScene(LoginPresenter.class));
     }
 
     private void bindings() {
@@ -74,12 +78,11 @@ public class HomePresenter implements Presenter {
                 maxPaymentProperty, new NumberStringConverter());
         Bindings.bindBidirectional(getView().getPostalCodeField().textProperty(),
                 postalCodeProperty, new NumberStringConverter());
-        Bindings.bindBidirectional(getView().getEffortField().textProperty(),
-                effortProperty, new NumberStringConverter());
+        Bindings.bindBidirectional(getView().getEffortField().textProperty(), effortProperty,
+                new NumberStringConverter());
 
         getView().getFromDateField().valueProperty().bindBidirectional(fromDateProperty);
         getView().getToDateField().valueProperty().bindBidirectional(toDateProperty);
-
 
     }
 
@@ -94,23 +97,21 @@ public class HomePresenter implements Presenter {
         if (getView().getEffortToggle().isSelected()) {
             if (getView().getEffortField().getText() != null) {
 
-                taskQueryBuilder.addFilter(
-                        new EffortFilter(effortProperty.get()));
+                taskQueryBuilder.addFilter(new EffortFilter(effortProperty.get()));
             }
         }
     }
 
     private void handlePlzFilter() {
         if (getView().getPostalToggle().isSelected()) {
-            taskQueryBuilder.addFilter(
-                    new LocationFilter(postalCodeProperty.get() + " %"));
+            taskQueryBuilder.addFilter(new LocationFilter(postalCodeProperty.get() + " %"));
         }
     }
 
     private void handleCityFilter() {
         if (getView().getCityToggle().isSelected()) {
-            taskQueryBuilder.addFilter(
-                    new LocationFilter("% " + getView().getCityField().getText()));
+            taskQueryBuilder
+                    .addFilter(new LocationFilter("% " + getView().getCityField().getText()));
         }
     }
 
@@ -120,7 +121,6 @@ public class HomePresenter implements Presenter {
                     new DateFromToFilter(fromDateProperty.get(), toDateProperty.get().plusDays(1)));
         }
     }
-
 
     private void updateCardsBySearch() {
         String searchQuery = getView().getSearchField().getText();
@@ -155,7 +155,7 @@ public class HomePresenter implements Presenter {
 
         sceneManager.setScene(ProfilPresenter.class);
 
-        currentStage.setTitle("Helpr-Profil");
+        currentStage.setTitle("Profil");
         currentStage.show();
     }
 
@@ -166,14 +166,25 @@ public class HomePresenter implements Presenter {
     @Override
     public Scene getScene() {
         if (scene == null) {
-            scene = new Scene(view, 1080, 648);
+            scene = new Scene(view, 920, 590);
         }
         return scene;
     }
 
     @Override
     public void onShow() {
-
+        if (UserManager.getInstance().isLoggedIn()) {
+            getView().getLoginButton().setManaged(false);
+            getView().getLoginButton().setVisible(false);
+            getView().getProfileBoxUserSection().setVisible(true);
+            getView().getProfileBoxUserSection().setManaged(true);
+            getView().getUsernameLabel().setText(UserManager.getInstance().getUser().getUsername());
+        } else {
+            getView().getLoginButton().setManaged(true);
+            getView().getLoginButton().setVisible(true);
+            getView().getProfileBoxUserSection().setVisible(false);
+            getView().getProfileBoxUserSection().setManaged(false);
+        }
     }
 
     @Override

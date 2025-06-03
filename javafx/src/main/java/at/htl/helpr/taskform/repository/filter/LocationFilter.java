@@ -10,7 +10,6 @@ public class LocationFilter implements TaskFilter {
         this.postalCode = postalCode;
     }
 
-
     @Override
     public void apply(StringBuilder query, List<Object> params) {
         query.append("location like ? ");

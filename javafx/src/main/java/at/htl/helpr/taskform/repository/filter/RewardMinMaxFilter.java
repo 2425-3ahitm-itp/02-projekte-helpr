@@ -11,7 +11,6 @@ public class RewardMinMaxFilter implements TaskFilter {
         this.max = min;
     }
 
-
     @Override
     public void apply(StringBuilder query, List<Object> params) {
         query.append("reward between ? and ?");

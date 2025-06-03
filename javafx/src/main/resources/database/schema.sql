@@ -36,7 +36,7 @@ SET search_path TO pg_catalog,public,helpr;
 CREATE TABLE helpr.u_user (
 	user_id bigint NOT NULL GENERATED ALWAYS AS IDENTITY ,
 	username varchar(50) NOT NULL,
-	email varchar(200) NOT NULL,
+-- 	email varchar(200) NOT NULL,
 	password char(100) NOT NULL,
 	profile_picture bytea,
 	CONSTRAINT u_user_pk PRIMARY KEY (user_id)

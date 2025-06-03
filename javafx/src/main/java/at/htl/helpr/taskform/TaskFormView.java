@@ -39,9 +39,7 @@ public class TaskFormView extends VBox {
 
     public TaskFormView() {
 
-        estimatedEffortSpinner.setValueFactory(
-                new IntegerSpinnerValueFactory(1, 10, 1, 1)
-        );
+        estimatedEffortSpinner.setValueFactory(new IntegerSpinnerValueFactory(1, 10, 1, 1));
 
         this.setupLayout();
     }
@@ -127,19 +125,12 @@ public class TaskFormView extends VBox {
         setupImageSlider();
 
         // left layout
-        leftLayout.getChildren().addAll(
-                titleBox, titleField,
-                descriptionBox, descriptionArea,
-                imageSlider
-        );
+        leftLayout.getChildren().addAll(titleBox, titleField, descriptionBox, descriptionArea,
+                imageSlider);
 
         // right layout
-        rightLayout.getChildren().addAll(
-                locationBox,
-                rewardBox, rewardField,
-                difficultyBox,
-                buttonBox
-        );
+        rightLayout.getChildren().addAll(locationBox, rewardBox, rewardField, difficultyBox,
+                buttonBox);
 
         // form layout
         layoutform.getChildren().addAll(leftLayout, rightLayout);
@@ -217,7 +208,7 @@ public class TaskFormView extends VBox {
         rewardErrorLabel.textProperty().set(String.format("%s %s", ERROR_PREFIX, message));
     }
 
-    //region Getter
+    // region Getter
     public Label getTitleErrorLabel() {
         return titleErrorLabel;
     }
@@ -281,5 +272,5 @@ public class TaskFormView extends VBox {
     public Label getCityErrorLabel() {
         return cityErrorLabel;
     }
-    //endregion
+    // endregion
 }

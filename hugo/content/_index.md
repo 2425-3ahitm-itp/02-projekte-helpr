@@ -11,7 +11,7 @@
 
 ## Current Agreement
 
-{{< article link="project/mom/2025-05-06_agreement_user-management/" >}}
+{{< article link="project/mom/2025-05-27_agreement_detail-task-view/" >}}
 
 ## Other
 

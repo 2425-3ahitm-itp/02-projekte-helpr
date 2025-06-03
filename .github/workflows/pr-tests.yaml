@@ -24,8 +24,6 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.pull_request.head.sha }}
 
       - name: Docker Compose
         uses: hoverkraft-tech/compose-action@v2.0.1
@@ -37,11 +35,17 @@ jobs:
       - name: Setup Java Temurin 21
         uses: actions/setup-java@v4
         with:
-          distribution: 'temurin' # See 'Supported distributions' for available options
+          distribution: 'temurin'
           java-version: '21'
           cache: maven
 
       - name: Test Java
         run: |
           cd javafx &&
-          mvn --batch-mode --update-snapshots verify
+          mvn --batch-mode --update-snapshots clean verify
+
+      - name: Report CheckStyle Results
+        if: always()
+        uses: motlin/checkstyle-results@v1
+        with:
+          checkstyle_files: "**/checkstyle-result.xml"
