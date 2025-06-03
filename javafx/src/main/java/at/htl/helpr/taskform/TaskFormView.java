@@ -1,5 +1,6 @@
 package at.htl.helpr.taskform;
 
+import at.htl.helpr.util.I18n;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -25,16 +26,16 @@ public class TaskFormView extends VBox {
     private final Label descriptionErrorLabel = new Label();
     private final TextArea descriptionArea = new TextArea();
     private final Spinner<Integer> estimatedEffortSpinner = new Spinner<>();
-    private final Button createButton = new Button("Erstellen");
-    private final Button cancelButton = new Button("Abbrechen");
+    private final Button createButton = I18n.get().bind(new Button(), "taskform.create.button");
+    private final Button cancelButton = I18n.get().bind(new Button(), "taskform.cancel.button");
     private final VBox leftLayout = new VBox();
     private final VBox rightLayout = new VBox();
     private final HBox layoutform = new HBox();
     private final HBox imageBox = new HBox(10);
-    private final Button prevButton = new Button("<");
-    private final Button nextButton = new Button(">");
+    private final Button prevButton = I18n.get().bind(new Button(), "taskform.prev.button");
+    private final Button nextButton = I18n.get().bind(new Button(), "taskform.next.button");
     private final HBox imageLayout = new HBox(10);
-    private final Button uploadButton = new Button("Bild Hochladen");
+    private final Button uploadButton = I18n.get().bind(new Button(), "taskform.upload.button");
     private final VBox imageSlider = new VBox();
 
     public TaskFormView() {
@@ -63,36 +64,46 @@ public class TaskFormView extends VBox {
         estimatedEffortSpinner.setMinWidth(100);
 
         // title
-        Label title = new Label("Aufgabe erstellen");
+        Label title = I18n.get().bind(new Label(), "taskform.title");
         title.setStyle("-fx-font-weight: bold; -fx-font-size: 18px;");
 
-        HBox titleBox = new HBox(10, new Label("Titel:"), titleErrorLabel);
+        Label titleLabel = I18n.get().bind(new Label(), "taskform.title.label");
+        HBox titleBox = new HBox(10, titleLabel, titleErrorLabel);
         titleErrorLabel.setStyle("-fx-text-fill: red;");
         titleBox.setPadding(new Insets(10, 0, 10, 0));
 
         // description
-        HBox descriptionBox = new HBox(10, new Label("Beschreibung:"), descriptionErrorLabel);
+        Label descriptionLabel = I18n.get().bind(new Label(), "taskform.description.label");
+        HBox descriptionBox = new HBox(10, descriptionLabel, descriptionErrorLabel);
         descriptionErrorLabel.setStyle("-fx-text-fill: red;");
         descriptionArea.setPrefHeight(55);
+        descriptionArea.promptTextProperty()
+                .bind(I18n.get().translate("taskform.description.placeholder"));
         descriptionBox.setPadding(new Insets(10, 0, 10, 0));
 
         // zip code
-        HBox zipBox = new HBox(10, new Label("PLZ:"), zipErrorLabel);
+        Label zipLabel = I18n.get().bind(new Label(), "taskform.zip.label");
+        HBox zipBox = new HBox(10, zipLabel, zipErrorLabel);
         zipErrorLabel.setStyle("-fx-text-fill: red;");
+        zipField.promptTextProperty().bind(I18n.get().translate("taskform.zip.placeholder"));
         zipBox.setPadding(new Insets(10, 0, 10, 0));
 
         // city
-        HBox cityBox = new HBox(10, new Label("Stadt:"), cityErrorLabel);
+        Label cityLabel = I18n.get().bind(new Label(), "taskform.city.label");
+        HBox cityBox = new HBox(10, cityLabel, cityErrorLabel);
         cityErrorLabel.setStyle("-fx-text-fill: red;");
+        cityField.promptTextProperty().bind(I18n.get().translate("taskform.city.placeholder"));
         cityBox.setPadding(new Insets(10));
 
         // payment
-        HBox rewardBox = new HBox(10, new Label("Entlohnung:"), rewardErrorLabel);
+        Label rewardLabel = I18n.get().bind(new Label(), "taskform.reward.label");
+        HBox rewardBox = new HBox(10, rewardLabel, rewardErrorLabel);
         rewardErrorLabel.setStyle("-fx-text-fill: red;");
+        rewardField.promptTextProperty().bind(I18n.get().translate("taskform.reward.placeholder"));
         rewardBox.setPadding(new Insets(10, 0, 10, 0));
 
         // estimated effort
-        Label estimatedEffortLabel = new Label("Schwierigkeit:");
+        Label estimatedEffortLabel = I18n.get().bind(new Label(), "taskform.difficulty.label");
         estimatedEffortLabel.setPrefWidth(Integer.MAX_VALUE);
         HBox difficultyBox = new HBox(10, estimatedEffortLabel, estimatedEffortSpinner);
         difficultyBox.setPadding(new Insets(10, 0, 5, 0));

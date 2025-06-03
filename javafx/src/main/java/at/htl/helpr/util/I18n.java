@@ -31,6 +31,10 @@ import javafx.scene.control.Control;
  * // With parameters
  * Label welcome = I18n.get().bind(new Label(), "welcome.message", userName);
  *
+ * // Manually bind a control - get a StringProperty (parameterized is the same
+ * // as above)
+ * StringProperty errorMsg = I18n.get().translate("error.invalid.input");
+ *
  * // Change language
  * I18n.get().setLocale(Locale.GERMAN);
  *

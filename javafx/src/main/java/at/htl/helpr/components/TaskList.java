@@ -6,12 +6,13 @@ import at.htl.helpr.util.I18n;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.time.format.DateTimeFormatter;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.function.Supplier;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.StringProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.scene.control.Label;
@@ -32,19 +33,20 @@ public class TaskList extends ScrollPane {
     private final TaskRepositoryImpl taskRepository = new TaskRepositoryImpl();
     private final IntegerProperty columns = new SimpleIntegerProperty(4);
     private final boolean singleRow;
-    private final String placeholderText;
+    private final StringProperty placeholderTextProperty;
     private static final int CARD_GAP = 20;
     private Supplier<List<Task>> taskSupplier;
 
-    public TaskList(boolean singleRow, String placeholderText) {
+    public TaskList(boolean singleRow, StringProperty placeholderText) {
         this.singleRow = singleRow;
-        this.placeholderText = placeholderText;
+        this.placeholderTextProperty = placeholderText;
         this.setPadding(new Insets((double) CARD_GAP / 2));
         this.setFitToWidth(true);
         this.setContent(new FlowPane());
     }
 
-    public TaskList(boolean singleRow, Supplier<List<Task>> taskSupplier, String placeholderText) {
+    public TaskList(boolean singleRow, Supplier<List<Task>> taskSupplier,
+            StringProperty placeholderText) {
         this(singleRow, placeholderText);
         this.taskSupplier = taskSupplier;
         rerender();
@@ -95,7 +97,8 @@ public class TaskList extends ScrollPane {
         flowPane.getChildren().clear();
 
         if (tasks.isEmpty()) {
-            Label placeholderLabel = new Label(placeholderText);
+            Label placeholderLabel = new Label();
+            placeholderLabel.textProperty().bind(placeholderTextProperty);
             // placeholderLabel.setFont(Font.font("System", FontWeight.BOLD, 16));
             StackPane placeholderPane = new StackPane(placeholderLabel);
             placeholderPane.setPrefSize(this.getWidth(), this.getHeight());
@@ -141,9 +144,8 @@ public class TaskList extends ScrollPane {
         Label titleLabel = new Label(task.getTitle());
         titleLabel.setFont(Font.font("", FontWeight.BOLD, 14));
         Label locationLabel = new Label(task.getLocation());
-        Locale.setDefault(Locale.GERMAN);
-        Label dateLable = new Label(
-                task.getCreatedAt().format(DateTimeFormatter.ofPattern("dd. MMMM yyyy")));
+        Label dateLable = I18n.get().bind(new Label(), "tasklist.date",
+                Date.from(task.getCreatedAt().atZone(ZoneId.systemDefault()).toInstant()));
 
         // Price and Effort at the bottom in a HBox
         HBox bottomSection = new HBox();

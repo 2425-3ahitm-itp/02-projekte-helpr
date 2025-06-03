@@ -6,6 +6,7 @@ import at.htl.helpr.scenemanager.SceneManager;
 import at.htl.helpr.signup.SignupPresenter;
 import at.htl.helpr.usermanager.UserManager;
 import at.htl.helpr.usermanager.repository.exceptions.LoginFailedException;
+import at.htl.helpr.util.I18n;
 import javafx.scene.Scene;
 
 public class LoginPresenter implements Presenter {
@@ -44,7 +45,8 @@ public class LoginPresenter implements Presenter {
             try {
                 UserManager.getInstance().login(username, password);
             } catch (LoginFailedException e) {
-                getView().getOverallErrorLabel().setText("Nutzername oder Passwort falsch!");
+                getView().getOverallErrorLabel()
+                        .setText(I18n.get().rawTranslate("login.error.credentials"));
                 getView().getOverallErrorBox().setVisible(true);
                 getView().getOverallErrorBox().setManaged(true);
                 return;
@@ -52,10 +54,10 @@ public class LoginPresenter implements Presenter {
 
         } else {
             getView().getOverallErrorLabel()
-                    .setText("Eingabe ungültig. Beide Felder müssen ausgefüllt werden.");
+                    .setText(I18n.get().rawTranslate("login.error.fields.empty"));
             getView().getOverallErrorBox().setVisible(true);
             getView().getOverallErrorBox().setManaged(true);
-            System.out.println("Benutzername oder Passwort leer.");
+            System.out.println(I18n.get().rawTranslate("login.error.fields.empty"));
             return;
         }
 
@@ -89,6 +91,7 @@ public class LoginPresenter implements Presenter {
         // Felder zurücksetzen beim Öffnen
         view.getUsernameField().clear();
         view.getPasswordField().clear();
+        view.getOverallErrorLabel().setText(I18n.get().rawTranslate("login.error.fields.empty"));
     }
 
     @Override

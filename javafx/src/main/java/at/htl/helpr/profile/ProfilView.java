@@ -20,11 +20,11 @@ public class ProfilView extends BorderPane {
 
     private final TaskList createdTasks = new TaskList(true,
             () -> repository.findAllTasksByUser(UserManager.getInstance().getUser().getId()),
-            "Keine Aufgaben erstellt");
+            I18n.get().translate("tasklist.no-tasks-created"));
 
     private final TaskList appliedTasks = new TaskList(true,
             () -> repository.findAllTasksAppliedByUser(UserManager.getInstance().getUser().getId()),
-            "Keine Aufgaben angenommen");
+            I18n.get().translate("tasklist.no-tasks-accepted"));
 
     private final VBox sidebar;
     private final Circle profileCircle;
@@ -56,7 +56,7 @@ public class ProfilView extends BorderPane {
         newTaskButton.setMaxWidth(Double.MAX_VALUE);
         I18n.get().bind(newTaskButton, "profile.buttons.create-new-task");
 
-        logoutButton = new Button("Abmelden");
+        logoutButton = I18n.get().bind(new Button(), "profile.buttons.logout");
         logoutButton.setMaxWidth(Double.MAX_VALUE);
         logoutButton.setStyle("-fx-border-color: black; -fx-border-style: dashed;");
 
@@ -71,11 +71,11 @@ public class ProfilView extends BorderPane {
         mainContent = new VBox(20);
         mainContent.setPadding(new Insets(15));
 
-        acceptedLabel = new Label("Angenommene Aufgaben");
+        acceptedLabel = I18n.get().bind(new Label(), "profile.sections.applied-tasks");
         acceptedLabel
                 .setStyle("-fx-background-color: #cce5ff; -fx-padding: 5px; -fx-font-size: 14px;");
 
-        createdLabel = new Label("Erstellte Aufgaben");
+        createdLabel = I18n.get().bind(new Label(), "profile.sections.created-tasks");
         createdLabel
                 .setStyle("-fx-background-color: #cce5ff; -fx-padding: 5px; -fx-font-size: 14px;");
         // appliedTasks.setMinHeight(150);

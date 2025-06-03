@@ -1,5 +1,6 @@
 package at.htl.helpr.signup;
 
+import at.htl.helpr.util.I18n;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -28,6 +29,8 @@ public class SignupView extends BorderPane {
     private final Button cancelButton;
     private final VBox layoutHelp;
     private final Label usernameErrorLabel;
+    private final Label passwordErrorLabel;
+    private final Label overallErrorLabel;
 
     public SignupView() {
         setPadding(new Insets(10));
@@ -42,38 +45,36 @@ public class SignupView extends BorderPane {
 
         VBox titleLableBox = new VBox(Double.MAX_VALUE);
         titleLableBox.setAlignment(Pos.CENTER);
-        titleLabel = new Label("Sign Up");
+        titleLabel = I18n.get().bind(new Label(), "signup.title");
         titleLabel.setFont(new Font(18));
         titleLabel.setStyle("-fx-background-color: #e6f4ff; -fx-padding: 5px 20px;");
         titleLableBox.getChildren().add(titleLabel);
 
-        Label usernameLabel = new Label("Benutzername:");
+        Label usernameLabel = I18n.get().bind(new Label(), "signup.username.label");
         usernameField = new TextField();
 
         usernameErrorBox = new HBox(Double.MAX_VALUE);
         usernameErrorBox.setAlignment(Pos.CENTER);
         usernameErrorBox.setVisible(false);
         usernameErrorBox.setManaged(false);
-        usernameErrorLabel = new Label(
-                "Nutzername ist ungültig. Erlaubt sind nur Buchstaben und Zahlen.");
+        usernameErrorLabel = new Label();
         usernameErrorLabel.setWrapText(true);
         usernameErrorLabel.setStyle("-fx-text-fill: red;");
         usernameErrorBox.getChildren().addAll(usernameErrorLabel);
 
-        Label passwordLabel = new Label("Passwort:");
+        Label passwordLabel = I18n.get().bind(new Label(), "signup.password.label");
         passwordField = new PasswordField();
 
         passwordErrorBox = new HBox(Double.MAX_VALUE);
         passwordErrorBox.setAlignment(Pos.CENTER);
         passwordErrorBox.setVisible(false);
         passwordErrorBox.setManaged(false);
-        Label passwordErrorLabel = new Label(
-                "Passwort ist zu kurz. Mindestens 8 Zeichen erforderlich.");
+        passwordErrorLabel = I18n.get().bind(new Label(), "signup.password.error.short");
         passwordErrorLabel.setWrapText(true);
         passwordErrorLabel.setStyle("-fx-text-fill: red;");
         passwordErrorBox.getChildren().addAll(passwordErrorLabel);
 
-        signUpButton = new Button("Sign Up");
+        signUpButton = I18n.get().bind(new Button(), "signup.button");
         signUpButton.setMaxWidth(Double.MAX_VALUE);
         signUpButton.setStyle("-fx-background-color: #e6f4ff;");
 
@@ -81,14 +82,13 @@ public class SignupView extends BorderPane {
         overallErrorBox.setAlignment(Pos.CENTER);
         overallErrorBox.setVisible(false);
         overallErrorBox.setManaged(false);
-        Label overallErrorLabel = new Label(
-                "Eingabe ungültig. Beide Felder müssen ausgefüllt werden.");
+        overallErrorLabel = I18n.get().bind(new Label(), "signup.error.fields.empty");
         overallErrorLabel.setWrapText(true);
         overallErrorLabel.setStyle("-fx-text-fill: red;");
         overallErrorBox.getChildren().addAll(overallErrorLabel);
 
-        alreadyAccountLabel = new Label("Kein Account?");
-        loginLink = new Hyperlink("Log In");
+        alreadyAccountLabel = I18n.get().bind(new Label(), "signup.have.account");
+        loginLink = I18n.get().bind(new Hyperlink(), "signup.login.link");
         loginLink.setStyle("-fx-text-fill: #87cefa;");
         loginBox = new HBox(5, alreadyAccountLabel, loginLink);
         loginBox.setAlignment(Pos.CENTER);
@@ -101,7 +101,7 @@ public class SignupView extends BorderPane {
                 overallErrorBox, loginBox);
 
         // Cancel Button
-        cancelButton = new Button("Abbrechen");
+        cancelButton = I18n.get().bind(new Button(), "signup.cancel.button");
         cancelButton.setMaxWidth(300);
         cancelButton.setStyle("-fx-border-style: dashed; -fx-border-color: black;"
                 + "-fx-background-color: transparent;");

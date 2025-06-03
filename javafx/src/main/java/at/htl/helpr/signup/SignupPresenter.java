@@ -6,6 +6,7 @@ import at.htl.helpr.scenemanager.Presenter;
 import at.htl.helpr.scenemanager.SceneManager;
 import at.htl.helpr.usermanager.UserManager;
 import at.htl.helpr.usermanager.repository.exceptions.UserAlreadyExistsException;
+import at.htl.helpr.util.I18n;
 import javafx.scene.Scene;
 
 public class SignupPresenter implements Presenter {
@@ -46,8 +47,8 @@ public class SignupPresenter implements Presenter {
                 if (username.matches(".*[^a-zA-Z0-9].*")) {
                     getView().getUsernameErrorBox().setVisible(true);
                     getView().getUsernameErrorBox().setManaged(true);
-                    getView().getUsernameErrorLabel().setText(
-                            "Nutzername ist ungültig. Erlaubt sind nur Buchstaben und Zahlen.");
+                    getView().getUsernameErrorLabel()
+                            .setText(I18n.get().rawTranslate("signup.username.error.invalid"));
                     System.out.println("Invalid username");
                 }
                 if (password.length() < 8) {
@@ -60,7 +61,7 @@ public class SignupPresenter implements Presenter {
         } else {
             getView().getOverallErrorBox().setVisible(true);
             getView().getOverallErrorBox().setManaged(true);
-            System.out.println("Benutzername oder Passwort leer.");
+            System.out.println(I18n.get().rawTranslate("signup.error.fields.empty"));
             return;
         }
 
@@ -69,7 +70,9 @@ public class SignupPresenter implements Presenter {
             UserManager.getInstance().register(username, password);
         } catch (UserAlreadyExistsException e) {
             getView().getUsernameErrorLabel()
-                    .setText("Ein Nutzer mit diesem Namen existiert bereits!");
+                    .setText(I18n.get().rawTranslate("signup.username.error.exists"));
+            getView().getUsernameErrorBox().setVisible(true);
+            getView().getUsernameErrorBox().setManaged(true);
             return;
         }
 
@@ -106,6 +109,8 @@ public class SignupPresenter implements Presenter {
         // Felder zurücksetzen beim Öffnen
         view.getUsernameField().clear();
         view.getPasswordField().clear();
+        view.getUsernameErrorLabel()
+                .setText(I18n.get().rawTranslate("signup.username.error.invalid"));
 
     }
 

@@ -1,5 +1,6 @@
 package at.htl.helpr.login;
 
+import at.htl.helpr.util.I18n;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -34,18 +35,18 @@ public class LoginView extends BorderPane {
 
         VBox titleLableBox = new VBox(Double.MAX_VALUE);
         titleLableBox.setAlignment(Pos.CENTER);
-        titleLabel = new Label("Log In");
+        titleLabel = I18n.get().bind(new Label(), "login.title");
         titleLabel.setFont(new Font(18));
         titleLabel.setStyle("-fx-background-color: #e6f4ff; -fx-padding: 5px 20px;");
         titleLableBox.getChildren().add(titleLabel);
 
-        Label usernameLabel = new Label("Benutzername:");
+        Label usernameLabel = I18n.get().bind(new Label(), "login.username.label");
         usernameField = new TextField();
 
-        Label passwordLabel = new Label("Passwort:");
+        Label passwordLabel = I18n.get().bind(new Label(), "login.password.label");
         passwordField = new PasswordField();
 
-        loginButton = new Button("Log In");
+        loginButton = I18n.get().bind(new Button(), "login.button");
         loginButton.setMaxWidth(Double.MAX_VALUE);
         loginButton.setStyle("-fx-background-color: #e6f4ff;");
 
@@ -53,13 +54,13 @@ public class LoginView extends BorderPane {
         overallErrorBox.setAlignment(Pos.CENTER);
         overallErrorBox.setVisible(false);
         overallErrorBox.setManaged(false);
-        overallErrorLabel = new Label("Eingabe ungültig. Beide Felder müssen ausgefüllt werden.");
+        overallErrorLabel = new Label();
         overallErrorLabel.setWrapText(true);
         overallErrorLabel.setStyle("-fx-text-fill: red;");
         overallErrorBox.getChildren().addAll(overallErrorLabel);
 
-        noAccountLabel = new Label("Kein Account?");
-        signUpLink = new Hyperlink("Sign Up");
+        noAccountLabel = I18n.get().bind(new Label(), "login.no.account");
+        signUpLink = I18n.get().bind(new Hyperlink(), "login.signup.link");
         signUpLink.setStyle("-fx-text-fill: #87cefa;");
         signUpBox = new HBox(5, noAccountLabel, signUpLink);
         signUpBox.setAlignment(Pos.CENTER);
@@ -71,7 +72,7 @@ public class LoginView extends BorderPane {
                 passwordField, loginButton, overallErrorBox, signUpBox);
 
         // Cancel Button
-        cancelButton = new Button("Abbrechen");
+        cancelButton = I18n.get().bind(new Button(), "login.cancel.button");
         cancelButton.setMaxWidth(300);
         cancelButton.setStyle("-fx-border-style: dashed; -fx-border-color: black;"
                 + "-fx-background-color: transparent;");

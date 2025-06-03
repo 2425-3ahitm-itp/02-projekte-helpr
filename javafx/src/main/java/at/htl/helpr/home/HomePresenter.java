@@ -14,6 +14,7 @@ import at.htl.helpr.taskform.repository.filter.PaymentMinMaxFilter;
 import at.htl.helpr.taskform.repository.filter.SearchFilter;
 import at.htl.helpr.taskform.repository.filter.TaskQueryBuilder;
 import at.htl.helpr.usermanager.UserManager;
+import at.htl.helpr.util.I18n;
 import java.time.LocalDate;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.IntegerProperty;
@@ -30,7 +31,7 @@ public class HomePresenter implements Presenter {
     private final SceneManager sceneManager;
     private final TaskRepository repository = new TaskRepositoryImpl();
     private final TaskList taskList = new TaskList(false, repository::findAll,
-            "Keine Aufgaben gefunden");
+            I18n.get().translate("tasklist.no-tasks-found"));
     private final IntegerProperty minPaymentProperty = new SimpleIntegerProperty();
     private final IntegerProperty maxPaymentProperty = new SimpleIntegerProperty();
     private final IntegerProperty postalCodeProperty = new SimpleIntegerProperty();

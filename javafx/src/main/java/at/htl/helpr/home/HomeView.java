@@ -63,12 +63,15 @@ public class HomeView extends BorderPane {
         sidebar.setStyle("-fx-background-color: #f8f8f8; -fx-border-color: #d3d3d3;");
 
         // Filter Anwenden Button
-        filterButton = createStyledButton("Filter Anwenden", true);
+        filterButton = I18n.get().bind(new Button(), "filters.apply");
+        filterButton.setMaxWidth(Double.MAX_VALUE);
+        filterButton.setStyle(
+                "-fx-background-color: #cce5ff; -fx-border-color: #99c2ff; -fx-font-size: 14px;");
 
         // Bezahlung Filter
         paymentBox = new HBox(5);
 
-        Label paymentLabel = I18n.get().bind(new Label(), "filters.payment");
+        Label paymentLabel = I18n.get().bind(new Label(), "filters.payment.label");
         paymentToggle = createStyledToggleButton();
         Region paymentSpacer = new Region();
         HBox.setHgrow(paymentSpacer, Priority.ALWAYS);
@@ -76,11 +79,13 @@ public class HomeView extends BorderPane {
         paymentLabelBox.setAlignment(Pos.CENTER_LEFT);
 
         minPaymentField = new TextField();
-        minPaymentField.setPromptText("MIN");
+        // minPaymentField.setPromptText("MIN");
+        minPaymentField.promptTextProperty().bind(I18n.get().translate("filters.payment.min"));
         minPaymentField.setPrefWidth(80);
 
         maxPaymentField = new TextField();
-        maxPaymentField.setPromptText("MAX");
+        // maxPaymentField.setPromptText("MAX");
+        maxPaymentField.promptTextProperty().bind(I18n.get().translate("filters.payment.max"));
         maxPaymentField.setPrefWidth(80);
 
         paymentBox.getChildren().addAll(minPaymentField, maxPaymentField);
@@ -127,7 +132,7 @@ public class HomeView extends BorderPane {
 
         // Erstelldatum Filter
         dateBox = new HBox(5);
-        Label creationDateLabel = I18n.get().bind(new Label(), "filters.date");
+        Label creationDateLabel = I18n.get().bind(new Label(), "filters.date.label");
         dateToggle = createStyledToggleButton();
         Region dateSpacer = new Region();
         HBox.setHgrow(dateSpacer, Priority.ALWAYS);
@@ -136,9 +141,9 @@ public class HomeView extends BorderPane {
 
         dateFields = new VBox(5);
         fromDateField = new DatePicker();
-        fromDateField.setPromptText("von");
+        fromDateField.promptTextProperty().bind(I18n.get().translate("filters.date.from"));
         toDateField = new DatePicker();
-        toDateField.setPromptText("bis");
+        toDateField.promptTextProperty().bind(I18n.get().translate("filters.date.to"));
         dateFields.getChildren().addAll(fromDateField, toDateField);
 
         // add class date-picker to datepicker
@@ -158,7 +163,7 @@ public class HomeView extends BorderPane {
         searchBar.setAlignment(Pos.CENTER_LEFT);
 
         HBox profileBox = new HBox();
-        loginButton = new Button("Login");
+        loginButton = I18n.get().bind(new Button(), "profile.buttons.login");
 
         profileBoxUserSection = new HBox(8);
 
@@ -172,7 +177,7 @@ public class HomeView extends BorderPane {
         profilePicture.setStrokeWidth(1);
 
         // Username
-        usernameLabel = new Label("Username");
+        usernameLabel = new Label();
         usernameLabel.setFont(new Font(14));
 
         profileBoxUserSection.getChildren().addAll(profilePicture, usernameLabel);
@@ -225,16 +230,6 @@ public class HomeView extends BorderPane {
         paymentToggle.setGraphic(new Region());
         paymentToggle.getGraphic().getStyleClass().add("thumb");
 
-    }
-
-    private Button createStyledButton(String text, boolean highlighted) {
-        Button button = new Button(text);
-        button.setMaxWidth(Double.MAX_VALUE);
-        button.setStyle(highlighted
-                ? "-fx-background-color: #cce5ff; -fx-border-color: #99c2ff; -fx-font-size: 14px;"
-                : "-fx-background-color: transparent; -fx-border-color: black;"
-                        + "-fx-border-style: dashed; -fx-font-size: 14px;");
-        return button;
     }
 
     private ToggleButton createStyledToggleButton() {
