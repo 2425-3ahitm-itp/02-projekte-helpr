@@ -2,6 +2,7 @@ package at.htl.helpr.components;
 
 import at.htl.helpr.taskform.model.Task;
 import at.htl.helpr.taskform.repository.TaskRepositoryImpl;
+import at.htl.helpr.util.I18n;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,7 +10,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Locale;
 import java.util.function.Supplier;
-import at.htl.helpr.util.I18n;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.geometry.Insets;

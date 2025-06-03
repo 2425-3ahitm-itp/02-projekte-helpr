@@ -88,7 +88,7 @@ public class HomeView extends BorderPane {
         // Aufwand Filter
         effortBox = new HBox(5);
         Label effortLabel = I18n.get().bind(new Label(), "filters.effort");
-        //        Label effortLabel = new Label();
+        // Label effortLabel = new Label();
         effortToggle = createStyledToggleButton();
         Region effortSpacer = new Region();
         HBox.setHgrow(effortSpacer, Priority.ALWAYS);
