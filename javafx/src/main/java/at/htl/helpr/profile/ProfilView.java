@@ -5,9 +5,13 @@ import at.htl.helpr.taskform.repository.TaskRepository;
 import at.htl.helpr.taskform.repository.TaskRepositoryImpl;
 import at.htl.helpr.usermanager.UserManager;
 import at.htl.helpr.util.I18n;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
@@ -35,6 +39,7 @@ public class ProfilView extends BorderPane {
     private final VBox mainContent;
     private final Label acceptedLabel;
     private final Label createdLabel;
+    private final ComboBox<String> languageBox;
 
     public ProfilView() {
         setPadding(new Insets(10));
@@ -65,8 +70,30 @@ public class ProfilView extends BorderPane {
         homeButton.setStyle("-fx-background-color: #cce5ff; -fx-border-color: #99c2ff;");
         I18n.get().bind(homeButton, "profile.buttons.navigate-home");
 
+        // map of supported languages as <Locale::getDisplayName, Locale>
+        final Map<String, Locale> comboBoxItems = new HashMap<>();
+        for (Locale supportedLocale : I18n.get().getSupportedLocales()) {
+            comboBoxItems.put(supportedLocale.getDisplayLanguage(), supportedLocale);
+        }
+
+        languageBox = new ComboBox<>(
+                javafx.collections.FXCollections.observableArrayList(comboBoxItems.keySet()));
+
+        languageBox.setValue(I18n.get().getLocale().getDisplayLanguage());
+
+        languageBox.setOnAction(a -> {
+            // get language
+            Locale locale = comboBoxItems.get(languageBox.getValue());
+            if (locale != null) {
+                System.out.println("SETTING LANGUAGE TO " + locale.getDisplayLanguage());
+                I18n.get().setLocale(locale);
+            }
+        });
+
+        languageBox.setPrefWidth(Double.MAX_VALUE);
+
         sidebar.getChildren().addAll(profileCircle, usernameLabel, newTaskButton, logoutButton,
-                homeButton);
+                homeButton, languageBox);
 
         mainContent = new VBox(20);
         mainContent.setPadding(new Insets(15));

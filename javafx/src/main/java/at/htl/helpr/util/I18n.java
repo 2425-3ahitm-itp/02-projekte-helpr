@@ -23,7 +23,7 @@ import javafx.scene.control.Control;
  * </ul>
  * <p>
  * Basic usage:
- * 
+ *
  * <pre>{@code
  * // Bind a control - text updates automatically when locale changes
  * Button saveBtn = I18n.get().bind(new Button(), "button.save");
@@ -41,9 +41,9 @@ import javafx.scene.control.Control;
  * // Get translation as String (doesn't auto-update)
  * String msg = I18n.get().rawTranslate("error.invalid.input");
  * }</pre>
- * 
+ * <p>
  * Example translation.properties
- * 
+ *
  * <pre>{@code
  * button.save=Save
  * welcome.message=Welcome, {0}!
@@ -61,6 +61,9 @@ public class I18n {
 
     private static final ResourceBundle BACKUP_BUNDLE = ResourceBundle
             .getBundle(RESOURCE_BUNDLE_PATH);
+
+    private static final Locale[] SUPPORTED_LOCALES = {Locale.ENGLISH, Locale.GERMAN,
+        Locale.of("ru")};
 
     private final Map<String, StringProperty> observers = new HashMap<>();
     private final Map<String, ParameterizedStringProperty> parameterizedObservers = new HashMap<>();
@@ -124,7 +127,6 @@ public class I18n {
      * @param params
      *            parameters to substitute
      * @return the control for chaining
-     *
      * @see MessageFormat
      */
     public <T extends Control> T bind(T control, String key, Object... params) {
@@ -253,6 +255,17 @@ public class I18n {
         for (var entry : parameterizedObservers.entrySet()) {
             entry.getValue().updateValue();
         }
+    }
+
+    /**
+     * @return A List of all Locals for which translations exist
+     */
+    public Locale[] getSupportedLocales() {
+        return SUPPORTED_LOCALES;
+    }
+
+    public Locale getLocale() {
+        return locale;
     }
 
     /**
