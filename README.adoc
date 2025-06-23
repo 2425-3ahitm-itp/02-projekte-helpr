@@ -28,6 +28,8 @@ Helpr ist eine Plattform, die Menschen mit Unterstützungsbedarf ermöglicht, sc
 bezahlte Hilfe für alltägliche Aufgaben zu finden. Gleichzeitig bietet sie Helfern eine flexible
 Möglichkeit, ihre Fähigkeiten anzubieten und zusätzliches Einkommen zu erzielen.
 
+Für mehr Informationen -> link:MANUAL.adoc[MANUAL]
+
 == Starten des Programms
 
 === Voraussetzungen
