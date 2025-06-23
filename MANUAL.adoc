@@ -1,0 +1,31 @@
+= Manual
+:author: Jakob Huemer-Fistelberger
+:toc:
+:sectnums:
+
+
+== Home
+
+Beim Start des Programms startet man als Gast.
+Es kann nach Aufgaben gesucht und gefiltert werden.
+
+Links oben kann man sich  <<Login/Registrieren,Anmelden/Registrieren>>.
+Falls man schon angemeldet ist, kann man auf sein <<Profil>> gehen.
+
+== Login/Registrieren
+
+Wenn man einen Account hat, kann man sich hier anmelden.
+Sonst kann man sich einen neuen Account erstellen.
+
+Dafür braucht man einen eindeutigen Nutzernamen und ein mindestens
+8 Zeichen langes Passwort. 
+
+Nach der Registrierung ist man angemeldet.
+
+
+== Profil
+
+Im Profil sieht man seinen Nutzernamen und die erstellen und beworbenen
+Aufgaben.
+
+*Neue Aufgaben* können hier erstellt werden.
